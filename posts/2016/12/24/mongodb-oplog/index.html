@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>MongoDB oplog 分析 - 只是一个备忘录</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="MongoDB oplog 分析" />
+<meta property="og:description" content="MongoDB数据复制的基础是oplog，复制集的任何数据变更都会在primary节点local.oplog.rs集合下记录oplog，se" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2016/12/24/mongodb-oplog/" />
+<meta property="article:published_time" content="2016-12-24T00:00:00+08:00" />
+<meta property="article:modified_time" content="2016-12-24T00:00:00+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="MongoDB oplog 分析"/>
+<meta name="twitter:description" content="MongoDB数据复制的基础是oplog，复制集的任何数据变更都会在primary节点local.oplog.rs集合下记录oplog，se"/>
+<meta name="application-name" content="只是一个备忘录">
+<meta name="apple-mobile-web-app-title" content="只是一个备忘录"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2016/12/24/mongodb-oplog/" /><link rel="prev" href="http://caosiyang.github.io/posts/2016/11/25/thrfit-serialize-and-deserialize/" /><link rel="next" href="http://caosiyang.github.io/posts/2017/03/06/zabbix-get-value-error/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "MongoDB oplog 分析",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/caosiyang.github.io\/posts\/2016\/12\/24\/mongodb-oplog\/"
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "MongoDB, oplog","wordcount":  1608 ,
+        "url": "http:\/\/caosiyang.github.io\/posts\/2016\/12\/24\/mongodb-oplog\/","datePublished": "2016-12-24T00:00:00+08:00","dateModified": "2016-12-24T00:00:00+08:00","publisher": {
+            "@type": "Organization",
+            "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "caosiyang"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/" title="">首页</a><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">MongoDB oplog 分析</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><i class="far fa-folder fa-fw"></i>数据库</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2016-12-24">2016-12-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1608 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><p>MongoDB数据复制的基础是oplog，复制集的任何数据变更都会在primary节点<em>local.oplog.rs</em>集合下记录oplog，secondary节点从primary持续拉取oplog并在本地回放，实现主从节点的数据实时同步。</p>
+<p>oplog包含下列键：</p>
+<ul>
+<li>
+<p>ts</p>
+<p>时间戳，由unix时间戳和自增计数构成，自增计数表示该操作为当前秒内的操作顺序</p>
+</li>
+<li>
+<p>h</p>
+<p>唯一标识</p>
+</li>
+<li>
+<p>v</p>
+</li>
+<li>
+<p>op</p>
+<p>操作类型，其值是下列之一</p>
+<ul>
+<li><strong>i</strong> - insert</li>
+<li><strong>u</strong> - update</li>
+<li><strong>d</strong> - remove</li>
+<li><strong>c</strong> - command</li>
+<li><strong>n</strong> - no-op</li>
+</ul>
+</li>
+<li>
+<p>ns</p>
+<p>namespace，格式是<em>database.collection</em></p>
+</li>
+<li>
+<p>o</p>
+<p>具体操作内容，对于i，表示要写入的文档；对于u，表示要执行的变更；对于d，表示要删除的文档，即_id；对于c，表示要执行的命令
+udpate操作如果只更新部分field，o键的内容是*{ $set: { &hellip; } }*；如果是replace整个文档，o键的内容是*{ _id: &hellip;, field0: &hellip; filed1: &hellip; }*</p>
+</li>
+<li>
+<p>o2</p>
+<p>仅出现于update操作，用于指定要操作的目标文档，即_id</p>
+</li>
+</ul>
+<p>举个栗子，依次执行下列操作：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">demo-rs:PRIMARY&gt; use test
+demo-rs:PRIMARY&gt; test.coll.insert({a: 1})
+demo-rs:PRIMARY&gt; test.coll.createIndex({b: 1})
+demo-rs:PRIMARY&gt; test.coll.createIndex({c: 1}, {background: true})
+demo-rs:PRIMARY&gt; test.coll.dropIndex(&#39;b_1&#39;)
+demo-rs:PRIMARY&gt; test.coll.dropIndex(&#39;b_1&#39;)
+demo-rs:PRIMARY&gt; test.coll.drop()
+</code></pre></td></tr></table>
+</div>
+</div><p>然后观察对应的oplog，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">demo-rs:PRIMARY&gt; use local
+switched to db local
+demo-rs:PRIMARY&gt; db.oplog.rs.find().sort({$natural: -1})
+{ &#34;ts&#34; : Timestamp(1482318735, 1), &#34;h&#34; : NumberLong(&#34;6964527823728342008&#34;), &#34;v&#34; : 2, &#34;op&#34; : &#34;c&#34;, &#34;ns&#34; : &#34;test.$cmd&#34;, &#34;o&#34; : { &#34;dropDatabase&#34; : 1 } }
+{ &#34;ts&#34; : Timestamp(1482318723, 1), &#34;h&#34; : NumberLong(&#34;-6125359811671901699&#34;), &#34;v&#34; : 2, &#34;op&#34; : &#34;c&#34;, &#34;ns&#34; : &#34;test.$cmd&#34;, &#34;o&#34; : { &#34;deleteIndexes&#34; : &#34;coll&#34;, &#34;index&#34; : &#34;c_1&#34; } }
+{ &#34;ts&#34; : Timestamp(1482318662, 1), &#34;h&#34; : NumberLong(&#34;7320721234104966244&#34;), &#34;v&#34; : 2, &#34;op&#34; : &#34;c&#34;, &#34;ns&#34; : &#34;test.$cmd&#34;, &#34;o&#34; : { &#34;deleteIndexes&#34; : &#34;coll&#34;, &#34;index&#34; : &#34;b_1&#34; } }
+{ &#34;ts&#34; : Timestamp(1482318543, 1), &#34;h&#34; : NumberLong(&#34;-7326267621257646623&#34;), &#34;v&#34; : 2, &#34;op&#34; : &#34;i&#34;, &#34;ns&#34; : &#34;test.system.indexes&#34;, &#34;o&#34; : { &#34;ns&#34; : &#34;test.coll&#34;, &#34;key&#34; : { &#34;c&#34; : 1 }, &#34;name&#34; : &#34;c_1&#34;, &#34;background&#34; : true } }
+{ &#34;ts&#34; : Timestamp(1482318520, 1), &#34;h&#34; : NumberLong(&#34;1480507733147525872&#34;), &#34;v&#34; : 2, &#34;op&#34; : &#34;i&#34;, &#34;ns&#34; : &#34;test.system.indexes&#34;, &#34;o&#34; : { &#34;ns&#34; : &#34;test.coll&#34;, &#34;key&#34; : { &#34;b&#34; : 1 }, &#34;name&#34; : &#34;b_1&#34; } }
+{ &#34;ts&#34; : Timestamp(1482318510, 2), &#34;h&#34; : NumberLong(&#34;1964889382590225189&#34;), &#34;v&#34; : 2, &#34;op&#34; : &#34;i&#34;, &#34;ns&#34; : &#34;test.coll&#34;, &#34;o&#34; : { &#34;_id&#34; : ObjectId(&#34;585a62aef6fe6ed88c29a233&#34;), &#34;a&#34; : 1 } }
+{ &#34;ts&#34; : Timestamp(1482318510, 1), &#34;h&#34; : NumberLong(&#34;2594632055235718257&#34;), &#34;v&#34; : 2, &#34;op&#34; : &#34;c&#34;, &#34;ns&#34; : &#34;test.$cmd&#34;, &#34;o&#34; : { &#34;create&#34; : &#34;coll&#34; } }
+</code></pre></td></tr></table>
+</div>
+</div><p>可以看到，command的oplog类型不一定是<strong>c</strong>，比如建立索引，实际上是在目标数据库的<em>system.indexes</em>集合写入一条文档，类型是i。</p>
+<p>有一点需要注意，对于类型是c的oplog，o键的值是有序的，比如</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">{
+    &#34;ts&#34; : Timestamp(1482318662, 1),
+    &#34;h&#34; : NumberLong(&#34;7320721234104966244&#34;),
+    &#34;v&#34; : 2,
+    &#34;op&#34; : &#34;c&#34;,
+    &#34;ns&#34; : &#34;test.$cmd&#34;,
+    &#34;o&#34; : { &#34;deleteIndexes&#34; : &#34;coll&#34;, &#34;index&#34; : &#34;b_1&#34; }
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>回放过程相当于执行<code>db.runCommand({ &quot;deleteIndexes&quot; : &quot;coll&quot;, &quot;index&quot; : &quot;b_1&quot; })</code>，第一个键<em>deleteIndexes</em>表示操作类型是删除索引，第二个键<em>index</em>指定目标索引，二者要保证顺序。</p>
+<p>在写同步工具时碰到过，pymongo将读取的文档存到一个dict，对于Python来说，dict是键序无关的，但对于MongoDB，键序不对将导致command执行失败，解决方法可参考 <a href="https://dzone.com/articles/pymongo-and-key-order" target="_blank" rel="noopener noreffer">https://dzone.com/articles/pymongo-and-key-order</a></p>
+<hr>
+<p>后记@20171229</p>
+<p>如果oplog用于MongoDB间的数据同步，直接回放就行；如果MongoDB数据同步到其他数据库，update需要关注细节，特别是内嵌文档操作，字段名采用&rdquo;<strong>.</strong>&ldquo;点分隔的扁平化表示。</p>
+<p>以文档<code>{ info: { a: 1, b: 2 } }</code>为例，insert操作的olog的o字段即原始文档；update操作的oplog相对复杂，看下面几个情景：</p>
+<ol>
+<li>
+<p>修改a字段 =&gt; <code>{ info: { a: 100, b: 2 } }</code></p>
+<p>oplog为<code>{ op: 'u', o2: {_id: 'xxxx'}, o: { $set: { 'info.a': 100 } } }</code></p>
+<blockquote>
+<p>注意
+<code>{ op: 'u', o2: {_id: 'xxxx'}, o: { $set: { 'info': { 'a': 100 } } } }</code>执行结果是<code>{ info: { a: 100 } }</code></p>
+</blockquote>
+</li>
+<li>
+<p>修改a&amp;b字段 =&gt; <code>{ info: { a: 100, b: 200 } }</code></p>
+<p>oplog为<code>{ op: 'u', o2: {_id: 'xxxx'}, o: { $set: { 'info.a': 100, 'info.b': 200 } } }</code></p>
+</li>
+<li>
+<p>增加c字段 =&gt; <code>{ info: { a: 1, b: 2, c:3 } }</code></p>
+<p>oplog为<code>{ op: 'u', o2: {_id: 'xxxx'}, o: { $set: { 'info.c': 3 } } }</code></p>
+<blockquote>
+<p>注意
+<code>{ op: 'u', o2: {_id: 'xxxx'}, o: { $set: { 'info': { 'c': 3 } } } }</code>执行结果是<code>{ info: { c: 3 } }</code></p>
+</blockquote>
+</li>
+<li>
+<p>删除a字段 =&gt; <code>{ info: { b: 2 } }</code></p>
+<p>oplog为<code>{ op: 'u', o2: {_id: 'xxxx'}, o: { $unset: { 'info.a': true } } }</code></p>
+<blockquote>
+<p><em>info.a</em>后面可以是任意值，不影响字段删除</p>
+</blockquote>
+<blockquote>
+<p>注意字段名扁平化，不要使用嵌套，下面的语义是删除info字段，*{ &lsquo;a&rsquo;: true }*相当于info的值</p>
+</blockquote>
+<blockquote>
+<p><code>{ op: 'u', o2: {_id: 'xxxx'}, o: { $unset: { 'info': { 'a': true } } } }</code></p>
+</blockquote>
+<blockquote>
+<p>等同于</p>
+</blockquote>
+<blockquote>
+<p><code>{ op: 'u', o2: {_id: 'xxxx'}, o: { $unset: { 'info': true } }</code></p>
+</blockquote>
+</li>
+<li>
+<p>删除a&amp;b字段 =&gt; <code>{ info: { } }</code></p>
+<p>oplog为<code>{ op: 'u', o2: {_id: 'xxxx'}, o: { $unset: { 'info.a': true, 'info.b': true } } }</code></p>
+</li>
+<li>
+<p>删除info字段 =&gt; <code>{ }</code></p>
+<p>oplog为<code>{ op: 'u', o2: {_id: 'xxxx'}, o: { $unset: { 'info': true } }</code></p>
+</li>
+</ol>
+<p><strong>简单总结，对于update来说，$set和$unset对象的key(s)是目标操作字段。</strong></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2016-12-24</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/mongodb/">MongoDB</a>,&nbsp;<a href="/tags/oplog/">oplog</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2016/11/25/thrfit-serialize-and-deserialize/" class="prev" rel="prev" title="Thrift对象的序列化与反序列化"><i class="fas fa-angle-left fa-fw"></i>Thrift对象的序列化与反序列化</a>
+            <a href="/posts/2017/03/06/zabbix-get-value-error/" class="next" rel="next" title="Zabbix问题排查 - Value should be a JSON object">Zabbix问题排查 - Value should be a JSON object<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.74.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":1000},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

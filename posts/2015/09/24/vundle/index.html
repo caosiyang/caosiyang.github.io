@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Vim插件管理器 - Vundle - 只是一个备忘录</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="Vim插件管理器 - Vundle" />
+<meta property="og:description" content="博主作为一枚Vim用户兼粉丝，早期安装taglist，下载插件，然后手工拷贝到指定目录，还没觉得麻烦，直到发现Vundle这一神器，才认识到" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2015/09/24/vundle/" />
+<meta property="article:published_time" content="2015-09-24T00:00:00+08:00" />
+<meta property="article:modified_time" content="2015-09-24T00:00:00+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Vim插件管理器 - Vundle"/>
+<meta name="twitter:description" content="博主作为一枚Vim用户兼粉丝，早期安装taglist，下载插件，然后手工拷贝到指定目录，还没觉得麻烦，直到发现Vundle这一神器，才认识到"/>
+<meta name="application-name" content="只是一个备忘录">
+<meta name="apple-mobile-web-app-title" content="只是一个备忘录"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2015/09/24/vundle/" /><link rel="next" href="http://caosiyang.github.io/posts/2015/11/02/ntoreturn-and-batchsize/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Vim插件管理器 - Vundle",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/caosiyang.github.io\/posts\/2015\/09\/24\/vundle\/"
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "Vim","wordcount":  670 ,
+        "url": "http:\/\/caosiyang.github.io\/posts\/2015\/09\/24\/vundle\/","datePublished": "2015-09-24T00:00:00+08:00","dateModified": "2015-09-24T00:00:00+08:00","publisher": {
+            "@type": "Organization",
+            "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "caosiyang"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/" title="">首页</a><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Vim插件管理器 - Vundle</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E7%B3%BB%E7%BB%9F%E5%B7%A5%E5%85%B7/"><i class="far fa-folder fa-fw"></i>系统工具</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2015-09-24">2015-09-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 670 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><p>博主作为一枚Vim用户兼粉丝，早期安装taglist，下载插件，然后手工拷贝到指定目录，还没觉得麻烦，直到发现Vundle这一神器，才认识到自己过去有多么土。</p>
+<p>Vundle是一个Vim插件管理器，名字是Vim Bundle的缩写，谐音“豌豆”。</p>
+<p>Vundle具备以下功能：</p>
+<ul>
+<li>在.vimrc里配置待安装的插件</li>
+<li>安装插件</li>
+<li>更新插件</li>
+<li>根据名称查找<a href="http://vim-scripts.org/vim/scripts.html" target="_blank" rel="noopener noreffer">可用插件</a></li>
+<li>清理未使用的插件</li>
+<li>在Vim命令模式下执行上述功能</li>
+</ul>
+<p>与此同时，Vundle自行管理插件目录；对安装或更新的插件，自动生成帮助文档。</p>
+<p>下面说一下Vundle的安装及使用，首先，确保你的Linux系统安装了以下工具：</p>
+<ul>
+<li>Git 默认将插件<code>git clone</code>到*~/.vim/bundle/*目录下</li>
+<li>Curl 用于查找插件</li>
+</ul>
+<p>用法：</p>
+<ol>
+<li>
+<p>安装Vundle</p>
+<p><code>$ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim</code></p>
+</li>
+<li>
+<p>配置插件</p>
+<p>以下内容拷贝至.vimrc起始处，部分插件仅用于演示，不需要的可以删除</p>
+<pre><code> set nocompatible              &quot; be iMproved, required
+ filetype off                  &quot; required
+    
+ &quot; set the runtime path to include Vundle and initialize
+ set rtp+=~/.vim/bundle/Vundle.vim
+ call vundle#begin()
+ &quot; alternatively, pass a path where Vundle should install plugins
+ &quot;call vundle#begin('~/some/path/here')
+    
+ &quot; let Vundle manage Vundle, required
+ Plugin 'VundleVim/Vundle.vim'
+    
+ &quot; The following are examples of different formats supported.
+ &quot; Keep Plugin commands between vundle#begin/end.
+ &quot; plugin on GitHub repo
+ Plugin 'tpope/vim-fugitive'
+ &quot; plugin from http://vim-scripts.org/vim/scripts.html
+ Plugin 'L9'
+ &quot; Git plugin not hosted on GitHub
+ Plugin 'git://git.wincent.com/command-t.git'
+ &quot; git repos on your local machine (i.e. when working on your own plugin)
+ Plugin 'file:///home/gmarik/path/to/plugin'
+ &quot; The sparkup vim script is in a subdirectory of this repo called vim.
+ &quot; Pass the path to set the runtimepath properly.
+ Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+ &quot; Avoid a name conflict with L9
+ Plugin 'user/L9', {'name': 'newL9'}
+    
+ &quot; All of your Plugins must be added before the following line
+ call vundle#end()            &quot; required
+ filetype plugin indent on    &quot; required
+ &quot; To ignore plugin indent changes, instead use:
+ &quot;filetype plugin on
+ &quot;
+ &quot; Brief help
+ &quot; :PluginList       - lists configured plugins
+ &quot; :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+ &quot; :PluginSearch foo - searches for foo; append `!` to refresh local cache
+ &quot; :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+ &quot;
+ &quot; see :h vundle for more details or wiki for FAQ
+ &quot; Put your non-Plugin stuff after this line
+</code></pre>
+</li>
+<li>
+<p>安装插件</p>
+<p>启动Vim，运行<code>:PluginInstall</code></p>
+</li>
+</ol>
+<p>关于Vundle详细用法，可参考帮助文档，Vim命令模式下输入<code>:help vundle</code>。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2015-09-24</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/vim/">Vim</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+            <a href="/posts/2015/11/02/ntoreturn-and-batchsize/" class="next" rel="next" title="MongoDB之浅谈ntoreturn和batchSize">MongoDB之浅谈ntoreturn和batchSize<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.74.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":1000},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

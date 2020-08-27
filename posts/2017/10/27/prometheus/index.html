@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Prometheus入门教程 - 只是一个备忘录</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="Prometheus入门教程" />
+<meta property="og:description" content="Prometheus是一个基于时间序列存储的开源监控&amp;报警系统，提供原生Web页面，支持数据的查询/聚合/曲线生成，metrics数" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2017/10/27/prometheus/" />
+<meta property="article:published_time" content="2017-10-27T00:00:00+08:00" />
+<meta property="article:modified_time" content="2017-10-27T00:00:00+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Prometheus入门教程"/>
+<meta name="twitter:description" content="Prometheus是一个基于时间序列存储的开源监控&amp;报警系统，提供原生Web页面，支持数据的查询/聚合/曲线生成，metrics数"/>
+<meta name="application-name" content="只是一个备忘录">
+<meta name="apple-mobile-web-app-title" content="只是一个备忘录"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2017/10/27/prometheus/" /><link rel="prev" href="http://caosiyang.github.io/posts/2017/10/24/1024/" /><link rel="next" href="http://caosiyang.github.io/posts/2017/12/24/python-vim/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Prometheus入门教程",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/caosiyang.github.io\/posts\/2017\/10\/27\/prometheus\/"
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "Prometheus, 监控系统","wordcount":  3148 ,
+        "url": "http:\/\/caosiyang.github.io\/posts\/2017\/10\/27\/prometheus\/","datePublished": "2017-10-27T00:00:00+08:00","dateModified": "2017-10-27T00:00:00+08:00","publisher": {
+            "@type": "Organization",
+            "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "caosiyang"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/" title="">首页</a><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Prometheus入门教程</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E7%B3%BB%E7%BB%9F%E5%B7%A5%E5%85%B7/"><i class="far fa-folder fa-fw"></i>系统工具</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2017-10-27">2017-10-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3148 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#特点">特点</a></li>
+    <li><a href="#组件">组件</a></li>
+    <li><a href="#基本概念">基本概念</a>
+      <ul>
+        <li><a href="#数据模型">数据模型</a></li>
+        <li><a href="#metric类型">metric类型</a>
+          <ul>
+            <li><a href="#counter">Counter</a></li>
+            <li><a href="#gauge">Gauge</a></li>
+            <li><a href="#histogram">Histogram</a></li>
+            <li><a href="#summary">Summary</a></li>
+          </ul>
+        </li>
+        <li><a href="#关于job和instance标签">关于<em>job</em>和<em>instance</em>标签</a></li>
+      </ul>
+    </li>
+    <li><a href="#查询">查询</a>
+      <ul>
+        <li><a href="#表达式语言数据类型">表达式语言数据类型</a></li>
+        <li><a href="#时间序列选择器">时间序列选择器</a>
+          <ul>
+            <li><a href="#instant-vector-selectors">instant vector selectors</a></li>
+            <li><a href="#range-vector-selectors">range vector selectors</a></li>
+            <li><a href="#offset-modifier">offset modifier</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#函数">函数</a></li>
+    <li><a href="#注意事项">注意事项</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p><a href="https://prometheus.io/" target="_blank" rel="noopener noreffer">Prometheus</a>是一个基于时间序列存储的开源监控&amp;报警系统，提供原生Web页面，支持数据的查询/聚合/曲线生成，metrics数据呈现一般接入<a href="https://grafana.com/" target="_blank" rel="noopener noreffer">Grafana</a>。</p>
+<h2 id="特点">特点</h2>
+<ul>
+<li>多维数据模型，时间序列由metric名字和K/V标签标识</li>
+<li>灵活的查询语言(PromQL)</li>
+<li>单机模式，不依赖分布式存储</li>
+<li>基于HTTP采用pull方式收集数据</li>
+<li>支持push数据到中间件(pushgateway)</li>
+<li>通过服务发现或静态配置发现目标</li>
+<li>多种图表和仪表盘</li>
+</ul>
+<h2 id="组件">组件</h2>
+<p>Prometheus生态系统由多个组件构成，其中多是可选的，根据具体情况选择</p>
+<ul>
+<li><strong>Prometheus server</strong> - 收集和存储时间序列数据</li>
+<li><strong>client library</strong> - 用于client访问server/pushgateway</li>
+<li><strong>pushgateway</strong> - 对于短暂运行的任务，负责接收和缓存时间序列数据，同时也是一个数据源</li>
+<li><strong>exporter</strong> - 各种专用exporter，面向硬件、存储、数据库、HTTP服务等</li>
+<li><strong>alertmanager</strong> - 处理报警</li>
+<li>其他各种支持的工具</li>
+</ul>
+<h2 id="基本概念">基本概念</h2>
+<h3 id="数据模型">数据模型</h3>
+<p>metric名字和标签集合确定一个唯一的时间序列；时间序列数据样本由一个毫秒精度的时间戳和一个float64类型的值组成。</p>
+<p>例如，一个名为http_request的metric，标签有method/host/uri等，表现此metric的多个维度，可表示为http_request{method: &ldquo;&rdquo;, host: &ldquo;&rdquo;, uri: &ldquo;&rdquo;, &hellip;}，那么不同的标签组合将确定不同的时间序列。</p>
+<ul>
+<li><code>http_request{method: &quot;POST&quot;}</code> 请求类型为POST的时间序列</li>
+<li><code>http_request{host: &quot;host-1&quot;}</code> 目标主机为host-1的时间序列</li>
+<li><code>http_request{host: &quot;host-2&quot;, uri: &quot;/index.htm&quot;}</code> 目标主机为host-2同时uri为index.htm的时间序列</li>
+<li><code>http_request{method: &quot;GET&quot;, host: &quot;host-3&quot;}</code> 请求类型是GET同时目标主机为host-3的时间序列</li>
+</ul>
+<h3 id="metric类型">metric类型</h3>
+<p>client libraries提供了四种metric类型，包括Counter、Gauge、Histogram、Summary。</p>
+<h4 id="counter">Counter</h4>
+<p>计数器，只允许增加或重置为0，不允许减少，比如服务的请求数。Counter支持用rate()函数计算平均值，比如QPS。建议使用 <em>_total</em> 作为后缀命名。</p>
+<h4 id="gauge">Gauge</h4>
+<p>非固定的值，比如CPU负载 、内存使用量。</p>
+<blockquote>
+<p>作者起初没有充分理解时间序列的概念，试图使用Gauge记录请求的响应时间，后来发现这是个错误。</p>
+<p>Gauge实际是一个值，其变化取决于server是否采集了数据，衡量的是一个事物的状态变化，比如内存使用量，内存始终是那个内存，只是其使用量会发生变化。</p>
+<p>回到请求响应时间的场景，因为请求不是固定的，一秒内可能处理几千个请求，即使每个请求的响应时间都记录到Gauge，server采集到的也只是采集时刻前最后一个请求的响应时间，而这个值无法代表采集间隔期间其他请求的响应时间，没有任何说服力。</p>
+</blockquote>
+<h4 id="histogram">Histogram</h4>
+<p>采样观测值，可进行分位计算和数据聚合，计算在server端完成。</p>
+<p>一个名为&lt;basename&gt;的metric，其histogram有3个固定的时间序列</p>
+<ul>
+<li><code>&lt;basename&gt;_bucket</code> 不同bucket下的观测值的累加数量</li>
+<li><code>&lt;basename&gt;_sum</code> 观测值的总和</li>
+<li><code>&lt;basename&gt;_count</code> 观测值的数量</li>
+</ul>
+<h4 id="summary">Summary</h4>
+<p>采样观测值，与histogram不同的是，数量/总和/分位的计算在client端完成，计算结果存在server。因为没有最初的metric数据，所以summary不支持数据聚合。</p>
+<p>一个名为&lt;basename&gt;的metric，其summary有3个固定的时间序列</p>
+<ul>
+<li><code>&lt;basename&gt;{quantile=&quot;&lt;φ&gt;&quot;}</code></li>
+<li><code>&lt;basename&gt;_sum</code> 观测值的总和</li>
+<li><code>&lt;basename&gt;_count</code> 观测值的数量</li>
+</ul>
+<h3 id="关于job和instance标签">关于<em>job</em>和<em>instance</em>标签</h3>
+<p><em>instance</em>是指收集数据的目标端点，一般对应于一个进程；而<em>job</em>表示实现同一功能或目标的一组<em>instance</em>。</p>
+<p>Prometheus采集到数据后自动为其附加<em>job</em>和<em>instance</em>标签，其中<em>job</em>由Prometheus配置文件定义，<em>instance</em>是目标数据源的地址<code>&lt;host&gt;:&lt;port&gt;</code>。</p>
+<h2 id="查询">查询</h2>
+<p>Prometheust提供函数表达式语言，用户可以实时地查询和聚合时间序列数据，表达式计算结果可以曲线图(Prometheus web graph)和表格(Prometheus web console)的形式呈现，也通过HTTP API由外部系统消费。</p>
+<h3 id="表达式语言数据类型">表达式语言数据类型</h3>
+<p>Prometheus表达式语言中，一个表达式或子表达式的计算结果是下列四个类型之一：</p>
+<ul>
+<li><strong>instant vector</strong> 即时向量，位于同一时间点的一组时间序列，每个时间序列具有一个采样</li>
+<li><strong>range vector</strong> 范围向量，位于同一时间段的一组时间序列，每个时间序列具有一系列采样</li>
+<li><strong>scalar</strong> 标量，一个浮点数值</li>
+<li><strong>string</strong> 字符串，一个字符串值</li>
+</ul>
+<p>不同的使用场景，需要特定类型的表达式，例如，只有返回<em>instant vector</em>的表达式可以直接用于绘图。</p>
+<h3 id="时间序列选择器">时间序列选择器</h3>
+<h4 id="instant-vector-selectors">instant vector selectors</h4>
+<p>即时向量选择器允许选择一组时间序列，每个时间序列在目标时间点都有一个采样，最简单的形式是指定一个metric名字。</p>
+<p>例如，返回metric名为<em>http_requests_total</em>的全部时间序列：</p>
+<pre><code>http_requests_total
+</code></pre>
+<p>可以用<code>{}</code>附加标签对时间序列进行过滤。</p>
+<p>例如，返回metric名为<em>http_requests_total</em>、<code>job</code>是<em>prometheus</em>、<code>group</code>是<em>canary</em>的全部时间序列：</p>
+<pre><code>http_requests_total{job=&quot;prometheus&quot;,group=&quot;canary&quot;}
+</code></pre>
+<p>也支持正则表达式：</p>
+<ul>
+<li><code>=</code> 等于</li>
+<li><code>!=</code> 不等于</li>
+<li><code>=~</code> 满足正则匹配</li>
+<li><code>!~</code> 不满足正则匹配</li>
+</ul>
+<p>例如，返回metric名为<em>http_requests_total</em>、<code>environment</code>为<em>staging</em>/<em>testing</em>/<em>development</em>其中之一、<code>method</code>不是<em>GET</em>的全部时间序列。</p>
+<pre><code>http_requests_total{environment=~&quot;staging|testing|development&quot;,method!=&quot;GET&quot;}
+</code></pre>
+<p>标签匹配可以不给定metric名字，返回的是具有此标签值的全部时间序列；如果标签匹配目标是一个空值（空字符串），返回不包含此标签的全部时间序列。</p>
+<p>向量选择器规定至少要有一个标签的匹配目标不是空值。</p>
+<pre><code>{job=~&quot;.*&quot;} # 错误，可能是空值
+
+{job=~&quot;.+&quot;}              # 正确，非空值
+{job=~&quot;.*&quot;,method=&quot;get&quot;} # 正确，job可能是空值，method是非空值
+</code></pre>
+<p>标签匹配器可使用内部标签<code>__name__</code>实现metric名字匹配。表达式<code>http_requests_total</code>等同于<code>{__name__=&quot;http_requests_total&quot;}</code>。
+其他匹配符也可使用，例如，下面表达式返回所有名字以<code>http_</code>开头的metrics。</p>
+<pre><code>{__name__=~&quot;^http_.*&quot;}
+</code></pre>
+<h4 id="range-vector-selectors">range vector selectors</h4>
+<p>范围向量选择器与即时向量选择器工作原理相同，只不过返回当前时间以前的一系列采样。</p>
+<p>时间范围由附加在向量选择器尾部的<code>[]</code>指定，具体的值由数字和单位组成，时间单位包括：</p>
+<ul>
+<li><code>s</code> - 秒</li>
+<li><code>m</code> - 分钟</li>
+<li><code>h</code> - 小时</li>
+<li><code>d</code> - 天</li>
+<li><code>w</code> - 星期</li>
+<li><code>y</code> - 年</li>
+</ul>
+<p>例如，返回5分钟内metric名为<em>http_requests_total</em>、<code>job</code>是<em>prometheus</em>的全部时间序列。</p>
+<pre><code>http_requests_total{job=&quot;prometheus&quot;}[5m]
+</code></pre>
+<h4 id="offset-modifier">offset modifier</h4>
+<p><code>offset</code>修饰符允许在单个即时向量或范围向量查询中设置相对于当前时间的时间偏移。</p>
+<p>下面的表达式返回<code>http_requests_total</code>5分钟前的值：</p>
+<pre><code>http_requests_total offset 5m
+</code></pre>
+<p>语法上<code>offset</code>修饰符应紧跟在selector后面，例如：</p>
+<pre><code>sum(http_requests_total{method=&quot;GET&quot;} offset 5m) //正确
+sum(http_requests_total{method=&quot;GET&quot;}) offset 5m //错误
+</code></pre>
+<p>同样适用于范围向量查询，下面表达式返回<code>http_requests_total</code>一周前的5分钟的QPS：</p>
+<pre><code>rate(http_requests_total[5m] offset 1w)
+</code></pre>
+<h2 id="函数">函数</h2>
+<p>内置函数很多，说几个使用过的，其他函数可参考<a href="https://prometheus.io/docs/prometheus/latest/querying/functions/" target="_blank" rel="noopener noreffer">https://prometheus.io/docs/prometheus/latest/querying/functions/</a></p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rate</td>
+<td>计算每秒平均值，仅适用于Counter，例如统计QPS</td>
+</tr>
+<tr>
+<td>sum</td>
+<td>计算求和</td>
+</tr>
+<tr>
+<td>histogram_quantile</td>
+<td>计算分位值</td>
+</tr>
+</tbody>
+</table>
+<h2 id="注意事项">注意事项</h2>
+<ul>
+<li>
+<p>时间对齐</p>
+<p>TODO</p>
+</li>
+<li>
+<p>数据过期</p>
+<p>如果一个时间序列超过5分钟没有采集到数据，即为过期，具体表现为该时间序列从图中消失。</p>
+</li>
+<li>
+<p>避免慢查询和过载</p>
+<p>如果数据量很大，可能导致绘图超时和server/browser过载。在未知数据上构建查询，建议先在Web Console下调试，确保结果合理（最多有几百个时间序列）。数据经过充分地过滤或聚合后，再切换到Web Graph。如果还是超时，可使用recoding rule预先生成数据。</p>
+</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2017-10-27</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/prometheus/">Prometheus</a>,&nbsp;<a href="/tags/%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F/">监控系统</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2017/10/24/1024/" class="prev" rel="prev" title="1024随笔"><i class="fas fa-angle-left fa-fw"></i>1024随笔</a>
+            <a href="/posts/2017/12/24/python-vim/" class="next" rel="next" title="Linux下使用Vim配置Python开发环境">Linux下使用Vim配置Python开发环境<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.74.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":1000},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

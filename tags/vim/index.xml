@@ -1,0 +1,29 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Vim - 标签 - 只是一个备忘录</title>
+        <link>http://caosiyang.github.io/tags/vim/</link>
+        <description>Vim - 标签 - 只是一个备忘录</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Tue, 24 Jul 2018 00:00:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/vim/" rel="self" type="application/rss+xml" /><item>
+    <title>Vim在tmux下的配色方案不兼容问题</title>
+    <link>http://caosiyang.github.io/posts/2018/07/24/tmux-vim-color/</link>
+    <pubDate>Tue, 24 Jul 2018 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2018/07/24/tmux-vim-color/</guid>
+    <description><![CDATA[平时使用SecureCRT远程连接到CentOS开发机，Vim用了jellybeans配色方案，配置如下： 1 2 set t_Co=256 colorscheme jellybeans bash下一切正常，但]]></description>
+</item><item>
+    <title>Linux下使用Vim配置Python开发环境</title>
+    <link>http://caosiyang.github.io/posts/2017/12/24/python-vim/</link>
+    <pubDate>Sun, 24 Dec 2017 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2017/12/24/python-vim/</guid>
+    <description><![CDATA[Linux下使用Vim配置Python开发环境，我能想到的，首先要有语法高亮，然后代码自动补全，提高编码效率，再就是语法错误检查，便于纠错，]]></description>
+</item><item>
+    <title>Vim插件管理器 - Vundle</title>
+    <link>http://caosiyang.github.io/posts/2015/09/24/vundle/</link>
+    <pubDate>Thu, 24 Sep 2015 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2015/09/24/vundle/</guid>
+    <description><![CDATA[博主作为一枚Vim用户兼粉丝，早期安装taglist，下载插件，然后手工拷贝到指定目录，还没觉得麻烦，直到发现Vundle这一神器，才认识到]]></description>
+</item></channel>
+</rss>

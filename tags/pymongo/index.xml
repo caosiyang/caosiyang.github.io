@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>pymongo - 标签 - 只是一个备忘录</title>
+        <link>http://caosiyang.github.io/tags/pymongo/</link>
+        <description>pymongo - 标签 - 只是一个备忘录</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Tue, 12 Sep 2017 00:00:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/pymongo/" rel="self" type="application/rss+xml" /><item>
+    <title>pymongo bugfix后记</title>
+    <link>http://caosiyang.github.io/posts/2017/09/12/pymongo-bugfix/</link>
+    <pubDate>Tue, 12 Sep 2017 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2017/09/12/pymongo-bugfix/</guid>
+    <description><![CDATA[有网友反馈py-mongo-sync同步异常，检查发现curosr[0]取查询结果第一个文档时报错&quot;no such item for Cursor instance&]]></description>
+</item></channel>
+</rss>

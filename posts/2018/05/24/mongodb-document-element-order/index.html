@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>MongoDB文档数据顺序 - 只是一个备忘录</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="MongoDB文档数据顺序" />
+<meta property="og:description" content="直接从问题出发，数据备份与恢复相关的。 备份，从源数据库导出全量数据（mongodump），备份oplog； 恢复，向目标数据库导入全量数据（m" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2018/05/24/mongodb-document-element-order/" />
+<meta property="article:published_time" content="2018-05-24T00:00:00+08:00" />
+<meta property="article:modified_time" content="2018-05-24T00:00:00+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="MongoDB文档数据顺序"/>
+<meta name="twitter:description" content="直接从问题出发，数据备份与恢复相关的。 备份，从源数据库导出全量数据（mongodump），备份oplog； 恢复，向目标数据库导入全量数据（m"/>
+<meta name="application-name" content="只是一个备忘录">
+<meta name="apple-mobile-web-app-title" content="只是一个备忘录"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2018/05/24/mongodb-document-element-order/" /><link rel="prev" href="http://caosiyang.github.io/posts/2018/02/20/install-manjaro/" /><link rel="next" href="http://caosiyang.github.io/posts/2018/07/24/tmux-vim-color/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "MongoDB文档数据顺序",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/caosiyang.github.io\/posts\/2018\/05\/24\/mongodb-document-element-order\/"
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "MongoDB","wordcount":  723 ,
+        "url": "http:\/\/caosiyang.github.io\/posts\/2018\/05\/24\/mongodb-document-element-order\/","datePublished": "2018-05-24T00:00:00+08:00","dateModified": "2018-05-24T00:00:00+08:00","publisher": {
+            "@type": "Organization",
+            "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "caosiyang"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/" title="">首页</a><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">MongoDB文档数据顺序</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><i class="far fa-folder fa-fw"></i>数据库</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-05-24">2018-05-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 723 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><p>直接从问题出发，数据备份与恢复相关的。</p>
+<p>备份，从源数据库导出全量数据（mongodump），备份oplog；
+恢复，向目标数据库导入全量数据（mongorestore），重放oplog。</p>
+<p>正常来讲，源端和目标端数据库最终数据一致，可以通过dbHash命令校验，<strong>但实际情况是dbHash校验结果不一致</strong>。</p>
+<p>排查发现，时间点固定，多次执行数据恢复（删除数据-全量导入-重放oplog），每次目标数据库的dbHash结果都不一样，可以确定问题出在重放oplog这里。</p>
+<p>既然重放过程中程序并没有异常，说明数据成功写入，原因只应该是数据的二进制存储内容不一致。</p>
+<p>程序用Go写的，mongo驱动是<a href="https://github.com/globalsign/mgo" target="_blank" rel="noopener noreffer">mgo</a>，oplog读出来后用<code>Bson.M</code>暂存，然后将其Marshal并写入文件，<code>Bson.M</code>的API文档描述如下：</p>
+<blockquote>
+<p><code>type M map[string]interface{}</code></p>
+<p>M is a convenient alias for a map[string]interface{} map, useful for dealing with BSON in a native way. For instance:</p>
+<p><code>bson.M{&quot;a&quot;: 1, &quot;b&quot;: true}</code></p>
+<p>There&rsquo;s no special handling for this type in addition to what&rsquo;s done anyway for an equivalent map type. Elements in the map will be dumped in an undefined ordered. See also the bson.D type for an ordered alternative.</p>
+</blockquote>
+<p>再看看<code>Bson.D</code>：</p>
+<blockquote>
+<p><code>type D []DocElem</code></p>
+<p>D represents a BSON document containing ordered elements. For example:</p>
+<p><code>bson.D{ {&quot;a&quot;, 1}, {&quot;b&quot;, true} }</code></p>
+<p>In some situations, such as when creating indexes for MongoDB, the order in which the elements are defined is important. If the order is not important, using a map is generally more comfortable. See bson.M and bson.RawD.</p>
+</blockquote>
+<p>这里解释下<a href="http://bsonspec.org/" target="_blank" rel="noopener noreffer">BSON</a>，Binary JSON的缩写，JSON的二进制序列，MongoDB底层采用的数据存储格式。</p>
+<p><code>Bson.M</code>是map类型，内部元素在导出时顺序是不确定的，比如说<code>{a: 1, b: 2}</code>，可能先导出a，也可能先导出b，两份bson数据逻辑上相同，二进制存储内容不同，所以md5算出来的结果也不同；</p>
+<p><code>Bson.D</code>是array类型，元素有序，反序列化过程逐步追加到数组末尾，而且提到有些情况下数据顺序很关键，比如建索引，在我之前的一个<a href="http://caosiyang.github.io/2016/12/24/mongodb-oplog/" target="_blank" rel="noopener noreffer">文章</a>里也提到。</p>
+<p>好，这里增加一个情况，<strong>基于oplog重放的数据恢复与校验</strong>。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2018-05-24</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/mongodb/">MongoDB</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2018/02/20/install-manjaro/" class="prev" rel="prev" title="Manjaro安装与配置"><i class="fas fa-angle-left fa-fw"></i>Manjaro安装与配置</a>
+            <a href="/posts/2018/07/24/tmux-vim-color/" class="next" rel="next" title="Vim在tmux下的配色方案不兼容问题">Vim在tmux下的配色方案不兼容问题<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.74.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":1000},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

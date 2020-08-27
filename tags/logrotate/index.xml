@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>logrotate - 标签 - 只是一个备忘录</title>
+        <link>http://caosiyang.github.io/tags/logrotate/</link>
+        <description>logrotate - 标签 - 只是一个备忘录</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Mon, 24 Oct 2016 00:00:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/logrotate/" rel="self" type="application/rss+xml" /><item>
+    <title>logrotate问题及分析</title>
+    <link>http://caosiyang.github.io/posts/2016/10/24/logrotate/</link>
+    <pubDate>Mon, 24 Oct 2016 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2016/10/24/logrotate/</guid>
+    <description><![CDATA[在这之前对logrotate理解存在误区，以为只要对目标文件配置logrotate，就可以搞定日志轮转。 生产环境下，偶有发生mongod日志]]></description>
+</item></channel>
+</rss>

@@ -1,0 +1,78 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>所有文章 - 只是一个备忘录</title>
+        <link>http://caosiyang.github.io/posts/</link>
+        <description>所有文章 | 只是一个备忘录</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Wed, 29 Jul 2020 00:00:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>C&#43;&#43;类与模板</title>
+    <link>http://caosiyang.github.io/posts/2020/07/29/cpp-template-notes/</link>
+    <pubDate>Wed, 29 Jul 2020 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2020/07/29/cpp-template-notes/</guid>
+    <description><![CDATA[声明和实现 一般情况下，类模板的声明和实现在一个头文件内完成。 如果采用声明实现分离的方式，在.h文件中声明，在.hpp文件中实现，使用该类模板]]></description>
+</item><item>
+    <title>Manjaro Xfce使用笔记</title>
+    <link>http://caosiyang.github.io/posts/2020/07/27/manjaro-xfce-notes/</link>
+    <pubDate>Mon, 27 Jul 2020 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2020/07/27/manjaro-xfce-notes/</guid>
+    <description><![CDATA[Manjaro Xfce使用过程遇到的一些问题和解决方法。 Python版本 系统预装和默认使用的是Python 3（默认版本通过软连接/usr/bin/pyt]]></description>
+</item><item>
+    <title>京东京造K6键盘在Linux下的兼容问题及解决方法</title>
+    <link>http://caosiyang.github.io/posts/2020/07/22/using-keychron-k6-on-manjaro/</link>
+    <pubDate>Wed, 22 Jul 2020 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2020/07/22/using-keychron-k6-on-manjaro/</guid>
+    <description><![CDATA[近期入手京东京造K6键盘，其实是Keychron K6，这款键盘的亮点是Windows和MacOS双系统兼容，然而我在Manjaro系统下遇到]]></description>
+</item><item>
+    <title>Linux硬件时钟与系统时钟</title>
+    <link>http://caosiyang.github.io/posts/2020/06/02/linux-clock/</link>
+    <pubDate>Tue, 02 Jun 2020 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2020/06/02/linux-clock/</guid>
+    <description><![CDATA[操作系统的时间（时钟）由以下4个部分决定： 时间数值 时间标准（本地时间/UTC/其他） 时区 夏令时（DST，Daylight Saving Time，部分适用]]></description>
+</item><item>
+    <title>Seastar和DPDK的开发总结</title>
+    <link>http://caosiyang.github.io/posts/2020/04/07/seastar-dpdk/</link>
+    <pubDate>Tue, 07 Apr 2020 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2020/04/07/seastar-dpdk/</guid>
+    <description><![CDATA[<strong><ruby>DPDK<rt>Data Plane Development Kit</rt></ruby></strong>是Intel提供的数据平面开发套件，为用户空间高效的数据包处理提供驱动和函数库支持。 使用DPDK开发的应用程序，需要自行实现网]]></description>
+</item><item>
+    <title>SCL基本用法</title>
+    <link>http://caosiyang.github.io/posts/2020/02/06/scl/</link>
+    <pubDate>Thu, 06 Feb 2020 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2020/02/06/scl/</guid>
+    <description><![CDATA[Software collections（SCLs）是一个Linux软件多版本共存的解决方案，适用于RHEL/CentOS/Fedora。 SCL不修改已安装]]></description>
+</item><item>
+    <title>如何在Manjaro安装deb包</title>
+    <link>http://caosiyang.github.io/posts/2019/10/30/how-to-install-deb-package-in-manjaro/</link>
+    <pubDate>Wed, 30 Oct 2019 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2019/10/30/how-to-install-deb-package-in-manjaro/</guid>
+    <description><![CDATA[安装debtap，这里用的是yay，使用其他AUR helper也一样。 1 yay -S debtap 使用debtap将deb包转换为arch包，假设deb包文件是]]></description>
+</item><item>
+    <title>MongoDB分片配置的实时同步</title>
+    <link>http://caosiyang.github.io/posts/2019/06/14/sharding-config-sync/</link>
+    <pubDate>Fri, 14 Jun 2019 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2019/06/14/sharding-config-sync/</guid>
+    <description><![CDATA[本文内容适用于MongoDB v3.2及以上版本 数据库分片 集合分片 实时同步原理 分片集群在config server存储集群的各种配置信息，比如节]]></description>
+</item><item>
+    <title>Thunderbird邮件客户端配置</title>
+    <link>http://caosiyang.github.io/posts/2019/04/29/thunderbird/</link>
+    <pubDate>Mon, 29 Apr 2019 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2019/04/29/thunderbird/</guid>
+    <description><![CDATA[Thunderbird是一款好用的Linux邮件客户端。 账户 添加账户，窗口左侧Local Folders 右键选择 settings 进入account settings，左下]]></description>
+</item><item>
+    <title>Vim在tmux下的配色方案不兼容问题</title>
+    <link>http://caosiyang.github.io/posts/2018/07/24/tmux-vim-color/</link>
+    <pubDate>Tue, 24 Jul 2018 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2018/07/24/tmux-vim-color/</guid>
+    <description><![CDATA[平时使用SecureCRT远程连接到CentOS开发机，Vim用了jellybeans配色方案，配置如下： 1 2 set t_Co=256 colorscheme jellybeans bash下一切正常，但]]></description>
+</item></channel>
+</rss>

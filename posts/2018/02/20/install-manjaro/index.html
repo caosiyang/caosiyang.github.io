@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Manjaro安装与配置 - 只是一个备忘录</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="Manjaro安装与配置" />
+<meta property="og:description" content="Last updated: 2019-06-14 Last updated: 2019-04-29 以下摘自维基百科： Manjaro Linux（或简称Manjaro）是基于Arch Linux的Linux发行版，使用Xfce和KDE Plasm" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2018/02/20/install-manjaro/" />
+<meta property="article:published_time" content="2018-02-20T00:00:00+08:00" />
+<meta property="article:modified_time" content="2018-02-20T00:00:00+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Manjaro安装与配置"/>
+<meta name="twitter:description" content="Last updated: 2019-06-14 Last updated: 2019-04-29 以下摘自维基百科： Manjaro Linux（或简称Manjaro）是基于Arch Linux的Linux发行版，使用Xfce和KDE Plasm"/>
+<meta name="application-name" content="只是一个备忘录">
+<meta name="apple-mobile-web-app-title" content="只是一个备忘录"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2018/02/20/install-manjaro/" /><link rel="prev" href="http://caosiyang.github.io/posts/2018/02/12/git-rebase/" /><link rel="next" href="http://caosiyang.github.io/posts/2018/05/24/mongodb-document-element-order/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Manjaro安装与配置",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/caosiyang.github.io\/posts\/2018\/02\/20\/install-manjaro\/"
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "Manjaro, Linux","wordcount":  1436 ,
+        "url": "http:\/\/caosiyang.github.io\/posts\/2018\/02\/20\/install-manjaro\/","datePublished": "2018-02-20T00:00:00+08:00","dateModified": "2018-02-20T00:00:00+08:00","publisher": {
+            "@type": "Organization",
+            "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "caosiyang"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/" title="">首页</a><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Manjaro安装与配置</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E7%B3%BB%E7%BB%9F%E5%B7%A5%E5%85%B7/"><i class="far fa-folder fa-fw"></i>系统工具</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-02-20">2018-02-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1436 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#安装">安装</a></li>
+        <li><a href="#配置源和更新系统">配置源和更新系统</a></li>
+        <li><a href="#安装中文输入法">安装中文输入法</a></li>
+        <li><a href="#安装其他软件">安装其他软件</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>Last updated: 2019-06-14
+Last updated: 2019-04-29</p>
+<p>以下摘自维基百科：</p>
+<blockquote>
+<p>Manjaro Linux（或简称Manjaro）是基于Arch Linux的Linux发行版，使用Xfce和KDE Plasma作为默认桌面环境，和Arch一样，采用滚动更新。其目标是为PC提供易于使用的自由的操作系统。</p>
+<p>Manjaro Linux基于Arch Linux，但拥有自己独立的软件仓库。Manjaro的目标是让强大的Arch更方便用户使用，Manjaro使用著名的Pacman且可以直接利用AUR上的资源。Manjaro本身使用三个软件仓库：不稳定库，即含有那些不成熟的Arch包，这些包与Arch源有1-2天的延后；测试库，每周同步一次，包含那些Arch不稳定源的包；以及稳定库，包含那些由开发团队确认稳定的软件。</p>
+</blockquote>
+<p>体验过几种不同的DE（Desktop Environment），包括Xfce、GNOME 3、Cinnamon、Deepin，感觉传统桌面更适合自己。
+自用低配笔记本是Xfce，公司高配笔记本最初是Cinnamon，整体感觉不错，后来在Win7下删除win分区导致Linux无法引导，折腾一个下午未能修复，最后重装Manjaro，顺便换车过了Xfce。</p>
+<p>用了一段时间，目前已是Xfce忠实粉丝，原生桌面视觉上比较单一，但可配置性很高，需要什么自己折腾就好了。</p>
+<h3 id="安装">安装</h3>
+<p>下载<a href="https://manjaro.org/get-manjaro/" target="_blank" rel="noopener noreffer">ISO镜像</a>，使用<a href="https://rufus.ie/" target="_blank" rel="noopener noreffer">Rufus</a>制作U盘安装盘，选择<code>DD</code>模式。</p>
+<h3 id="配置源和更新系统">配置源和更新系统</h3>
+<p>包管理工具配置国内源，速度较快。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">sudo pacman-mirrors -i -c China -m rank
+</code></pre></td></tr></table>
+</div>
+</div><p>在交互窗口里勾选目标源（可多选），刷新缓存和更新系统。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">sudo pacman -Syyu
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="安装中文输入法">安装中文输入法</h3>
+<blockquote>
+<p>Fcitx (Flexible Input Method Framework) ──即小企鹅输入法，它是一个以 GPL 方式发布的输入法平台,可以通过安装引擎支持多种输入法，支持简入繁出，是在 Linux 操作系统中常用的中文输入法。它的优点是，短小精悍、跟程序的兼容性比较好。</p>
+</blockquote>
+<p>如果是Xfce或Cinnamon桌面，运行下面命令；其他DE仅供参考，比如GNOME 3默认是ibus输入法框架，二者冲突。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">sudo pacman -S fcitx fcitx-im fcitx-configtool fcitx-googlepinyin
+</code></pre></td></tr></table>
+</div>
+</div><p>此处建议直接安装fcitx-im，默认包含全部模块（fcitx-gtk2/fcitx-gtk3/fcitx-qt4/fcitx-qt5），如果仅安装fcitx-gtk，那么使用QT开发的桌面工具可能无法调出输入法。</p>
+<p>编辑 <em>~/.xprofile</em>，添加配置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nb">export</span> <span class="nv">GTK_IM_MODULE</span><span class="o">=</span>fcitx
+<span class="nb">export</span> <span class="nv">QT_IM_MODULE</span><span class="o">=</span>fcitx
+<span class="nb">export</span> <span class="nv">XMODIFIERS</span><span class="o">=</span><span class="s2">&#34;@im=fcitx&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>安装完毕，注销或重启系统，输入法即生效。</p>
+<h3 id="安装其他软件">安装其他软件</h3>
+<ul>
+<li>
+<p><del>yaourt</del>已停止开发，现已无法通过pacman安装</p>
+<p>用于安装AUR上的包，AUR资源非常丰富，很多官方仓库没有的，可以在AUR找到，比如vscode、搜狗输入法。</p>
+<blockquote>
+<p>Arch用户软件仓库（Arch User Repository，AUR）是为用户而建、由用户主导的Arch软件仓库。AUR中的软件包以软件包生成脚本（PKGBUILD）的形式提供，用户自己通过makepkg生成包，再由pacman安装。创建AUR的初衷是方便用户维护和分享新软件包，并由官方定期从中挑选软件包进入community仓库。</p>
+<p>许多官方仓库软件包都来自AUR。通过AUR，大家相互分享新的软件包生成脚本（PKGBUILD和其他相关文件）。用户还可以为软件包投票。如果一个软件包投票足够多、没有协议问题、打包质量好，那么它就很有希望被收录进官方[community]仓库（以后就可以直接通过pacman 或 abs 安装了）。</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">sudo pacman -S yaourt
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>yay
+替代yaourt</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">sudo pacman -S yay
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>Chrome浏览器</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">sudo pacman -S chromium
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>vscode</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">yay -S visual-studio-code-bin
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>截图工具deepin-screenshot</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">sudo pacman -S deepin-screenshot
+</code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<p>好了，新年到了，新年快乐！</p>
+<hr>
+<p>参考资料</p>
+<ol>
+<li><a href="https://zh.wikipedia.org/wiki/Manjaro_Linux#cite_note-31" target="_blank" rel="noopener noreffer">https://zh.wikipedia.org/wiki/Manjaro_Linux#cite_note-31</a></li>
+<li><a href="https://mirrors.ustc.edu.cn/help/manjaro.html" target="_blank" rel="noopener noreffer">https://mirrors.ustc.edu.cn/help/manjaro.html</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/Fcitx_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29" target="_blank" rel="noopener noreffer">https://wiki.archlinux.org/index.php/Fcitx_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/Arch_User_Repository_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29#.E6.9E.84.E5.BB.BA.E5.92.8C.E5.AE.89.E8.A3.85.E8.BD.AF.E4.BB.B6.E5.8C.85" target="_blank" rel="noopener noreffer">https://wiki.archlinux.org/index.php/Arch_User_Repository_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#.E6.9E.84.E5.BB.BA.E5.92.8C.E5.AE.89.E8.A3.85.E8.BD.AF.E4.BB.B6.E5.8C.85</a></li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2018-02-20</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/manjaro/">Manjaro</a>,&nbsp;<a href="/tags/linux/">Linux</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2018/02/12/git-rebase/" class="prev" rel="prev" title="Git rebase命令"><i class="fas fa-angle-left fa-fw"></i>Git rebase命令</a>
+            <a href="/posts/2018/05/24/mongodb-document-element-order/" class="next" rel="next" title="MongoDB文档数据顺序">MongoDB文档数据顺序<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.74.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":1000},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

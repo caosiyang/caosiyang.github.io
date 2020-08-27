@@ -1,0 +1,78 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>MongoDB - 标签 - 只是一个备忘录</title>
+        <link>http://caosiyang.github.io/tags/mongodb/</link>
+        <description>MongoDB - 标签 - 只是一个备忘录</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Fri, 14 Jun 2019 00:00:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/mongodb/" rel="self" type="application/rss+xml" /><item>
+    <title>MongoDB分片配置的实时同步</title>
+    <link>http://caosiyang.github.io/posts/2019/06/14/sharding-config-sync/</link>
+    <pubDate>Fri, 14 Jun 2019 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2019/06/14/sharding-config-sync/</guid>
+    <description><![CDATA[本文内容适用于MongoDB v3.2及以上版本 数据库分片 集合分片 实时同步原理 分片集群在config server存储集群的各种配置信息，比如节]]></description>
+</item><item>
+    <title>MongoDB文档数据顺序</title>
+    <link>http://caosiyang.github.io/posts/2018/05/24/mongodb-document-element-order/</link>
+    <pubDate>Thu, 24 May 2018 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2018/05/24/mongodb-document-element-order/</guid>
+    <description><![CDATA[直接从问题出发，数据备份与恢复相关的。 备份，从源数据库导出全量数据（mongodump），备份oplog； 恢复，向目标数据库导入全量数据（m]]></description>
+</item><item>
+    <title>pymongo bugfix后记</title>
+    <link>http://caosiyang.github.io/posts/2017/09/12/pymongo-bugfix/</link>
+    <pubDate>Tue, 12 Sep 2017 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2017/09/12/pymongo-bugfix/</guid>
+    <description><![CDATA[有网友反馈py-mongo-sync同步异常，检查发现curosr[0]取查询结果第一个文档时报错&quot;no such item for Cursor instance&]]></description>
+</item><item>
+    <title>一个KV存储的MongoDB使用场景</title>
+    <link>http://caosiyang.github.io/posts/2017/07/24/using-mongodb-as-kv-store/</link>
+    <pubDate>Mon, 24 Jul 2017 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2017/07/24/using-mongodb-as-kv-store/</guid>
+    <description><![CDATA[有这样一个业务场景，数据量大（10T以上），数据格式是一个KV，value长度较大（100KB以上），QPS不高，读写延迟要求在5ms以内，]]></description>
+</item><item>
+    <title>孤立文档对分片集群数据同步的影响</title>
+    <link>http://caosiyang.github.io/posts/2017/07/07/orphaned-document-negative-effect-on-syncing-sharded-cluster/</link>
+    <pubDate>Fri, 07 Jul 2017 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2017/07/07/orphaned-document-negative-effect-on-syncing-sharded-cluster/</guid>
+    <description><![CDATA[迁移一个分片集群，同步工具是py-mongo-sync，支持复制集同步，趁机安利一下。 跑多个sync进程，源端各shard数据同时写往目标端]]></description>
+</item><item>
+    <title>MongoDB并发复制</title>
+    <link>http://caosiyang.github.io/posts/2017/04/21/mongodb-replication/</link>
+    <pubDate>Fri, 21 Apr 2017 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2017/04/21/mongodb-replication/</guid>
+    <description><![CDATA[如果没记错的话，支持WiredTiger存储引擎后，MongoDB实现了oplog并发回放。 之前凭借经验写过一个基于oplog并发回放的实时]]></description>
+</item><item>
+    <title>MongoDB oplog 分析</title>
+    <link>http://caosiyang.github.io/posts/2016/12/24/mongodb-oplog/</link>
+    <pubDate>Sat, 24 Dec 2016 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2016/12/24/mongodb-oplog/</guid>
+    <description><![CDATA[MongoDB数据复制的基础是oplog，复制集的任何数据变更都会在primary节点local.oplog.rs集合下记录oplog，se]]></description>
+</item><item>
+    <title>logrotate问题及分析</title>
+    <link>http://caosiyang.github.io/posts/2016/10/24/logrotate/</link>
+    <pubDate>Mon, 24 Oct 2016 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2016/10/24/logrotate/</guid>
+    <description><![CDATA[在这之前对logrotate理解存在误区，以为只要对目标文件配置logrotate，就可以搞定日志轮转。 生产环境下，偶有发生mongod日志]]></description>
+</item><item>
+    <title>WiredTiger运行时参数优化</title>
+    <link>http://caosiyang.github.io/posts/2016/08/23/mongodb-wiredtiger-performance-tuning/</link>
+    <pubDate>Tue, 23 Aug 2016 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2016/08/23/mongodb-wiredtiger-performance-tuning/</guid>
+    <description><![CDATA[MongoDB的WiredTiger存储引擎，用了一段时间，遇到了一些问题，通过优化WT参数，也解决了一些问题，做个小结。 cache_size 指定WT存储引擎]]></description>
+</item><item>
+    <title>MongoDB多个复制集到分片集群的数据同步</title>
+    <link>http://caosiyang.github.io/posts/2016/06/17/sync-repl-to-sharding/</link>
+    <pubDate>Fri, 17 Jun 2016 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2016/06/17/sync-repl-to-sharding/</guid>
+    <description><![CDATA[背景 某服务升级，计划将原来多个v2.4复制集升级为v3.0分片集群。 问题 在多个rs的增量同步过程中，发现分片集群的机器负载很高，在服务高峰时]]></description>
+</item></channel>
+</rss>

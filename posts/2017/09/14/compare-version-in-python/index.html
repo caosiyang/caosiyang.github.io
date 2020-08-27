@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Python下实现版本号比较 - 只是一个备忘录</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="Python下实现版本号比较" />
+<meta property="og:description" content="比如一个产品在某个版本之后新增了某个特性，那么在用目标特性时，版本比较是必需的。 假设版本号由数字和点符号构成，格式为a.b.c，那么在Pyt" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2017/09/14/compare-version-in-python/" />
+<meta property="article:published_time" content="2017-09-14T00:00:00+08:00" />
+<meta property="article:modified_time" content="2017-09-14T00:00:00+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Python下实现版本号比较"/>
+<meta name="twitter:description" content="比如一个产品在某个版本之后新增了某个特性，那么在用目标特性时，版本比较是必需的。 假设版本号由数字和点符号构成，格式为a.b.c，那么在Pyt"/>
+<meta name="application-name" content="只是一个备忘录">
+<meta name="apple-mobile-web-app-title" content="只是一个备忘录"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2017/09/14/compare-version-in-python/" /><link rel="prev" href="http://caosiyang.github.io/posts/2017/09/12/pymongo-bugfix/" /><link rel="next" href="http://caosiyang.github.io/posts/2017/10/24/deep-c-and-c&#43;&#43;/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Python下实现版本号比较",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/caosiyang.github.io\/posts\/2017\/09\/14\/compare-version-in-python\/"
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "Python","wordcount":  396 ,
+        "url": "http:\/\/caosiyang.github.io\/posts\/2017\/09\/14\/compare-version-in-python\/","datePublished": "2017-09-14T00:00:00+08:00","dateModified": "2017-09-14T00:00:00+08:00","publisher": {
+            "@type": "Organization",
+            "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "caosiyang"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/" title="">首页</a><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Python下实现版本号比较</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/"><i class="far fa-folder fa-fw"></i>编程语言</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2017-09-14">2017-09-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 396 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 1 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><p>比如一个产品在某个版本之后新增了某个特性，那么在用目标特性时，版本比较是必需的。</p>
+<p>假设版本号由数字和点符号构成，格式为<em>a.b.c</em>，那么在Python下可以轻松实现。</p>
+<p>下面是在IPython下的示例：</p>
+<pre><code>In [1]: v1 = '3.4.6'
+
+In [2]: t1 = tuple(int(val) for val in v1.split('.'))
+
+In [3]: t1
+Out[3]: (3, 4, 6)
+
+In [4]: v2 = '3.2.0'
+
+In [5]: t2 = tuple(int(val) for val in v2.split('.'))
+
+In [6]: t2
+Out[6]: (3, 2, 0)
+
+In [7]: t1 &gt; t2
+Out[7]: True
+</code></pre>
+<p>将版本号的数字解析为一个元组，利用元组的原生比较，判断版本的高低。</p>
+<p>元组或列表的原生比较规则是逐位比较：</p>
+<ul>
+<li>如果元素类型相同，进行比较，返回结果</li>
+<li>如果元素类型不同，检查二者是否为数字
+<ul>
+<li>如果均是数字，执行必要的强制数字类型转换，然后比较（个人理解是不同的数字类型，比如int和float）</li>
+<li>如果其中一个元素是数字，则另一个元素大，（数字在类型上是最小的）</li>
+<li>否则，按类型名字的字母表顺序进行比较</li>
+</ul>
+</li>
+</ul>
+<p>如果其中一个元组先到达末尾，则长度更长的元组为更大的一方；如果元组长度相同，对应位置的元素也相同，那么两个元组相等。</p>
+<hr>
+<p>参考</p>
+<p><a href="https://www.tutorialspoint.com/python/tuple_cmp.htm" target="_blank" rel="noopener noreffer">https://www.tutorialspoint.com/python/tuple_cmp.htm</a></p>
+<p><a href="https://www.tutorialspoint.com/python/list_cmp.htm" target="_blank" rel="noopener noreffer">https://www.tutorialspoint.com/python/list_cmp.htm</a></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2017-09-14</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/python/">Python</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2017/09/12/pymongo-bugfix/" class="prev" rel="prev" title="pymongo bugfix后记"><i class="fas fa-angle-left fa-fw"></i>pymongo bugfix后记</a>
+            <a href="/posts/2017/10/24/deep-c-and-c&#43;&#43;/" class="next" rel="next" title="《深入理解C&amp;C&#43;&#43;》读书笔记">《深入理解C&amp;C&#43;&#43;》读书笔记<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.74.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":1000},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

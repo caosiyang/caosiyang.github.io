@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Manjaro Xfce使用笔记 - 只是一个备忘录</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="Manjaro Xfce使用笔记" />
+<meta property="og:description" content="Manjaro Xfce使用过程遇到的一些问题和解决方法。 Python版本 系统预装和默认使用的是Python 3（默认版本通过软连接/usr/bin/pyt" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2020/07/27/manjaro-xfce-notes/" />
+<meta property="article:published_time" content="2020-07-27T00:00:00+08:00" />
+<meta property="article:modified_time" content="2020-07-27T00:00:00+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Manjaro Xfce使用笔记"/>
+<meta name="twitter:description" content="Manjaro Xfce使用过程遇到的一些问题和解决方法。 Python版本 系统预装和默认使用的是Python 3（默认版本通过软连接/usr/bin/pyt"/>
+<meta name="application-name" content="只是一个备忘录">
+<meta name="apple-mobile-web-app-title" content="只是一个备忘录"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2020/07/27/manjaro-xfce-notes/" /><link rel="prev" href="http://caosiyang.github.io/posts/2020/07/22/using-keychron-k6-on-manjaro/" /><link rel="next" href="http://caosiyang.github.io/posts/2020/07/29/cpp-template-notes/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Manjaro Xfce使用笔记",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/caosiyang.github.io\/posts\/2020\/07\/27\/manjaro-xfce-notes\/"
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "Linux, Manjaro, Xfce","wordcount":  492 ,
+        "url": "http:\/\/caosiyang.github.io\/posts\/2020\/07\/27\/manjaro-xfce-notes\/","datePublished": "2020-07-27T00:00:00+08:00","dateModified": "2020-07-27T00:00:00+08:00","publisher": {
+            "@type": "Organization",
+            "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "caosiyang"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/" title="">首页</a><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Manjaro Xfce使用笔记</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E7%B3%BB%E7%BB%9F%E5%B7%A5%E5%85%B7/"><i class="far fa-folder fa-fw"></i>系统工具</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-07-27">2020-07-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 492 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 1 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#python版本">Python版本</a></li>
+    <li><a href="#桌面背景和登录界面背景">桌面背景和登录界面背景</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>Manjaro Xfce使用过程遇到的一些问题和解决方法。</p>
+<h2 id="python版本">Python版本</h2>
+<p>系统预装和默认使用的是Python 3（默认版本通过软连接<code>/usr/bin/python</code>指定）。</p>
+<p>如果改为Python 2，会导致部分应用程序无法启动，比如说<code>LightDM GTK+ Greeter settings</code>。</p>
+<h2 id="桌面背景和登录界面背景">桌面背景和登录界面背景</h2>
+<p>桌面背景图片的目录是<code>/usr/share/backgrounds/</code>，可以新建目录存放个人背景图片。</p>
+<p>如果要让桌面背景同时作为登录界面背景，可以使用<code>LightDM GTK+ Greeter settings</code>应用程序进行配置，其对应的配置文件是<code>/etc/lightdm/lightdm-gtk-greeter.conf</code>。</p>
+<p>打开应用程序，勾选<code>Use user wallpaper if available</code>选项。</p>
+<blockquote>
+<p>登录界面背景跟随桌面背景，有一个从默认greeter background到桌面背景图片的过渡过程，纯黑Color还好，否则会让这个过程看起来非常别扭，所以，建议将登录背景（Background Image）设置与桌面背景一致</p>
+</blockquote>
+<blockquote>
+<p>如果你有多个工作区，一定要在第一个工作区执行设置桌面背景图片的操作，否则登录背景不会跟随</p>
+</blockquote>
+<p>不勾选该选项则使用固定的登录背景，不跟随桌面背景，比较省心。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-07-27</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/linux/">Linux</a>,&nbsp;<a href="/tags/manjaro/">Manjaro</a>,&nbsp;<a href="/tags/xfce/">Xfce</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2020/07/22/using-keychron-k6-on-manjaro/" class="prev" rel="prev" title="京东京造K6键盘在Linux下的兼容问题及解决方法"><i class="fas fa-angle-left fa-fw"></i>京东京造K6键盘在Linux下的兼容问题及解决方法</a>
+            <a href="/posts/2020/07/29/cpp-template-notes/" class="next" rel="next" title="C&#43;&#43;类与模板">C&#43;&#43;类与模板<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.74.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":1000},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

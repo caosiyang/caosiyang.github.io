@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>一些不起眼却很实用的Linux命令（不定期更新） - 只是一个备忘录</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="一些不起眼却很实用的Linux命令（不定期更新）" />
+<meta property="og:description" content="是否经历过这样的场景？ 比如，需要按某种方式去处理一个文本，然后去查有没有现成的Linux命令。果然有！好吧，我把你记录下来。 当然，“不起眼”" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2017/07/27/linux-magic-commands/" />
+<meta property="article:published_time" content="2017-07-27T00:00:00+08:00" />
+<meta property="article:modified_time" content="2017-07-27T00:00:00+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="一些不起眼却很实用的Linux命令（不定期更新）"/>
+<meta name="twitter:description" content="是否经历过这样的场景？ 比如，需要按某种方式去处理一个文本，然后去查有没有现成的Linux命令。果然有！好吧，我把你记录下来。 当然，“不起眼”"/>
+<meta name="application-name" content="只是一个备忘录">
+<meta name="apple-mobile-web-app-title" content="只是一个备忘录"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2017/07/27/linux-magic-commands/" /><link rel="prev" href="http://caosiyang.github.io/posts/2017/07/24/using-mongodb-as-kv-store/" /><link rel="next" href="http://caosiyang.github.io/posts/2017/09/12/pymongo-bugfix/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "一些不起眼却很实用的Linux命令（不定期更新）",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/caosiyang.github.io\/posts\/2017\/07\/27\/linux-magic-commands\/"
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "Linux","wordcount":  687 ,
+        "url": "http:\/\/caosiyang.github.io\/posts\/2017\/07\/27\/linux-magic-commands\/","datePublished": "2017-07-27T00:00:00+08:00","dateModified": "2017-07-27T00:00:00+08:00","publisher": {
+            "@type": "Organization",
+            "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "caosiyang"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/" title="">首页</a><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">一些不起眼却很实用的Linux命令（不定期更新）</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E7%B3%BB%E7%BB%9F%E5%B7%A5%E5%85%B7/"><i class="far fa-folder fa-fw"></i>系统工具</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2017-07-27">2017-07-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 687 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#文件目录操作">文件/目录操作</a></li>
+        <li><a href="#文本处理">文本处理</a></li>
+        <li><a href="#vim">Vim</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>是否经历过这样的场景？</p>
+<p>比如，需要按某种方式去处理一个文本，然后去查有没有现成的Linux命令。果然有！好吧，我把你记录下来。</p>
+<p>当然，“不起眼”是相对我个人来说的，可能在大家看来这都是比较常见的命令，那必须是我的孤陋寡闻了，见笑。</p>
+<h3 id="文件目录操作">文件/目录操作</h3>
+<ul>
+<li>
+<p>realpath</p>
+<p>获取目标文件或目录的绝对路径。</p>
+</li>
+<li>
+<p>mktemp</p>
+<p>用于创建一个临时的文件或目录。</p>
+<p>默认在<code>/tmp</code>目录下创建临时文件/目录，文件/目录名类似<code>tmp.XXXXXXXXXX</code>，其中<code>X</code>是随机字符；通过<code>-p/--tmpdir</code>指定生成的位置，通过<code>-t</code>指定名字模板（包含至少3个<code>X</code>），例如在<code>/tmp/test</code>目录下生成一个*mydemo-*名称开头的临时目录，可执行命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">mktemp -d -p /tmp/test -t mydemo-XXXXXX
+</code></pre></td></tr></table>
+</div>
+</div><p>输出结果：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">/tmp/test/mydemo-sh3PlU
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>一条mkdir命令创建多个目录</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">mkdir -p dir/{subdir1,subdir2}
+</code></pre></td></tr></table>
+</div>
+</div><p>子目录名之间以逗号分隔，且不允许出现空格。</p>
+</li>
+</ul>
+<h3 id="文本处理">文本处理</h3>
+<ul>
+<li>
+<p>tac</p>
+<p>反向逐行输出文件内容</p>
+<p>最初知道这个命令时，看名字以为是<em>tail cat</em>的缩写，从尾部开始输出。直到一天突然发现<em>tac</em>不就是<em>cat</em>的字母反向吗？！而功能也是相反的，这应该是其真正的命名由来吧，很有意思。</p>
+</li>
+<li>
+<p>paste</p>
+<p>可以把多个文件按行进行合并，分隔符可指定</p>
+<p>做数据统计可能会用到，比如画曲线图，作为数据源，每列数据就是一条曲线。</p>
+</li>
+<li>
+<p>nl</p>
+<p>在每行前面添加行号并输出</p>
+<p>行号可指定格式，比如左对齐、右对齐、0填充等。</p>
+</li>
+<li>
+<p>一条sed命令替换多个字符串</p>
+<p>可以将多个表达式合并，以分号分隔</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">echo &#34;aa-bb&#34; | sed &#34;s/aa/bb/g;s/cc/dd/g&#34; 
+cc-dd
+</code></pre></td></tr></table>
+</div>
+</div><p>也可以使用<code>-e</code>选项指定多个表达式</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">echo &#34;aa-bb&#34; | sed -e &#34;s/aa/cc/g&#34; -e &#34;s/bb/dd/g&#34;
+cc-dd
+</code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h3 id="vim">Vim</h3>
+<blockquote>
+<p>冒号开头的表示命令模式，非冒号开头的表示普通模式</p>
+</blockquote>
+<ul>
+<li>
+<p>ZZ</p>
+<p>保存并退出</p>
+</li>
+<li>
+<p>:x</p>
+<p>保存并退出</p>
+</li>
+<li>
+<p>:TOhtml</p>
+<p>生成一个html格式，<body>经过格式化的文本内容</body></p>
+<p>这货是我一个Tab不小心敲出来的，然后把我惊到了。</p>
+</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2017-07-27</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/linux/">Linux</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2017/07/24/using-mongodb-as-kv-store/" class="prev" rel="prev" title="一个KV存储的MongoDB使用场景"><i class="fas fa-angle-left fa-fw"></i>一个KV存储的MongoDB使用场景</a>
+            <a href="/posts/2017/09/12/pymongo-bugfix/" class="next" rel="next" title="pymongo bugfix后记">pymongo bugfix后记<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.74.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":1000},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

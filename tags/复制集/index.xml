@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>复制集 - 标签 - 只是一个备忘录</title>
+        <link>http://caosiyang.github.io/tags/%E5%A4%8D%E5%88%B6%E9%9B%86/</link>
+        <description>复制集 - 标签 - 只是一个备忘录</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Fri, 17 Jun 2016 00:00:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/%E5%A4%8D%E5%88%B6%E9%9B%86/" rel="self" type="application/rss+xml" /><item>
+    <title>MongoDB多个复制集到分片集群的数据同步</title>
+    <link>http://caosiyang.github.io/posts/2016/06/17/sync-repl-to-sharding/</link>
+    <pubDate>Fri, 17 Jun 2016 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2016/06/17/sync-repl-to-sharding/</guid>
+    <description><![CDATA[背景 某服务升级，计划将原来多个v2.4复制集升级为v3.0分片集群。 问题 在多个rs的增量同步过程中，发现分片集群的机器负载很高，在服务高峰时]]></description>
+</item></channel>
+</rss>

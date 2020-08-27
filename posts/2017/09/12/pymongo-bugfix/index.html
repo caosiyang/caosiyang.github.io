@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>pymongo bugfix后记 - 只是一个备忘录</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="pymongo bugfix后记" />
+<meta property="og:description" content="有网友反馈py-mongo-sync同步异常，检查发现curosr[0]取查询结果第一个文档时报错&quot;no such item for Cursor instance&" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2017/09/12/pymongo-bugfix/" />
+<meta property="article:published_time" content="2017-09-12T00:00:00+08:00" />
+<meta property="article:modified_time" content="2017-09-12T00:00:00+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="pymongo bugfix后记"/>
+<meta name="twitter:description" content="有网友反馈py-mongo-sync同步异常，检查发现curosr[0]取查询结果第一个文档时报错&quot;no such item for Cursor instance&"/>
+<meta name="application-name" content="只是一个备忘录">
+<meta name="apple-mobile-web-app-title" content="只是一个备忘录"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2017/09/12/pymongo-bugfix/" /><link rel="prev" href="http://caosiyang.github.io/posts/2017/07/27/linux-magic-commands/" /><link rel="next" href="http://caosiyang.github.io/posts/2017/09/14/compare-version-in-python/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "pymongo bugfix后记",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/caosiyang.github.io\/posts\/2017\/09\/12\/pymongo-bugfix\/"
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "MongoDB, pymongo","wordcount":  1201 ,
+        "url": "http:\/\/caosiyang.github.io\/posts\/2017\/09\/12\/pymongo-bugfix\/","datePublished": "2017-09-12T00:00:00+08:00","dateModified": "2017-09-12T00:00:00+08:00","publisher": {
+            "@type": "Organization",
+            "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "caosiyang"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/" title="">首页</a><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">pymongo bugfix后记</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><i class="far fa-folder fa-fw"></i>数据库</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2017-09-12">2017-09-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1201 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><p>有网友反馈py-mongo-sync同步异常，检查发现curosr[0]取查询结果第一个文档时报错&quot;no such item for Cursor instance&rdquo;。</p>
+<p>这里的逻辑是，根据timestamp查询oplog起始位置，cursor类型是TAILABLE，然后取出第一条oplog，验证timestamp是否一致。</p>
+<p>对方mongo版本是v3.4，同步工具在v3.2及更早版本的MongoDB上还没出过类似问题。
+使用pymongo 3.5.1（最新版本）分别用v3.2和v3.4跑同步测试，在query结果非空的情况下，v3.2正常，v3.4报错，怀疑是不是v3.4做了什么改动，导致dirver不兼容。</p>
+<p>进一步排查，cursor[0]读取文档，db端返回了一个错误，意思说tailable和singleBatch两个选项冲突。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span><span class="err">&#39;number_returned&#39;:</span> <span class="err">1,</span> <span class="err">&#39;data&#39;:</span> <span class="err">[SON([(u&#39;ok&#39;,</span> <span class="err">0.0),</span> <span class="err">(u&#39;errmsg&#39;,</span> <span class="err">u</span><span class="nt">&#34;cannot use tailable option with the &#39;singleBatch&#39; option&#34;</span><span class="err">)</span><span class="p">,</span> <span class="err">(u&#39;code&#39;,</span> <span class="err">2),</span> <span class="err">(u&#39;codeName&#39;,</span> <span class="err">u&#39;BadValue&#39;)])],</span> <span class="err">&#39;starting_from&#39;:</span> <span class="err">0,</span> <span class="err">&#39;cursor_id&#39;:</span> <span class="err">0</span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>cursor.__getitem__(self, index)方法，如果取单个文档，首先对当前cursor进行clone，将limit设置为-1（db返回一条文档并关闭cursor，可参考<a href="http://caosiyang.github.io/2015/11/02/ntoreturn-vs-batchsize/" target="_blank" rel="noopener noreffer">ntoreturn vs batchSize</a>），表示只读取一条文档。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Python" data-lang="Python"> <span class="mi">577</span>         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">integer_types</span><span class="p">):</span>                                                                                                                                            
+ <span class="mi">578</span>             <span class="k">if</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>                                                                                                                                                               
+ <span class="mi">579</span>                 <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&#34;Cursor instances do not support negative &#34;</span>                                                                                                            
+ <span class="mi">580</span>                                  <span class="s2">&#34;indices&#34;</span><span class="p">)</span>                                                                                                                                             
+ <span class="mi">581</span>             <span class="n">clone</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>                                                                                                                                                        
+ <span class="mi">582</span>             <span class="n">clone</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__skip</span><span class="p">)</span>                                                                                                                                             
+ <span class="mi">583</span>             <span class="n">clone</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># use a hard limit                                                                                                                                         </span>
+ <span class="mi">584</span>             <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">clone</span><span class="p">:</span>                                                                                                                                                           
+ <span class="mi">585</span>                 <span class="k">return</span> <span class="n">doc</span>                                                                                                                                                              
+ <span class="mi">586</span>             <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&#34;no such item for Cursor instance&#34;</span><span class="p">)</span>                                                                                                                        
+ <span class="mi">587</span>         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&#34;index </span><span class="si">%r</span><span class="s2"> cannot be applied to Cursor &#34;</span>                                                                                                                         
+ <span class="mi">588</span>                         <span class="s2">&#34;instances&#34;</span> <span class="o">%</span> <span class="n">index</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>cursor类型是TAILABLE或TAILABLE_AWAIT，所以query的tailable选项为True；
+cursor.limit设置为-1，导致query的singleBatch选项为True；
+二者皆为True，引发冲突。</p>
+<p>因为只读取一条文档，limit必须为-1，所以需要把TAILABLE和TAILABLE_AWAIT设置为0，避免选项冲突。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Python" data-lang="Python"><span class="n">clone</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># use a hard limit  </span>
+<span class="n">clone</span><span class="o">.</span><span class="n">__query_flags</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">CursorType</span><span class="o">.</span><span class="n">TAILABLE_AWAIT</span>  <span class="c1"># PYTHON-1371</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>至此，问题解决，说说几点收获：</p>
+<ol>
+<li>
+<p>尽量不要使用cursor索引访问文档，除非是一次性操作</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Python" data-lang="Python"><span class="c1"># 以下是原代码逻辑</span>
+<span class="n">coll</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_mc</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="s1">&#39;oplog.rs&#39;</span><span class="p">,</span> <span class="n">codec_options</span><span class="o">=</span><span class="n">bson</span><span class="o">.</span><span class="n">codec_options</span><span class="o">.</span><span class="n">CodecOptions</span><span class="p">(</span><span class="n">document_class</span><span class="o">=</span><span class="n">bson</span><span class="o">.</span><span class="n">son</span><span class="o">.</span><span class="n">SON</span><span class="p">))</span>
+<span class="n">cursor</span> <span class="o">=</span> <span class="n">coll</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s1">&#39;ts&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$gte&#39;</span><span class="p">:</span> <span class="n">oplog_start</span><span class="p">}},</span> <span class="n">cursor_type</span><span class="o">=</span><span class="n">pymongo</span><span class="o">.</span><span class="n">cursor</span><span class="o">.</span><span class="n">CursorType</span><span class="o">.</span><span class="n">TAILABLE_AWAIT</span><span class="p">,</span> <span class="n">no_cursor_timeout</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+       
+<span class="k">if</span> <span class="n">cursor</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;ts&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">oplog_start</span><span class="err">：</span> <span class="c1"># 这里对原始cursor进行clone，执行查询（第一次），然后关闭cursor_cloned</span>
+
+    <span class="c1"># 之前在跑同步时，时间戳一致，但此处可能仍有时间长短不一的等待，始终不明所以</span>
+    <span class="c1"># 原因是下面在调用cursor.next()时会重新执行查询</span>
+
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">oplog</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">next</span><span class="p">()</span> <span class="c1"># 这里使用原始cursor，执行查询（第二次）</span>
+        <span class="c1"># handle oplog</span>
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>提交PR前，确保本地跑通test case，当时仅考虑到TAILABLE的情况，而忽略了TAILABLE_AWAIT</p>
+</li>
+<li>
+<p>掌握PR流程：提交PR后，如果review未通过，需要修改代码，在你的local分支下继续commit并push到GitHub，新commit会自动追加到该PR，最后由项目维护者完成merge，可以参考<a href="https://help.github.com/categories/collaborating-with-issues-and-pull-requests/" target="_blank" rel="noopener noreffer">collaborating-with-issues-and-pull-requests</a></p>
+</li>
+<li>
+<p>最后，很高兴PR能被官方merge :)</p>
+</li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2017-09-12</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/mongodb/">MongoDB</a>,&nbsp;<a href="/tags/pymongo/">pymongo</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2017/07/27/linux-magic-commands/" class="prev" rel="prev" title="一些不起眼却很实用的Linux命令（不定期更新）"><i class="fas fa-angle-left fa-fw"></i>一些不起眼却很实用的Linux命令（不定期更新）</a>
+            <a href="/posts/2017/09/14/compare-version-in-python/" class="next" rel="next" title="Python下实现版本号比较">Python下实现版本号比较<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.74.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":1000},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

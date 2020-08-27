@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>TMOUT - 标签 - 只是一个备忘录</title>
+        <link>http://caosiyang.github.io/tags/tmout/</link>
+        <description>TMOUT - 标签 - 只是一个备忘录</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Thu, 23 Mar 2017 00:00:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/tmout/" rel="self" type="application/rss+xml" /><item>
+    <title>timed out waiting for input: auto-logout</title>
+    <link>http://caosiyang.github.io/posts/2017/03/23/tmout/</link>
+    <pubDate>Thu, 23 Mar 2017 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2017/03/23/tmout/</guid>
+    <description><![CDATA[使用SecureCRT远程登录主机，空闲一段时间后，连接自动断开，提示 timed out waiting for input: auto-logout 。 查看目标主机环境变量TMOUT，如果值大于0，那么在指定]]></description>
+</item></channel>
+</rss>

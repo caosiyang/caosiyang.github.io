@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>tmux - 标签 - 只是一个备忘录</title>
+        <link>http://caosiyang.github.io/tags/tmux/</link>
+        <description>tmux - 标签 - 只是一个备忘录</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Tue, 24 Jul 2018 00:00:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/tmux/" rel="self" type="application/rss+xml" /><item>
+    <title>Vim在tmux下的配色方案不兼容问题</title>
+    <link>http://caosiyang.github.io/posts/2018/07/24/tmux-vim-color/</link>
+    <pubDate>Tue, 24 Jul 2018 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2018/07/24/tmux-vim-color/</guid>
+    <description><![CDATA[平时使用SecureCRT远程连接到CentOS开发机，Vim用了jellybeans配色方案，配置如下： 1 2 set t_Co=256 colorscheme jellybeans bash下一切正常，但]]></description>
+</item></channel>
+</rss>

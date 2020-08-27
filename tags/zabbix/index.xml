@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Zabbix - 标签 - 只是一个备忘录</title>
+        <link>http://caosiyang.github.io/tags/zabbix/</link>
+        <description>Zabbix - 标签 - 只是一个备忘录</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Mon, 06 Mar 2017 00:00:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/zabbix/" rel="self" type="application/rss+xml" /><item>
+    <title>Zabbix问题排查 - Value should be a JSON object</title>
+    <link>http://caosiyang.github.io/posts/2017/03/06/zabbix-get-value-error/</link>
+    <pubDate>Mon, 06 Mar 2017 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2017/03/06/zabbix-get-value-error/</guid>
+    <description><![CDATA[Zabbix配置了端口自动发现，由一个自定义脚本解析配置文件并获取端口，管理页面显示Value should be a JSON object，数据格式不正确。 在目标机]]></description>
+</item></channel>
+</rss>

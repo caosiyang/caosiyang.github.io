@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>MongoDB之浅谈ntoreturn和batchSize - 只是一个备忘录</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="MongoDB之浅谈ntoreturn和batchSize" />
+<meta property="og:description" content="最近写mongo-proxy时，注意到了ntoreturn，看完官方文档，有点迷糊，因为它和batchSize似乎干着同一件事；之后看了源码" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2015/11/02/ntoreturn-and-batchsize/" />
+<meta property="article:published_time" content="2015-11-02T00:00:00+08:00" />
+<meta property="article:modified_time" content="2015-11-02T00:00:00+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="MongoDB之浅谈ntoreturn和batchSize"/>
+<meta name="twitter:description" content="最近写mongo-proxy时，注意到了ntoreturn，看完官方文档，有点迷糊，因为它和batchSize似乎干着同一件事；之后看了源码"/>
+<meta name="application-name" content="只是一个备忘录">
+<meta name="apple-mobile-web-app-title" content="只是一个备忘录"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2015/11/02/ntoreturn-and-batchsize/" /><link rel="prev" href="http://caosiyang.github.io/posts/2015/09/24/vundle/" /><link rel="next" href="http://caosiyang.github.io/posts/2016/05/04/installing-gcc/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "MongoDB之浅谈ntoreturn和batchSize",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/caosiyang.github.io\/posts\/2015\/11\/02\/ntoreturn-and-batchsize\/"
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "MongoDB, ntoreturn, batchSize","wordcount":  1681 ,
+        "url": "http:\/\/caosiyang.github.io\/posts\/2015\/11\/02\/ntoreturn-and-batchsize\/","datePublished": "2015-11-02T00:00:00+08:00","dateModified": "2015-11-02T00:00:00+08:00","publisher": {
+            "@type": "Organization",
+            "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "caosiyang"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/" title="">首页</a><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">MongoDB之浅谈ntoreturn和batchSize</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><i class="far fa-folder fa-fw"></i>数据库</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2015-11-02">2015-11-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1681 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><p>最近写mongo-proxy时，注意到了ntoreturn，看完官方文档，有点迷糊，因为它和batchSize似乎干着同一件事；之后看了源码，终于弄清楚二者的关系，对MongoDB加深了理解。</p>
+<p>首先需要了解一些基本知识：</p>
+<blockquote>
+<p>对于数据查询，结果集可能会很大，db会把结果集划分成多个部分，分批传输至client。</p>
+<p>对于MongoDB，ntoreturn和batchSize影响第一批结果的文档数量。</p>
+</blockquote>
+<p>MongoDB query定义如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="k">struct</span> <span class="nc">OP_QUERY</span> <span class="p">{</span>
+    <span class="n">MsgHeader</span> <span class="n">header</span><span class="p">;</span>                   <span class="c1">// standard message header
+</span><span class="c1"></span>    <span class="n">int32</span>     <span class="n">flags</span><span class="p">;</span>                    <span class="c1">// bit vector of query options.  See below for details.
+</span><span class="c1"></span>    <span class="n">cstring</span>   <span class="n">fullCollectionName</span><span class="p">;</span>       <span class="c1">// &#34;dbname.collectionname&#34;
+</span><span class="c1"></span>    <span class="n">int32</span>     <span class="n">numberToSkip</span><span class="p">;</span>             <span class="c1">// number of documents to skip
+</span><span class="c1"></span>    <span class="n">int32</span>     <span class="n">numberToReturn</span><span class="p">;</span>           <span class="c1">// number of documents to return
+</span><span class="c1"></span>                                        <span class="c1">//  in the first OP_REPLY batch
+</span><span class="c1"></span>    <span class="n">document</span>  <span class="n">query</span><span class="p">;</span>                    <span class="c1">// query object.  See below for details.
+</span><span class="c1"></span>    <span class="p">[</span> <span class="n">document</span>  <span class="n">returnFieldsSelector</span><span class="p">;</span> <span class="p">]</span> <span class="c1">// Optional. Selector indicating the fields
+</span><span class="c1"></span>                                        <span class="c1">//  to return.  See below for details.
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>官方文档对于numberToReturn的说明如下：</p>
+<blockquote>
+<p>Limits the number of documents in the first OP_REPLY message to the query. However, the database will still establish a cursor and return the cursorID to the client if there are more results than numberToReturn. If the client driver offers ‘limit’ functionality (like the SQL LIMIT keyword), then it is up to the client driver to ensure that no more than the specified number of document are returned to the calling application. If numberToReturn is 0, the db will use the default return size. If the number is negative, then the database will return that number and close the cursor. No further results for that query can be fetched. If numberToReturn is 1 the server will treat it as -1 (closing the cursor automatically).</p>
+</blockquote>
+<p>numberToReturn限制第一批返回结果的文档数量，其值可以是：</p>
+<ul>
+<li>
+<p>正整数</p>
+<p>返回指定数量的目标文档，如果结果集文档数量多于numberToReturn，数据库内部会建立一个cursor，并把cursorID返回至客户端，以供其读取后续的文档</p>
+<p><strong>1是例外，MongoDB会将1视为-1，返回文档并关闭cursor</strong></p>
+</li>
+<li>
+<p>0</p>
+<p>返回默认数量的目标文档</p>
+</li>
+<li>
+<p>负整数</p>
+<p>返回指定数量的目标文档，然后关闭cursor，因此无法获取后续的文档</p>
+</li>
+</ul>
+<p>需要特别指出，command是特殊的query，<strong>command的numberToReturn只允许是1或-1</strong>。默认情况下，如果一个cursor全部读完或空闲600秒后，server会将其关闭，cursor是数据库的一类资源，应避免产生过多空闲的cursor。</p>
+<p>读到这里，问题来了，它和batchSize的作用差不多，下面具体分析第一批结果的组装过程：</p>
+<p><em>src/mongo/db/query/find.cpp</em></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="c1">// Run the query.
+</span><span class="c1">// bb is used to hold query results
+</span><span class="c1">// this buffer should contain either requested documents per query or
+</span><span class="c1">// explain information, but not both
+</span><span class="c1"></span><span class="n">BufBuilder</span> <span class="nf">bb</span><span class="p">(</span><span class="n">FindCommon</span><span class="o">::</span><span class="n">kInitReplyBufferSize</span><span class="p">);</span>
+<span class="n">bb</span><span class="p">.</span><span class="n">skip</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">QueryResult</span><span class="o">::</span><span class="n">Value</span><span class="p">));</span>
+
+<span class="c1">// How many results have we obtained from the executor?
+</span><span class="c1"></span><span class="kt">int</span> <span class="n">numResults</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="c1">// If we&#39;re replaying the oplog, we save the last time that we read.
+</span><span class="c1"></span><span class="n">Timestamp</span> <span class="n">slaveReadTill</span><span class="p">;</span>
+
+<span class="n">BSONObj</span> <span class="n">obj</span><span class="p">;</span>
+<span class="n">PlanExecutor</span><span class="o">::</span><span class="n">ExecState</span> <span class="n">state</span><span class="p">;</span>
+<span class="c1">// uint64_t numMisplacedDocs = 0;
+</span><span class="c1"></span>
+<span class="c1">// Get summary info about which plan the executor is using.
+</span><span class="c1"></span><span class="p">{</span>
+    <span class="n">stdx</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">Client</span><span class="o">&gt;</span> <span class="n">lk</span><span class="p">(</span><span class="o">*</span><span class="n">txn</span><span class="o">-&gt;</span><span class="n">getClient</span><span class="p">());</span>
+    <span class="n">curop</span><span class="p">.</span><span class="n">setPlanSummary_inlock</span><span class="p">(</span><span class="n">Explain</span><span class="o">::</span><span class="n">getPlanSummary</span><span class="p">(</span><span class="n">exec</span><span class="p">.</span><span class="n">get</span><span class="p">()));</span>
+<span class="p">}</span>
+
+<span class="k">while</span> <span class="p">(</span><span class="n">PlanExecutor</span><span class="o">::</span><span class="n">ADVANCED</span> <span class="o">==</span> <span class="p">(</span><span class="n">state</span> <span class="o">=</span> <span class="n">exec</span><span class="o">-&gt;</span><span class="n">getNext</span><span class="p">(</span><span class="o">&amp;</span><span class="n">obj</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">)))</span> <span class="p">{</span>
+    <span class="c1">// Add result to output buffer.
+</span><span class="c1"></span>    <span class="n">bb</span><span class="p">.</span><span class="n">appendBuf</span><span class="p">((</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">obj</span><span class="p">.</span><span class="n">objdata</span><span class="p">(),</span> <span class="n">obj</span><span class="p">.</span><span class="n">objsize</span><span class="p">());</span>
+
+    <span class="c1">// Count the result.
+</span><span class="c1"></span>    <span class="o">++</span><span class="n">numResults</span><span class="p">;</span>
+
+    <span class="c1">// Possibly note slave&#39;s position in the oplog.
+</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">pq</span><span class="p">.</span><span class="n">isOplogReplay</span><span class="p">())</span> <span class="p">{</span>
+        <span class="n">BSONElement</span> <span class="n">e</span> <span class="o">=</span> <span class="n">obj</span><span class="p">[</span><span class="s">&#34;ts&#34;</span><span class="p">];</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">Date</span> <span class="o">==</span> <span class="n">e</span><span class="p">.</span><span class="n">type</span><span class="p">()</span> <span class="o">||</span> <span class="n">bsonTimestamp</span> <span class="o">==</span> <span class="n">e</span><span class="p">.</span><span class="n">type</span><span class="p">())</span> <span class="p">{</span>
+            <span class="n">slaveReadTill</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">timestamp</span><span class="p">();</span> 
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">FindCommon</span><span class="o">::</span><span class="n">enoughForFirstBatch</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span> <span class="n">numResults</span><span class="p">,</span> <span class="n">bb</span><span class="p">.</span><span class="n">len</span><span class="p">()))</span> <span class="p">{</span>
+        <span class="n">LOG</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Enough for first batch, wantMore=&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">pq</span><span class="p">.</span><span class="n">wantMore</span><span class="p">()</span>
+               <span class="o">&lt;&lt;</span> <span class="s">&#34; ntoreturn=&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">pq</span><span class="p">.</span><span class="n">getNToReturn</span><span class="p">().</span><span class="n">value_or</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; numResults=&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">numResults</span>
+               <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>上面这段代码的功能是组装第一批返回的结果集，每填充一个文档，检查一次是否满足返回条件（L39），如果满足，则跳出循环。</p>
+<p>看一下FindCommon::enoughForFirstBatch()</p>
+<p><em>src/mongo/db/query/find_common.cpp</em></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="kt">bool</span> <span class="n">FindCommon</span><span class="o">::</span><span class="n">enoughForFirstBatch</span><span class="p">(</span><span class="k">const</span> <span class="n">LiteParsedQuery</span><span class="o">&amp;</span> <span class="n">pq</span><span class="p">,</span>
+                                     <span class="kt">long</span> <span class="kt">long</span> <span class="n">numDocs</span><span class="p">,</span>
+                                     <span class="kt">int</span> <span class="n">bytesBuffered</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">pq</span><span class="p">.</span><span class="n">getEffectiveBatchSize</span><span class="p">())</span> <span class="p">{</span>
+        <span class="c1">// If there is no batch size, we stop generating additional results as soon as we have
+</span><span class="c1"></span>        <span class="c1">// either 101 documents or at least 1MB of data.
+</span><span class="c1"></span>        <span class="k">return</span> <span class="p">(</span><span class="n">bytesBuffered</span> <span class="o">&gt;</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">)</span> <span class="o">||</span> <span class="n">numDocs</span> <span class="o">&gt;=</span> <span class="n">LiteParsedQuery</span><span class="o">::</span><span class="n">kDefaultBatchSize</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// If there is a batch size, we add results until either satisfying this batch size or exceeding
+</span><span class="c1"></span>    <span class="c1">// the 4MB size threshold.
+</span><span class="c1"></span>    <span class="k">return</span> <span class="n">numDocs</span> <span class="o">&gt;=</span> <span class="n">pq</span><span class="p">.</span><span class="n">getEffectiveBatchSize</span><span class="p">().</span><span class="n">value</span><span class="p">()</span> <span class="o">||</span>
+        <span class="n">bytesBuffered</span> <span class="o">&gt;</span> <span class="n">kMaxBytesToReturnToClientAtOnce</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><em>src/mongo/db/query/lite_parsed_query.cpp</em></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="k">const</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">LiteParsedQuery</span><span class="o">::</span><span class="n">kDefaultBatchSize</span> <span class="o">=</span> <span class="mi">101</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><em>src/mongo/db/query/find_common.h</em></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="k">static</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">kMaxBytesToReturnToClientAtOnce</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果未设置batchSize，那么文档数量达到101条文档或数据量达到1MB时，返回true；
+如果已设置batchSize，那么文档数量达到指定batchSize或数据量达到4MB时，返回true。
+可见，返回结果在数据大小上有硬性限制。</p>
+<p><em>mongo/db/query/lite_parsed_query.cpp</em></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="n">boost</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">LiteParsedQuery</span><span class="o">::</span><span class="n">getEffectiveBatchSize</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">_batchSize</span> <span class="o">?</span> <span class="nl">_batchSize</span> <span class="p">:</span> <span class="n">_ntoreturn</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>对于一个query，batchSize默认是0，如果未指定，则由ntoreturn确定第一批结果集的文档数量，即batchSize优先级高于ntoreturn。</p>
+<p>后来看到这几个变量的注释，ntoreturn一般是由driver或shell根据用户指定batchSize和limit计算出来的，其实作为db用户，并不用关注，毕竟ntoreturn是很底层的实现。</p>
+<p><em>src/mongo/db/query/lite_parsed_query.h</em></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="c1">// Must be either unset or positive. Negative limit is illegal and a limit value of zero
+</span><span class="c1">// received from the client is interpreted as the absence of a limit value.
+</span><span class="c1"></span><span class="n">boost</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">_limit</span><span class="p">;</span>
+
+<span class="c1">// Must be either unset or non-negative. Negative batchSize is illegal but batchSize of 0 is
+</span><span class="c1">// allowed.
+</span><span class="c1"></span><span class="n">boost</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">_batchSize</span><span class="p">;</span>   
+
+<span class="c1">// Set only when parsed from an OP_QUERY find message. The value is computed by driver or shell
+</span><span class="c1">// and is set to be a min of batchSize and limit provided by user. LPQ can have set either
+</span><span class="c1">// ntoreturn or batchSize / limit.
+</span><span class="c1"></span><span class="n">boost</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">_ntoreturn</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><hr>
+<p>参考资料</p>
+<ul>
+<li><a href="https://docs.mongodb.org/manual/reference/mongodb-wire-protocol/" target="_blank" rel="noopener noreffer">https://docs.mongodb.org/manual/reference/mongodb-wire-protocol/</a></li>
+<li><a href="https://docs.mongodb.org/manual/reference/method/cursor.batchSize/#cursor.batchSize" target="_blank" rel="noopener noreffer">https://docs.mongodb.org/manual/reference/method/cursor.batchSize/#cursor.batchSize</a></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2015-11-02</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/mongodb/">MongoDB</a>,&nbsp;<a href="/tags/ntoreturn/">ntoreturn</a>,&nbsp;<a href="/tags/batchsize/">batchSize</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2015/09/24/vundle/" class="prev" rel="prev" title="Vim插件管理器 - Vundle"><i class="fas fa-angle-left fa-fw"></i>Vim插件管理器 - Vundle</a>
+            <a href="/posts/2016/05/04/installing-gcc/" class="next" rel="next" title="Linux下编译安装GCC 4.9.4">Linux下编译安装GCC 4.9.4<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.74.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":1000},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

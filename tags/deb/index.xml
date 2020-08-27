@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>deb - 标签 - 只是一个备忘录</title>
+        <link>http://caosiyang.github.io/tags/deb/</link>
+        <description>deb - 标签 - 只是一个备忘录</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Wed, 30 Oct 2019 00:00:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/deb/" rel="self" type="application/rss+xml" /><item>
+    <title>如何在Manjaro安装deb包</title>
+    <link>http://caosiyang.github.io/posts/2019/10/30/how-to-install-deb-package-in-manjaro/</link>
+    <pubDate>Wed, 30 Oct 2019 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2019/10/30/how-to-install-deb-package-in-manjaro/</guid>
+    <description><![CDATA[安装debtap，这里用的是yay，使用其他AUR helper也一样。 1 yay -S debtap 使用debtap将deb包转换为arch包，假设deb包文件是]]></description>
+</item></channel>
+</rss>

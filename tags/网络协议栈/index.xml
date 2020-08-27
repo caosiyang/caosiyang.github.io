@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>网络协议栈 - 标签 - 只是一个备忘录</title>
+        <link>http://caosiyang.github.io/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E6%A0%88/</link>
+        <description>网络协议栈 - 标签 - 只是一个备忘录</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Tue, 07 Apr 2020 00:00:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E6%A0%88/" rel="self" type="application/rss+xml" /><item>
+    <title>Seastar和DPDK的开发总结</title>
+    <link>http://caosiyang.github.io/posts/2020/04/07/seastar-dpdk/</link>
+    <pubDate>Tue, 07 Apr 2020 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2020/04/07/seastar-dpdk/</guid>
+    <description><![CDATA[<strong><ruby>DPDK<rt>Data Plane Development Kit</rt></ruby></strong>是Intel提供的数据平面开发套件，为用户空间高效的数据包处理提供驱动和函数库支持。 使用DPDK开发的应用程序，需要自行实现网]]></description>
+</item></channel>
+</rss>

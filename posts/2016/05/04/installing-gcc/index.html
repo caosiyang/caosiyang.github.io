@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Linux下编译安装GCC 4.9.4 - 只是一个备忘录</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="Linux下编译安装GCC 4.9.4" />
+<meta property="og:description" content="开发机系统是CentOS 6.6，GCC版本是4.4.7，老司机们已经开着C&#43;&#43;11上路了，话不多说，抓紧上车。 下载GCC ftp://ftp.gnu.org/gnu/gcc/gcc-4.9.4/gcc-4.9.4.tar.gz 官方FTP http://ftpmirror.gnu.org 自动选" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2016/05/04/installing-gcc/" />
+<meta property="article:published_time" content="2016-05-04T00:00:00+08:00" />
+<meta property="article:modified_time" content="2016-05-04T00:00:00+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Linux下编译安装GCC 4.9.4"/>
+<meta name="twitter:description" content="开发机系统是CentOS 6.6，GCC版本是4.4.7，老司机们已经开着C&#43;&#43;11上路了，话不多说，抓紧上车。 下载GCC ftp://ftp.gnu.org/gnu/gcc/gcc-4.9.4/gcc-4.9.4.tar.gz 官方FTP http://ftpmirror.gnu.org 自动选"/>
+<meta name="application-name" content="只是一个备忘录">
+<meta name="apple-mobile-web-app-title" content="只是一个备忘录"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2016/05/04/installing-gcc/" /><link rel="prev" href="http://caosiyang.github.io/posts/2015/11/02/ntoreturn-and-batchsize/" /><link rel="next" href="http://caosiyang.github.io/posts/2016/06/17/sync-repl-to-sharding/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Linux下编译安装GCC 4.9.4",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/caosiyang.github.io\/posts\/2016\/05\/04\/installing-gcc\/"
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "Linux, GCC","wordcount":  587 ,
+        "url": "http:\/\/caosiyang.github.io\/posts\/2016\/05\/04\/installing-gcc\/","datePublished": "2016-05-04T00:00:00+08:00","dateModified": "2016-05-04T00:00:00+08:00","publisher": {
+            "@type": "Organization",
+            "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "caosiyang"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/" title="">首页</a><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Linux下编译安装GCC 4.9.4</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E7%B3%BB%E7%BB%9F%E5%B7%A5%E5%85%B7/"><i class="far fa-folder fa-fw"></i>系统工具</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2016-05-04">2016-05-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 587 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><p>开发机系统是CentOS 6.6，GCC版本是4.4.7，老司机们已经开着C++11上路了，话不多说，抓紧上车。</p>
+<h1 id="下载gcc">下载GCC</h1>
+<p><a href="ftp://ftp.gnu.org/gnu/gcc/gcc-4.9.4/gcc-4.9.4.tar.gz" target="_blank" rel="noopener noreffer">ftp://ftp.gnu.org/gnu/gcc/gcc-4.9.4/gcc-4.9.4.tar.gz</a> 官方FTP<br>
+<a href="http://ftpmirror.gnu.org" target="_blank" rel="noopener noreffer">http://ftpmirror.gnu.org</a> 自动选择速度较快的镜像站</p>
+<h1 id="下载依赖包">下载依赖包</h1>
+<ul>
+<li><a href="https://gmplib.org/" target="_blank" rel="noopener noreffer">GMP</a></li>
+<li><a href="http://www.mpfr.org/" target="_blank" rel="noopener noreffer">MPC</a></li>
+<li><a href="http://www.multiprecision.org/" target="_blank" rel="noopener noreffer">MPFR</a></li>
+</ul>
+<p>可通过两种方式下载：</p>
+<ul>
+<li>
+<p>自动下载，运行GCC源码目录内置脚本：</p>
+<pre><code>  cd gcc-4.9.4
+  sh ./contrib/download_prerequisites
+</code></pre>
+</li>
+<li>
+<p>手动下载、解压，然后执行命令：</p>
+<pre><code>  cd gcc-4.9.4
+  ln -sf path/to/gmp-x.x.x gmp
+  ln -sf path/to/mpc-x.x.x mpc
+  ln -sf path/to/mpfr-x.x.x mpfr
+</code></pre>
+</li>
+</ul>
+<p>这样，编译GCC同时自动构建上述3个库。</p>
+<p>注意要保证3个包的源码目录是干净的，否则可能报错，必要时可执行<code>make distclean</code></p>
+<p>版本要求参考脚本*./contrib/download_prerequisites*，以4.9.4为例</p>
+<pre><code># Necessary to build GCC.
+MPFR=mpfr-2.4.2
+GMP=gmp-4.3.2
+MPC=mpc-0.8.1
+</code></pre>
+<h1 id="编译安装">编译安装</h1>
+<p>官方文档强烈建议在源码目录之外，新建一个临时目录，用于编译；</p>
+<p>个人建议设置安装目录，便于GCC多版本管理；</p>
+<p>configure选项，可以根据需求自行配置。</p>
+<pre><code>mkdir build-gcc-4.9.4
+cd build-gcc-4.9.4
+../gcc-4.9.4/configure --prefix=/usr/local/gcc-4.9.4/ --enable-checking=release --enable-languages=c,c++ --disable-multilib
+make -j4
+make install
+</code></pre>
+<h1 id="设置环境变量">设置环境变量</h1>
+<p>优先使用指定版本的GCC，可将下行代码添加到<em>~/.bash_profile</em></p>
+<pre><code>export PATH=/usr/local/gcc-4.9.4/bin:$PATH
+</code></pre>
+<h1 id="配置libstdcso6">配置libstdc++.so.6</h1>
+<p>在gcc编译目录下找到最新的<code>libstdc++.so</code>，拷贝至<code>/usr/lib64/</code>，运行命令<code>ldconfig</code></p>
+<pre><code>$ ll /usr/lib64/libstdc++.so.6
+lrwxrwxrwx. 1 root root 19 Nov 20 15:59 /usr/lib64/libstdc++.so.6 -&gt; libstdc++.so.6.0.13
+
+$ find build-gcc-4.9.4/ -name libstdc++.so.* |xargs ls -l
+lrwxrwxrwx. 1 root root      19 Aug 30  2016 build-gcc-4.9.4/prev-x86_64-unknown-linux-gnu/libstdc++-v3/src/.libs/libstdc++.so.6 -&gt; libstdc++.so.6.0.20
+-rwxr-xr-x. 1 root root 6781772 Aug 30  2016 build-gcc-4.9.4/prev-x86_64-unknown-linux-gnu/libstdc++-v3/src/.libs/libstdc++.so.6.0.20
+lrwxrwxrwx. 1 root root      19 Aug 30  2016 build-gcc-4.9.4/stage1-x86_64-unknown-linux-gnu/libstdc++-v3/src/.libs/libstdc++.so.6 -&gt; libstdc++.so.6.0.20
+-rwxr-xr-x. 1 root root 6781772 Aug 30  2016 build-gcc-4.9.4/stage1-x86_64-unknown-linux-gnu/libstdc++-v3/src/.libs/libstdc++.so.6.0.20
+lrwxrwxrwx. 1 root root      19 Aug 30  2016 build-gcc-4.9.4/x86_64-unknown-linux-gnu/libstdc++-v3/src/.libs/libstdc++.so.6 -&gt; libstdc++.so.6.0.20
+-rwxr-xr-x. 1 root root 6781772 Aug 30  2016 build-gcc-4.9.4/x86_64-unknown-linux-gnu/libstdc++-v3/src/.libs/libstdc++.so.6.0.20
+
+$ cp build-gcc-4.9.4/x86_64-unknown-linux-gnu/libstdc++-v3/src/.libs/libstdc++.so.6.0.20 /usr/lib64/
+
+$ ldconfig
+
+$ ll /usr/lib64/libstdc++.so.6        
+lrwxrwxrwx. 1 root root 19 Nov 20 16:12 /usr/lib64/libstdc++.so.6 -&gt; libstdc++.so.6.0.20
+</code></pre>
+<p>好了，开车上路吧!</p>
+<hr>
+<p>参考资料</p>
+<ul>
+<li><a href="https://gcc.gnu.org/install/" target="_blank" rel="noopener noreffer">https://gcc.gnu.org/install/</a></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2016-05-04</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/linux/">Linux</a>,&nbsp;<a href="/tags/gcc/">GCC</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2015/11/02/ntoreturn-and-batchsize/" class="prev" rel="prev" title="MongoDB之浅谈ntoreturn和batchSize"><i class="fas fa-angle-left fa-fw"></i>MongoDB之浅谈ntoreturn和batchSize</a>
+            <a href="/posts/2016/06/17/sync-repl-to-sharding/" class="next" rel="next" title="MongoDB多个复制集到分片集群的数据同步">MongoDB多个复制集到分片集群的数据同步<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.74.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":1000},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

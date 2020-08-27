@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>一个KV存储的MongoDB使用场景 - 只是一个备忘录</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="一个KV存储的MongoDB使用场景" />
+<meta property="og:description" content="有这样一个业务场景，数据量大（10T以上），数据格式是一个KV，value长度较大（100KB以上），QPS不高，读写延迟要求在5ms以内，" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2017/07/24/using-mongodb-as-kv-store/" />
+<meta property="article:published_time" content="2017-07-24T00:00:00+08:00" />
+<meta property="article:modified_time" content="2017-07-24T00:00:00+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="一个KV存储的MongoDB使用场景"/>
+<meta name="twitter:description" content="有这样一个业务场景，数据量大（10T以上），数据格式是一个KV，value长度较大（100KB以上），QPS不高，读写延迟要求在5ms以内，"/>
+<meta name="application-name" content="只是一个备忘录">
+<meta name="apple-mobile-web-app-title" content="只是一个备忘录"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2017/07/24/using-mongodb-as-kv-store/" /><link rel="prev" href="http://caosiyang.github.io/posts/2017/07/07/orphaned-document-negative-effect-on-syncing-sharded-cluster/" /><link rel="next" href="http://caosiyang.github.io/posts/2017/07/27/linux-magic-commands/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "一个KV存储的MongoDB使用场景",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/caosiyang.github.io\/posts\/2017\/07\/24\/using-mongodb-as-kv-store\/"
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "MongoDB","wordcount":  1464 ,
+        "url": "http:\/\/caosiyang.github.io\/posts\/2017\/07\/24\/using-mongodb-as-kv-store\/","datePublished": "2017-07-24T00:00:00+08:00","dateModified": "2017-07-24T00:00:00+08:00","publisher": {
+            "@type": "Organization",
+            "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "caosiyang"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/" title="">首页</a><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">一个KV存储的MongoDB使用场景</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><i class="far fa-folder fa-fw"></i>数据库</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2017-07-24">2017-07-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1464 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><p>有这样一个业务场景，数据量大（10T以上），数据格式是一个KV，value长度较大（100KB以上），QPS不高，读写延迟要求在5ms以内，由于内存有限，无法使用Redis/CouchBase这样的全内存KV数据库，需要寻找一个合适的数据库。</p>
+<p>MongoDB作为一个文档数据库，可以用形如<code>{ _id: key, field0: value }</code>的文档存储一个KV。
+当然，这里的一条数据只有两个field，对于value长度小但field数量多的大体积文档，并没有测试。</p>
+<p>机器/系统/数据库配置</p>
+<ul>
+<li>CPU Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz</li>
+<li>内存 384GB</li>
+<li>磁盘 INTEL SSDSC2BB800G6R</li>
+<li>操作系统 CentOS release 6.7 (Final)</li>
+<li>内核版本 2.6.32-573.el6.x86_64</li>
+<li>文件系统 xfs (rw,noatime,nodiratime,inode64,nobarrier)</li>
+<li>IO scheduler noop</li>
+<li>readahead 256</li>
+<li>cacheSize 30GB</li>
+</ul>
+<p>测试工具用的是<a href="https://github.com/brianfrankcooper/YCSB" target="_blank" rel="noopener noreffer">YCSB</a>，workload配置如下，数据量是100GB，文档包含两个field(_id和field0，field0的value长度是100KB)，数据随机访问（uniform），OPS 200 读写比例1:1</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">workload=com.yahoo.ycsb.workloads.CoreWorkload
+
+readallfields=true
+
+readproportion=0.5
+updateproportion=0.5
+scanproportion=0
+insertproportion=0
+
+requestdistribution=uniform
+
+# total 100GB
+fieldlength=102400
+fieldcount=1
+recordcount=1000000
+
+operationcount=120000
+threadcount=10
+target=200
+
+mongodb.url=mongodb://127.0.0.1:27017/ycsb?w=1
+mongodb.batchsize=10
+mongodb.writeConcern=acknowledged
+mongodb.readPreference=primary
+mongodb.maxconnections=100
+mongodb.threadsAllowedToBlockForConnectionMultiplier=5
+</code></pre></td></tr></table>
+</div>
+</div><p>MongoDB cacheSize是30GB，80%以上触发eviction，正常有24GB数据加载到内存，缓存命中率理论值是24%，经测试，实际cache命中率是22%左右，基本吻合。</p>
+<blockquote>
+<p>缓存命中率计算方法，观察测试前后有多少数据加载到内存，计算公式 Delta(db.serverStatus().wiredTiger.cache.&ldquo;bytes read into cache&rdquo;)/100KB/operationcount</p>
+<p>另外做了热度访问测试（requestdistribution=zipfian），缓存命中率是50%</p>
+</blockquote>
+<p>因为机器物理内存很大，Linux系统cache不可忽略，定期清除cache，测试结果更符合实际。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#! /bin/bash
+</span><span class="cp"></span>
+<span class="k">while</span> <span class="nb">true</span>
+<span class="k">do</span>
+    <span class="nb">echo</span> <span class="s2">&#34;drop caches&#34;</span>
+    free -m <span class="o">&amp;&amp;</span> sync <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="m">1</span> &gt; /proc/sys/vm/drop_caches <span class="o">&amp;&amp;</span> free -m
+    sleep <span class="m">30</span>
+<span class="k">done</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>针对此场景的配置优化</p>
+<ul>
+<li>
+<p>journal日志</p>
+<p>记录写请求，场景中写入10MB/s，将journal放到其他物理卷，减少对数据盘的IO占用。<br>
+Journal日志默认在storage.dbPath下，不支持指定其他目录，可以通过对symbol link的方式来解决，为<code>storage.dbPath</code>下的<em>Journal</em>目录创建软连接。</p>
+<pre><code>  # mv /path/to/storage/dbpath/journal /path/another/
+  # ln -s /path/another/journal  /path/to/storage/dbpath/
+  # chown -h mongod:mongod /path/to/storage/dbpath/journal
+</code></pre>
+</li>
+<li>
+<p>Transparent Huge Pages (THP)</p>
+<p>经测试，开启与否对性能几乎没有影响，遵从官方建议，禁用之</p>
+</li>
+<li>
+<p>readahead</p>
+<p>经测试，开启磁盘预读，读写性能有一定提升，需要注意的是，重设readahead后需要重启数据库</p>
+<pre><code>  // 查看所有设备情况
+  # blockdev --report
+    
+  // 查看readahead
+  # blockdev --getra /dev/sdx
+    
+  // 设置readahead，单位是512Bytes，256即128KB
+  # blockdev --setra 256 /dev/sdx
+</code></pre>
+</li>
+</ul>
+<p>关于磁盘预读，先看一下官方文档</p>
+<p><a href="https://docs.mongodb.com/manual/administration/production-notes/" target="_blank" rel="noopener noreffer">https://docs.mongodb.com/manual/administration/production-notes/</a></p>
+<blockquote>
+<p>For the WiredTiger storage engine:</p>
+<ul>
+<li>Set the readahead setting to 0 regardless of storage media type (spinning, SSD, etc.).
+Setting a higher readahead benefits sequential I/O operations. However, since MongoDB disk access patterns are generally random, setting a higher readahead provides limited benefit or performance degradation. As such, for most workloads, a readahead of 0 provides optimal MongoDB performance.
+In general, set the readahead setting to 0 unless testing shows a measurable, repeatable, and reliable benefit in a higher readahead value. <a href="https://www.mongodb.com/products/enterprise-grade-support?_ga=2.51268265.1682595313.1500883712-961752953.1472715138" target="_blank" rel="noopener noreffer">MongoDB Professional Support</a> can provide advice and guidance on non-zero readahead configurations.</li>
+</ul>
+<p>For the MMAPv1 storage engine:</p>
+<ul>
+<li>Ensure that readahead settings for the block devices that store the database files are appropriate. For random access use patterns, set low readahead values. A readahead of 32 (16 kB) often works well.
+For a standard block device, you can run sudo blockdev &ndash;report to get the readahead settings and sudo blockdev &ndash;setra <value> <device> to change the readahead settings. Refer to your specific operating system manual for more information.</li>
+</ul>
+</blockquote>
+<p>文档表示，对于WiredTiger存储引擎，建议禁用预读（readahead设置为0）。大多数场景下MongoDB是随机访问磁盘，设置较大readahead值有利于顺序IO，提升有限，甚至影响性能。除非通过测试，确定可以带来可衡量、可重现、稳定的性能提升。同时给自家的有偿咨询服务打了一波广告，很6。</p>
+<p>记录了readahead值分别在0/32/64/128/256下的读写延迟和负载，测试结果显示，禁用预读，读写延迟较高；启用预读，MongoDB读写性能在readahead-64时趋于稳定，在readahead-128时更佳，表现为磁盘TPS/利用率/cpu iowait相对更低。</p>
+<ul>
+<li>Latency</li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/images/20170724_latency.png"
+        data-srcset="/images/20170724_latency.png, /images/20170724_latency.png 1.5x, /images/20170724_latency.png 2x"
+        data-sizes="auto"
+        alt="/images/20170724_latency.png"
+        title="image" /></p>
+<ul>
+<li>CPU iowait</li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/images/20170724_cpu_iowait.png"
+        data-srcset="/images/20170724_cpu_iowait.png, /images/20170724_cpu_iowait.png 1.5x, /images/20170724_cpu_iowait.png 2x"
+        data-sizes="auto"
+        alt="/images/20170724_cpu_iowait.png"
+        title="image" /></p>
+<ul>
+<li>Disk Util</li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/images/20170724_disk_util.png"
+        data-srcset="/images/20170724_disk_util.png, /images/20170724_disk_util.png 1.5x, /images/20170724_disk_util.png 2x"
+        data-sizes="auto"
+        alt="/images/20170724_disk_util.png"
+        title="image" /></p>
+<ul>
+<li>Disk TPS</li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/images/20170724_disk_tps.png"
+        data-srcset="/images/20170724_disk_tps.png, /images/20170724_disk_tps.png 1.5x, /images/20170724_disk_tps.png 2x"
+        data-sizes="auto"
+        alt="/images/20170724_disk_tps.png"
+        title="image" /></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2017-07-24</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/mongodb/">MongoDB</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2017/07/07/orphaned-document-negative-effect-on-syncing-sharded-cluster/" class="prev" rel="prev" title="孤立文档对分片集群数据同步的影响"><i class="fas fa-angle-left fa-fw"></i>孤立文档对分片集群数据同步的影响</a>
+            <a href="/posts/2017/07/27/linux-magic-commands/" class="next" rel="next" title="一些不起眼却很实用的Linux命令（不定期更新）">一些不起眼却很实用的Linux命令（不定期更新）<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.74.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":1000},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

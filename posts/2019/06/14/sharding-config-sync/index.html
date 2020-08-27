@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>MongoDB分片配置的实时同步 - 只是一个备忘录</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="MongoDB分片配置的实时同步" />
+<meta property="og:description" content="本文内容适用于MongoDB v3.2及以上版本 数据库分片 集合分片 实时同步原理 分片集群在config server存储集群的各种配置信息，比如节" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2019/06/14/sharding-config-sync/" />
+<meta property="article:published_time" content="2019-06-14T00:00:00+08:00" />
+<meta property="article:modified_time" content="2019-06-14T00:00:00+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="MongoDB分片配置的实时同步"/>
+<meta name="twitter:description" content="本文内容适用于MongoDB v3.2及以上版本 数据库分片 集合分片 实时同步原理 分片集群在config server存储集群的各种配置信息，比如节"/>
+<meta name="application-name" content="只是一个备忘录">
+<meta name="apple-mobile-web-app-title" content="只是一个备忘录"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2019/06/14/sharding-config-sync/" /><link rel="prev" href="http://caosiyang.github.io/posts/2019/04/29/thunderbird/" /><link rel="next" href="http://caosiyang.github.io/posts/2019/10/30/how-to-install-deb-package-in-manjaro/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "MongoDB分片配置的实时同步",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/caosiyang.github.io\/posts\/2019\/06\/14\/sharding-config-sync\/"
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "MongoDB, 分片集群, 数据同步","wordcount":  1188 ,
+        "url": "http:\/\/caosiyang.github.io\/posts\/2019\/06\/14\/sharding-config-sync\/","datePublished": "2019-06-14T00:00:00+08:00","dateModified": "2019-06-14T00:00:00+08:00","publisher": {
+            "@type": "Organization",
+            "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "caosiyang"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/" title="">首页</a><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">MongoDB分片配置的实时同步</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><i class="far fa-folder fa-fw"></i>数据库</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2019-06-14">2019-06-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1188 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#数据库分片">数据库分片</a></li>
+    <li><a href="#集合分片">集合分片</a></li>
+    <li><a href="#实时同步原理">实时同步原理</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><blockquote>
+<p>本文内容适用于MongoDB v3.2及以上版本</p>
+</blockquote>
+<ul>
+<li><a href="#%e6%95%b0%e6%8d%ae%e5%ba%93%e5%88%86%e7%89%87" rel="">数据库分片</a></li>
+<li><a href="#%e9%9b%86%e5%90%88%e5%88%86%e7%89%87" rel="">集合分片</a></li>
+<li><a href="#%e5%ae%9e%e6%97%b6%e5%90%8c%e6%ad%a5%e5%8e%9f%e7%90%86" rel="">实时同步原理</a></li>
+</ul>
+<p>分片集群在config server存储集群的各种配置信息，比如节点地址、分片配置、数据分布等，可连接mongos切换到<code>config</code>数据库查询相关信息。</p>
+<p>分片操作包括<code>enableSharding</code>和<code>shardCollection</code>命令，分别作用于数据库和集合，下面从这两个方面分别说明。</p>
+<h2 id="数据库分片">数据库分片</h2>
+<p><code>enableSharding</code>命令用于开启数据库的分片状态，只有当数据库开启分片后，其集合才能进一步分片。</p>
+<p><code>config.database</code>集合存储全部数据库的meta信息，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">mongos&gt; use config
+switched to db config
+mongos&gt; db.databases.find<span class="o">()</span>
+<span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;test&#34;</span>, <span class="s2">&#34;primary&#34;</span> : <span class="s2">&#34;s1&#34;</span>, <span class="s2">&#34;partitioned&#34;</span> : <span class="nb">true</span> <span class="o">}</span>
+<span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;test1&#34;</span>, <span class="s2">&#34;primary&#34;</span> : <span class="s2">&#34;s2&#34;</span>, <span class="s2">&#34;partitioned&#34;</span> : <span class="nb">false</span> <span class="o">}</span>
+<span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;test2&#34;</span>, <span class="s2">&#34;primary&#34;</span> : <span class="s2">&#34;s4&#34;</span>, <span class="s2">&#34;partitioned&#34;</span> : <span class="nb">true</span> <span class="o">}</span>
+<span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;test3&#34;</span>, <span class="s2">&#34;primary&#34;</span> : <span class="s2">&#34;s6&#34;</span>, <span class="s2">&#34;partitioned&#34;</span> : <span class="nb">true</span> <span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_id</td>
+<td>数据库名称</td>
+</tr>
+<tr>
+<td>primary</td>
+<td>主shard</td>
+</tr>
+<tr>
+<td>partitioned</td>
+<td>分片状态（true / false）</td>
+</tr>
+</tbody>
+</table>
+<p>数据库的meta记录遵循以下规则：</p>
+<ul>
+<li>创建数据库，对应的meta记录写入<code>config.databases</code></li>
+<li>删除数据库，对应的meta记录从<code>config.databases</code>删除</li>
+<li>对于一个已存在但未开启分片的数据库执行分片操作，其meta记录的<code>partitioned</code>字段产生状态变化（false =&gt; true）</li>
+</ul>
+<h2 id="集合分片">集合分片</h2>
+<p><code>shardCollection</code>命令用于对集合分片。</p>
+<p><code>config.collections</code>仅存储分片集合的meta信息，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">mongos&gt; use config
+switched to db config
+mongos&gt; db.collections.find<span class="o">()</span>
+<span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;test.coll&#34;</span>, <span class="s2">&#34;lastmodEpoch&#34;</span> : ObjectId<span class="o">(</span><span class="s2">&#34;5d03228754bfbe35e837a246&#34;</span><span class="o">)</span>, <span class="s2">&#34;lastmod&#34;</span> : ISODate<span class="o">(</span><span class="s2">&#34;1970-02-19T17:02:47.301Z&#34;</span><span class="o">)</span>, <span class="s2">&#34;dropped&#34;</span> : false, <span class="s2">&#34;key&#34;</span> : <span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;hashed&#34;</span> <span class="o">}</span>, <span class="s2">&#34;unique&#34;</span> : <span class="nb">false</span> <span class="o">}</span>
+<span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;test2.coll&#34;</span>, <span class="s2">&#34;lastmodEpoch&#34;</span> : ObjectId<span class="o">(</span><span class="s2">&#34;5d03229c54bfbe35e837a24c&#34;</span><span class="o">)</span>, <span class="s2">&#34;lastmod&#34;</span> : ISODate<span class="o">(</span><span class="s2">&#34;1970-02-19T17:02:47.296Z&#34;</span><span class="o">)</span>, <span class="s2">&#34;dropped&#34;</span> : false, <span class="s2">&#34;key&#34;</span> : <span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="m">1</span> <span class="o">}</span>, <span class="s2">&#34;unique&#34;</span> : <span class="nb">true</span> <span class="o">}</span>
+<span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;test3.coll&#34;</span>, <span class="s2">&#34;lastmodEpoch&#34;</span> : ObjectId<span class="o">(</span><span class="s2">&#34;000000000000000000000000&#34;</span><span class="o">)</span>, <span class="s2">&#34;lastmod&#34;</span> : ISODate<span class="o">(</span><span class="s2">&#34;2019-06-14T04:31:49.622Z&#34;</span><span class="o">)</span>, <span class="s2">&#34;dropped&#34;</span> : <span class="nb">true</span> <span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_id</td>
+<td>集合namespace</td>
+</tr>
+<tr>
+<td>lastmodEpoch</td>
+<td>更新时间点相关</td>
+</tr>
+<tr>
+<td>lastmod</td>
+<td>更新时间点相关</td>
+</tr>
+<tr>
+<td>dropped</td>
+<td>是否已删除（true / false）</td>
+</tr>
+<tr>
+<td>key</td>
+<td>片键</td>
+</tr>
+<tr>
+<td>unique</td>
+<td>片键唯一性约束（true / false）</td>
+</tr>
+</tbody>
+</table>
+<p>集合的meta记录遵循以下规则：</p>
+<ul>
+<li>对一个新集合分片，对应的meta记录写入<code>config.collections</code></li>
+<li>删除一个分片集合，其meta记录的<code>dropped</code>字段产生状态变化（false =&gt; true，meta记录不会从<code>config.collections</code>删除)</li>
+<li>对一个已经删除的分片集合重新分片，其meta记录的<code>dropped</code>字段产生状态变化（true =&gt; false，此时meta记录已经存在）</li>
+</ul>
+<h2 id="实时同步原理">实时同步原理</h2>
+<p>从MongoDB 3.2版本起，分片集群config server支持复制集，为实时同步提供了基础。</p>
+<p>分片配置同步的原理与数据同步类似，监听并回放config server的oplog，只是回放逻辑需要依据以下规则：</p>
+<ul>
+<li>
+<p><code>{ns: ‘config.databases’, op: ’i‘， partitioned: false}</code></p>
+<p>新建数据库</p>
+</li>
+<li>
+<p><code>{ns: 'config.databases', op: 'i'， partitioned: true}</code></p>
+<p>新建数据库并执行分片</p>
+</li>
+<li>
+<p><code>{ns: 'config.databases', op: 'd'}</code></p>
+<p>删除数据库</p>
+</li>
+<li>
+<p><code>{ns: 'config.databases', op: 'u'}</code></p>
+<p>对数据库执行分片，此oplog表示对未分片的数据库执行分片</p>
+</li>
+<li>
+<p><code>{ns: 'config.collections', op: 'i'}</code></p>
+<p>新建集合并执行分片</p>
+</li>
+<li>
+<p><code>{ns: 'config.collections', op: 'u'， dorpped: false}</code></p>
+<p>对集合执行分片，此oplog表示对一个已经删除的分片集合重新分片</p>
+</li>
+<li>
+<p><code>{ns: 'config.collections', op: 'u'， dorpped: true}</code></p>
+<p>删除集合</p>
+</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2019-06-14</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/mongodb/">MongoDB</a>,&nbsp;<a href="/tags/%E5%88%86%E7%89%87%E9%9B%86%E7%BE%A4/">分片集群</a>,&nbsp;<a href="/tags/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/">数据同步</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2019/04/29/thunderbird/" class="prev" rel="prev" title="Thunderbird邮件客户端配置"><i class="fas fa-angle-left fa-fw"></i>Thunderbird邮件客户端配置</a>
+            <a href="/posts/2019/10/30/how-to-install-deb-package-in-manjaro/" class="next" rel="next" title="如何在Manjaro安装deb包">如何在Manjaro安装deb包<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.74.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":1000},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

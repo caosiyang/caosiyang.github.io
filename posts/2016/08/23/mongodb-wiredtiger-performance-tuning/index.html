@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>WiredTiger运行时参数优化 - 只是一个备忘录</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="WiredTiger运行时参数优化" />
+<meta property="og:description" content="MongoDB的WiredTiger存储引擎，用了一段时间，遇到了一些问题，通过优化WT参数，也解决了一些问题，做个小结。 cache_size 指定WT存储引擎" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2016/08/23/mongodb-wiredtiger-performance-tuning/" />
+<meta property="article:published_time" content="2016-08-23T00:00:00+08:00" />
+<meta property="article:modified_time" content="2016-08-23T00:00:00+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="WiredTiger运行时参数优化"/>
+<meta name="twitter:description" content="MongoDB的WiredTiger存储引擎，用了一段时间，遇到了一些问题，通过优化WT参数，也解决了一些问题，做个小结。 cache_size 指定WT存储引擎"/>
+<meta name="application-name" content="只是一个备忘录">
+<meta name="apple-mobile-web-app-title" content="只是一个备忘录"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2016/08/23/mongodb-wiredtiger-performance-tuning/" /><link rel="prev" href="http://caosiyang.github.io/posts/2016/06/17/sync-repl-to-sharding/" /><link rel="next" href="http://caosiyang.github.io/posts/2016/10/24/logrotate/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "WiredTiger运行时参数优化",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/caosiyang.github.io\/posts\/2016\/08\/23\/mongodb-wiredtiger-performance-tuning\/"
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "MongoDB, WiredTiger, 性能调优","wordcount":  1214 ,
+        "url": "http:\/\/caosiyang.github.io\/posts\/2016\/08\/23\/mongodb-wiredtiger-performance-tuning\/","datePublished": "2016-08-23T00:00:00+08:00","dateModified": "2016-08-23T00:00:00+08:00","publisher": {
+            "@type": "Organization",
+            "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "caosiyang"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/" title="">首页</a><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">WiredTiger运行时参数优化</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><i class="far fa-folder fa-fw"></i>数据库</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2016-08-23">2016-08-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1214 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><p>MongoDB的WiredTiger存储引擎，用了一段时间，遇到了一些问题，通过优化WT参数，也解决了一些问题，做个小结。</p>
+<ul>
+<li>
+<p><strong>cache_size</strong></p>
+<p>指定WT存储引擎内部cache的内存用量上限。</p>
+<p>需要注意的是，仅作用于WiredTiger cache，而非mongod进程的内存用量上限。MongoDB同时使用WT cache和文件系统cache，往往mongod进程的内存用量高于该值。cache_size相对于物理内存总量不要设置的太满，需要留有一定内存为操作系统所用，否则有OOM潜在风险。</p>
+<p>默认情况下，cache_used超过80%将触发eviction，如果物理内存充足，建议设置足够大的cache_size，以加载全部数据，避免不必要的eviction。</p>
+<blockquote>
+<p>个人经验值 cache_size = (data + index) / 0.8</p>
+</blockquote>
+<p>cache_size支持在不停服的情况下动态调整，比如将cache_size设置为80GB，执行如下命令：</p>
+<pre><code>  db.adminCommand({setParameter: 1, wiredTigerEngineRuntimeConfig: &quot;cache_size=80G&quot;})
+</code></pre>
+</li>
+<li>
+<p><strong>eviction</strong></p>
+<p>cache_used是很关键的指标，超过80%将触发eviction，类似LRU算法，淘汰冷数据，避免cache用量持续增长。</p>
+<p>一个健康的MongoDB服务，其cache_used应该不超过80%，即使超过，能在短时间内降到80%也是没问题的。如果长时间高于80%则需要重视起来，因为cache_used过高会导致数据库性能下降，体现在慢操作（读写请求耗时长）、qr/qw高（读写请求排队）等方面。所以我们要极力保证cache_used在一个健康的范围内。</p>
+<p>eviction包括很多参数，比如<code>eviction_trigger</code>、<code>eviction_target</code>、<code>eviction_dirty_target</code>等，指定在什么条件下触发和停止cache eviction，这里，我更关心的是eviction线程数量。</p>
+<p>对于eviction线程，MongoDB默认配置是<code>eviction=(threads_min=1,threads_max=4)</code>，根据cache使用情况，创建1-4个eviction线程去淘汰冷数据。</p>
+<p>如果cache体积较大、读写频繁，那么需要更多的eviction线程。</p>
+<blockquote>
+<p>如果调高threads_max仍然无法降低cache_used，建议设置更大的cache_size</p>
+</blockquote>
+<p>动态调整配置：</p>
+<pre><code>  db.adminCommand({setParameter: 1, wiredTigerEngineRuntimeConfig: &quot;eviction=(threads_min=1,threads_max=8)&quot;})
+</code></pre>
+</li>
+<li>
+<p><strong>wiredTigerConcurrentWriteTransactions</strong></p>
+<p>指定最大并发写事务数。</p>
+<p>对于写频繁的服务，通过mongostat查看运行状态，如果qw持续较高、aw经常是128（默认值），说明写请求发生排队，同时WT无法提供更高的并发写。</p>
+<p>此时观察CPU负载，如果负载不高（相对于核数，CPU未充分利用），尝试调高此参数，能够一定程度上缓解问题，即使出现qw高，往往也是短暂的，可能下一秒恢复正常。</p>
+<p>调高此参数，相当于压榨CPU，CPU负载较之前会有一定增加，如果负载在合理范围内，可以接受；负载过高的话，建议扩容。</p>
+<blockquote>
+<p>建议根据实际情况动态调整，并持续观察效果，找到一个合理的值。</p>
+</blockquote>
+<p>查看当前配置：</p>
+<pre><code>  db.adminCommand({getParameter: 1, wiredTigerConcurrentWriteTransactions: 1})
+  or
+  db.adminCommand({getParameter: '*'}).wiredTigerConcurrentWriteTransactions
+</code></pre>
+<p>动态调整配置：</p>
+<pre><code>  db.adminCommand({setParameter: 1, wiredTigerConcurrentWriteTransactions: 512})
+</code></pre>
+</li>
+</ul>
+<hr>
+<p>参考</p>
+<ul>
+<li><a href="https://docs.mongodb.com/manual/reference/configuration-options/" target="_blank" rel="noopener noreffer">https://docs.mongodb.com/manual/reference/configuration-options/</a></li>
+<li><a href="http://source.wiredtiger.com/2.8.0/tune_cache.html" target="_blank" rel="noopener noreffer">http://source.wiredtiger.com/2.8.0/tune_cache.html</a></li>
+<li><a href="http://www.developer.com/db/tips-for-mongodb-wiredtiger-performance-tuning.html" target="_blank" rel="noopener noreffer">http://www.developer.com/db/tips-for-mongodb-wiredtiger-performance-tuning.html</a></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2016-08-23</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/mongodb/">MongoDB</a>,&nbsp;<a href="/tags/wiredtiger/">WiredTiger</a>,&nbsp;<a href="/tags/%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/">性能调优</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2016/06/17/sync-repl-to-sharding/" class="prev" rel="prev" title="MongoDB多个复制集到分片集群的数据同步"><i class="fas fa-angle-left fa-fw"></i>MongoDB多个复制集到分片集群的数据同步</a>
+            <a href="/posts/2016/10/24/logrotate/" class="next" rel="next" title="logrotate问题及分析">logrotate问题及分析<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.74.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":1000},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

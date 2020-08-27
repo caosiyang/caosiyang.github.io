@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Thunderbird邮件客户端配置 - 只是一个备忘录</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="Thunderbird邮件客户端配置" />
+<meta property="og:description" content="Thunderbird是一款好用的Linux邮件客户端。 账户 添加账户，窗口左侧Local Folders 右键选择 settings 进入account settings，左下" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2019/04/29/thunderbird/" />
+<meta property="article:published_time" content="2019-04-29T00:00:00+08:00" />
+<meta property="article:modified_time" content="2019-04-29T00:00:00+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Thunderbird邮件客户端配置"/>
+<meta name="twitter:description" content="Thunderbird是一款好用的Linux邮件客户端。 账户 添加账户，窗口左侧Local Folders 右键选择 settings 进入account settings，左下"/>
+<meta name="application-name" content="只是一个备忘录">
+<meta name="apple-mobile-web-app-title" content="只是一个备忘录"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2019/04/29/thunderbird/" /><link rel="prev" href="http://caosiyang.github.io/posts/2018/07/24/tmux-vim-color/" /><link rel="next" href="http://caosiyang.github.io/posts/2019/06/14/sharding-config-sync/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Thunderbird邮件客户端配置",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/caosiyang.github.io\/posts\/2019\/04\/29\/thunderbird\/"
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "Linux, Thunderbird","wordcount":  642 ,
+        "url": "http:\/\/caosiyang.github.io\/posts\/2019\/04\/29\/thunderbird\/","datePublished": "2019-04-29T00:00:00+08:00","dateModified": "2019-04-29T00:00:00+08:00","publisher": {
+            "@type": "Organization",
+            "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "caosiyang"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/" title="">首页</a><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Thunderbird邮件客户端配置</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E7%B3%BB%E7%BB%9F%E5%B7%A5%E5%85%B7/"><i class="far fa-folder fa-fw"></i>系统工具</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2019-04-29">2019-04-29</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 642 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#账户">账户</a></li>
+    <li><a href="#同步存储">同步&amp;存储</a></li>
+    <li><a href="#订阅邮件目录">订阅邮件目录</a></li>
+    <li><a href="#邮件操作">邮件操作</a></li>
+    <li><a href="#发送服务器">发送服务器</a></li>
+    <li><a href="#邮件签名">邮件签名</a></li>
+    <li><a href="#用户名密码管理">用户名/密码管理</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>Thunderbird是一款好用的Linux邮件客户端。</p>
+<h2 id="账户">账户</h2>
+<p>添加账户，窗口左侧<em>Local Folders</em> 右键选择 <em>settings</em> 进入<code>account settings</code>，左下角 <em>account actions</em> 有账户的添加/删除等操作，然后配置接收/发送邮件服务器就ok了。</p>
+<h2 id="同步存储">同步&amp;存储</h2>
+<p>默认同步所有邮件。
+在<code>account settings</code>下点击目标账户的 <em>Synchronization&amp;Strorage</em> 标签，在 <em>Disk Space</em> 下设置好要同步的邮件，支持同步最近一段时间的邮件。</p>
+<h2 id="订阅邮件目录">订阅邮件目录</h2>
+<p>右键邮件账户，点击 <em>Subcribe</em>，选择需要同步的远程邮件目录。</p>
+<h2 id="邮件操作">邮件操作</h2>
+<p>对于“已发送/已删除/草稿”邮件，Thunderbird 默认将其存放在远程邮件账户的<em>Trash</em>/<em>Sent</em>/<em>Drafts</em>，如果远程邮件账户下没有相应的同名目录，则会自动创建；如果邮件服务器使用中文命名的邮件目录，所以需要重新设置。</p>
+<p>公司使用Outlook邮件服务器，所以我在<code>Server Settings</code>下 将 <em>Trash</em> 替换为 <em>已删除的邮件</em>，<code>Copies &amp; Folders</code>下 将 <em>Sent</em> 替换为 <em>已发送邮件</em>，<em>Drafts</em> 替换为 <em>草稿</em>。</p>
+<p>关于“已发送/已删除/草稿”邮件的存放位置，我是遵循Outlook Web App的操作逻辑，目标位置都设置的远程目录，然后同步到本地。</p>
+<p><code>Server Settings</code>下新邮件检查间隔，删除操作（移动到指定邮件目录）。</p>
+<h2 id="发送服务器">发送服务器</h2>
+<p>左侧<code>OutgoingServer(SMTP)</code>可以管理不同的smtp，目标账户下可以配置为其选择smtp。</p>
+<h2 id="邮件签名">邮件签名</h2>
+<p><code>account settings</code>默认tab下的 <em>Signature text</em> 可以配置签名。</p>
+<h2 id="用户名密码管理">用户名/密码管理</h2>
+<p><code>account settings</code>默认tab下的 <em>Manage Identities</em> 可以管理用户名/密码。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2019-04-29</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/linux/">Linux</a>,&nbsp;<a href="/tags/thunderbird/">Thunderbird</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2018/07/24/tmux-vim-color/" class="prev" rel="prev" title="Vim在tmux下的配色方案不兼容问题"><i class="fas fa-angle-left fa-fw"></i>Vim在tmux下的配色方案不兼容问题</a>
+            <a href="/posts/2019/06/14/sharding-config-sync/" class="next" rel="next" title="MongoDB分片配置的实时同步">MongoDB分片配置的实时同步<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.74.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":1000},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

@@ -1,0 +1,22 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>编程框架 - 分类 - 只是一个备忘录</title>
+        <link>http://caosiyang.github.io/categories/%E7%BC%96%E7%A8%8B%E6%A1%86%E6%9E%B6/</link>
+        <description>编程框架 - 分类 - 只是一个备忘录</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Tue, 07 Apr 2020 00:00:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/categories/%E7%BC%96%E7%A8%8B%E6%A1%86%E6%9E%B6/" rel="self" type="application/rss+xml" /><item>
+    <title>Seastar和DPDK的开发总结</title>
+    <link>http://caosiyang.github.io/posts/2020/04/07/seastar-dpdk/</link>
+    <pubDate>Tue, 07 Apr 2020 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2020/04/07/seastar-dpdk/</guid>
+    <description><![CDATA[<strong><ruby>DPDK<rt>Data Plane Development Kit</rt></ruby></strong>是Intel提供的数据平面开发套件，为用户空间高效的数据包处理提供驱动和函数库支持。 使用DPDK开发的应用程序，需要自行实现网]]></description>
+</item><item>
+    <title>Thrift对象的序列化与反序列化</title>
+    <link>http://caosiyang.github.io/posts/2016/11/25/thrfit-serialize-and-deserialize/</link>
+    <pubDate>Fri, 25 Nov 2016 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2016/11/25/thrfit-serialize-and-deserialize/</guid>
+    <description><![CDATA[对象的序列化与序列化，可能大家更多接触的是谷歌的protobuf。 Thrift作为一个跨语言的RPC代码生成引擎，也具备此功能。 本文要说的是]]></description>
+</item></channel>
+</rss>

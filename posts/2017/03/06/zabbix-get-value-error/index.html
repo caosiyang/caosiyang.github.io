@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Zabbix问题排查 - Value should be a JSON object - 只是一个备忘录</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="Zabbix问题排查 - Value should be a JSON object" />
+<meta property="og:description" content="Zabbix配置了端口自动发现，由一个自定义脚本解析配置文件并获取端口，管理页面显示Value should be a JSON object，数据格式不正确。 在目标机" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2017/03/06/zabbix-get-value-error/" />
+<meta property="article:published_time" content="2017-03-06T00:00:00+08:00" />
+<meta property="article:modified_time" content="2017-03-06T00:00:00+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Zabbix问题排查 - Value should be a JSON object"/>
+<meta name="twitter:description" content="Zabbix配置了端口自动发现，由一个自定义脚本解析配置文件并获取端口，管理页面显示Value should be a JSON object，数据格式不正确。 在目标机"/>
+<meta name="application-name" content="只是一个备忘录">
+<meta name="apple-mobile-web-app-title" content="只是一个备忘录"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2017/03/06/zabbix-get-value-error/" /><link rel="prev" href="http://caosiyang.github.io/posts/2016/12/24/mongodb-oplog/" /><link rel="next" href="http://caosiyang.github.io/posts/2017/03/21/ldconfig/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Zabbix问题排查 - Value should be a JSON object",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/caosiyang.github.io\/posts\/2017\/03\/06\/zabbix-get-value-error\/"
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "Linux, Zabbix","wordcount":  1417 ,
+        "url": "http:\/\/caosiyang.github.io\/posts\/2017\/03\/06\/zabbix-get-value-error\/","datePublished": "2017-03-06T00:00:00+08:00","dateModified": "2017-03-06T00:00:00+08:00","publisher": {
+            "@type": "Organization",
+            "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "caosiyang"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/" title="">首页</a><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Zabbix问题排查 - Value should be a JSON object</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E7%B3%BB%E7%BB%9F%E5%B7%A5%E5%85%B7/"><i class="far fa-folder fa-fw"></i>系统工具</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2017-03-06">2017-03-06</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1417 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><p>Zabbix配置了端口自动发现，由一个自定义脚本解析配置文件并获取端口，管理页面显示<em>Value should be a JSON object</em>，数据格式不正确。</p>
+<p>在目标机运行发现脚本，输出格式正常：</p>
+<pre><code># mongo_proxy_discovery.sh
+{ &quot;data&quot;: [ {&quot;{#PORT}&quot;: 27001} ] }
+</code></pre>
+<p>了解到使用<code>zabbix_get</code>可获取key的值，条件是在zabbix server端执行此命令。</p>
+<p>尝试在开发机执行<code>zabbix_get</code>命令，未获取结果。</p>
+<pre><code># zabbix_get -s xxx.xxx.xxx.xxx -p 10050 -k &quot;mongo_proxy_discovery&quot;
+</code></pre>
+<p>同时观察到下面zabbix_agentd日志，意思说，仅接受zabbix server端发起的连接。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"> 29760:20170302:172754.346 failed to accept an incoming connection: connection from &#34;my.dev.host&#34; rejected, allowed hosts: &#34;actual.zabbix.server&#34;
+</code></pre></td></tr></table>
+</div>
+</div><p>然而我没有zabbix server的登录权限，于是尝试让开发机充当zabbix server。</p>
+<pre><code>yum install zabbix-server
+</code></pre>
+<p>安装完成，修改目标机zabbix_agentd配置，将<code>Server</code>和<code>ServerActive</code>设置为开发机IP，重启zabbix_agentd。</p>
+<pre><code>Server=my.dev.host
+ServerActive=my.dev.host
+</code></pre>
+<p>在开发机执行<code>zabbix_get</code>命令，发现问题，没有配置文件的读权限，无法获取端口。</p>
+<pre><code># zabbix_get -s xxx.xxx.xxx.xxx -p 10050 -k &quot;mongo_proxy_discovery&quot;
+cat: /etc/mongo-proxy/test_27001.conf: Permission denied
+{ &quot;data&quot;: [  ] }
+</code></pre>
+<p>题外话，对zabbix只停留在基本使用阶段，比如模板、自动发现、自动注册等，知道zabbix是中心化服务，并不了解C/S两端如何交互，看来是S端主动poll数据。</p>
+<p>后来了解到，调高zabbix_agentd日志级别也可以快速定位错误。</p>
+<ul>
+<li>配置文件</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># Specifies debug level:
+# 0 - no debug
+# 1 - critical information
+# 2 - error information
+# 3 - warnings (default)
+# 4 - for debugging (produces lots of information)
+DebugLevel=4
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>错误日志</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"> 15476:20170302:175926.726 for key [mongo_proxy_discovery] received value [cat: /etc/mongo-proxy/show_test_27001.conf: Permission denied
+{ &#34;data&#34;: [  ] }]
+</code></pre></td></tr></table>
+</div>
+</div><p>继续排查问题，检查配置文件权限，可读，没问题。</p>
+<pre><code># ll /etc/mongo-proxy/test_27001.conf        
+-rw-r--r-- 1 root root 615 Mar  1 10:43 /etc/mongo-proxy/test_27001.conf
+</code></pre>
+<p>检查所在目录权限，可读，看起来也没问题。</p>
+<pre><code>drw-r--r--   2 root root     4096 Mar  2 16:43 mongo-proxy
+</code></pre>
+<p>然后与之前部署的配置目录进行对比，发现之前目录权限是755，当前是644，于是将当前目录也设置为755，竟神奇般恢复正常。</p>
+<pre><code>chmod 755 /etc/mongo-proxy
+su - zabbix -c &quot;cat /etc/mongo-proxy/test_27001.conf&quot;
+</code></pre>
+<p>这里说明一下，这钱使用纯shell脚本部署，使用<code>mkdir</code>创建目录，采用默认目录权限，本次使用ansible脚本部署：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">  - name: create directory /var/log/mongo-proxy
+    file:
+      path: /var/log/mongo-proxy
+      state: directory
+      mode: 0644
+</code></pre></td></tr></table>
+</div>
+</div><p>那么问题来了，目录没有x权限，为什么不能读取目录下文件的内容？</p>
+<p>从《鸟哥的Linux私房菜》找到了答案：</p>
+<blockquote>
+<p>x (access directory)：</p>
+<p>咦！目录的执行权限有啥用途啊？目录只是记录文件名而已，总不能拿来执行吧？没错！目录不可以被执行，目录的x代表的是用户能否进入该目录成为工作目录的用途！ 所谓的工作目录(work directory)就是你目前所在的目录啦！举例来说，当你登入Linux时， 你所在的家目录就是你当下的工作目录。而变换目录的指令是『cd』(change directory)啰！</p>
+<p>大致的目录权限概念是这样，底下我们来看几个范例，让你了解一下啥是目录的权限啰！</p>
+<p>例题：<br>
+有个目录的权限如下所示：<br>
+drwxr&ndash;r&ndash;  3  root  root  4096   Jun 25 08:35   .ssh<br>
+系统有个账号名称为vbird，这个账号并没有支持root群组，请问vbird对这个目录有何权限？是否可切换到此目录中？<br>
+答：<br>
+vbird对此目录仅具有r的权限，因此vbird可以查询此目录下的文件名列表。因为vbird不具有x的权限， 因此vbird并不能切换到此目录内！(相当重要的概念！)</p>
+<p>上面这个例题中因为vbird具有r的权限，因为是r乍看之下好像就具有可以进入此目录的权限，其实那是错的。 能不能进入某一个目录，只与该目录的x权限有关啦！此外， 工作目录对于指令的执行是非常重要的，如果你在某目录下不具有x的权限， 那么你就无法切换到该目录下，也就无法执行该目录下的任何指令，即使你具有该目录的r的权限。</p>
+</blockquote>
+<hr>
+<p>参考</p>
+<ul>
+<li><a href="http://cn.linux.vbird.org/linux_basic/0210filepermission.php#filepermission_dir" target="_blank" rel="noopener noreffer">http://cn.linux.vbird.org/linux_basic/0210filepermission.php#filepermission_dir</a></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2017-03-06</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/linux/">Linux</a>,&nbsp;<a href="/tags/zabbix/">Zabbix</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2016/12/24/mongodb-oplog/" class="prev" rel="prev" title="MongoDB oplog 分析"><i class="fas fa-angle-left fa-fw"></i>MongoDB oplog 分析</a>
+            <a href="/posts/2017/03/21/ldconfig/" class="next" rel="next" title="Linux动态链接库查找路径">Linux动态链接库查找路径<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.74.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":1000},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

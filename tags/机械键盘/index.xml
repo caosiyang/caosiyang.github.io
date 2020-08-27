@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>机械键盘 - 标签 - 只是一个备忘录</title>
+        <link>http://caosiyang.github.io/tags/%E6%9C%BA%E6%A2%B0%E9%94%AE%E7%9B%98/</link>
+        <description>机械键盘 - 标签 - 只是一个备忘录</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Wed, 22 Jul 2020 00:00:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/%E6%9C%BA%E6%A2%B0%E9%94%AE%E7%9B%98/" rel="self" type="application/rss+xml" /><item>
+    <title>京东京造K6键盘在Linux下的兼容问题及解决方法</title>
+    <link>http://caosiyang.github.io/posts/2020/07/22/using-keychron-k6-on-manjaro/</link>
+    <pubDate>Wed, 22 Jul 2020 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2020/07/22/using-keychron-k6-on-manjaro/</guid>
+    <description><![CDATA[近期入手京东京造K6键盘，其实是Keychron K6，这款键盘的亮点是Windows和MacOS双系统兼容，然而我在Manjaro系统下遇到]]></description>
+</item></channel>
+</rss>

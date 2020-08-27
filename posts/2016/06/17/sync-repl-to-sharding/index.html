@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>MongoDB多个复制集到分片集群的数据同步 - 只是一个备忘录</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="MongoDB多个复制集到分片集群的数据同步" />
+<meta property="og:description" content="背景 某服务升级，计划将原来多个v2.4复制集升级为v3.0分片集群。 问题 在多个rs的增量同步过程中，发现分片集群的机器负载很高，在服务高峰时" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2016/06/17/sync-repl-to-sharding/" />
+<meta property="article:published_time" content="2016-06-17T00:00:00+08:00" />
+<meta property="article:modified_time" content="2016-06-17T00:00:00+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="MongoDB多个复制集到分片集群的数据同步"/>
+<meta name="twitter:description" content="背景 某服务升级，计划将原来多个v2.4复制集升级为v3.0分片集群。 问题 在多个rs的增量同步过程中，发现分片集群的机器负载很高，在服务高峰时"/>
+<meta name="application-name" content="只是一个备忘录">
+<meta name="apple-mobile-web-app-title" content="只是一个备忘录"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2016/06/17/sync-repl-to-sharding/" /><link rel="prev" href="http://caosiyang.github.io/posts/2016/05/04/installing-gcc/" /><link rel="next" href="http://caosiyang.github.io/posts/2016/08/23/mongodb-wiredtiger-performance-tuning/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "MongoDB多个复制集到分片集群的数据同步",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/caosiyang.github.io\/posts\/2016\/06\/17\/sync-repl-to-sharding\/"
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "MongoDB, 数据同步, 复制集, 分片集群","wordcount":  720 ,
+        "url": "http:\/\/caosiyang.github.io\/posts\/2016\/06\/17\/sync-repl-to-sharding\/","datePublished": "2016-06-17T00:00:00+08:00","dateModified": "2016-06-17T00:00:00+08:00","publisher": {
+            "@type": "Organization",
+            "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "caosiyang"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/" title="">首页</a><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">MongoDB多个复制集到分片集群的数据同步</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><i class="far fa-folder fa-fw"></i>数据库</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2016-06-17">2016-06-17</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 720 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#背景">背景</a></li>
+    <li><a href="#问题">问题</a></li>
+    <li><a href="#分析">分析</a></li>
+    <li><a href="#解决方法">解决方法</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="背景">背景</h2>
+<p>某服务升级，计划将原来多个v2.4复制集升级为v3.0分片集群。</p>
+<h2 id="问题">问题</h2>
+<p>在多个rs的增量同步过程中，发现分片集群的机器负载很高，在服务高峰时期，oplog追的慢，同步开始滞后，延迟时间有上升趋势。</p>
+<p>整个同步过程包含两个阶段：</p>
+<ul>
+<li>
+<p>初始同步</p>
+<ul>
+<li>目标是全部集合</li>
+<li>insert 10w/s，大小取决于目标分片集群的性能</li>
+</ul>
+</li>
+<li>
+<p>增量同步</p>
+<ul>
+<li>目标是oplog</li>
+<li>update 3w/s，大小取决于全部源端rs的update</li>
+</ul>
+</li>
+</ul>
+<h2 id="分析">分析</h2>
+<p>机器负载高，完全不符合预期，问题出在哪里？为什么初始同步没问题，增量同步会出现性能瓶颈？</p>
+<p>从两个方面考虑：</p>
+<ol>
+<li>
+<p>增量同步的特殊性</p>
+<p>复制集中，<code>_id</code>保证文档的唯一性，所有对于该文档的update/delete操作，体现在oplog，均是以<code>_id</code>作为条件。</p>
+</li>
+<li>
+<p>分片集群</p>
+<p>同步目标是分片集群，集合做了分片，片键（shard key）是什么？对于update/remove操作的oplog，如果片键是<code>_id</code>，oplog回放可以利用片键；如果片键不是<code>_id</code>，那么oplog回放无法利用片键。</p>
+</li>
+</ol>
+<p>回到问题本身，目标集合的片键非<code>_id</code>，对于一个update/remove操作的oplog，其回放不能直接定位到目标shard，那么该oplog将在所有shard上都执行一次，尽管这条操作仅在目标shard（包含_id指定的文档）上执行成功，但是在其他shard上会执行一次query，这里发生了不必要的性能消耗。</p>
+<p>至于为什么insert不会有瓶颈，因为insert操作中包含文档的所有field，自然能够利用片键：）</p>
+<h2 id="解决方法">解决方法</h2>
+<p>一般情况下，片键不会是<code>_id</code>，如果源端rs的<strong>update/remove</strong>的OPS高，可考虑分批导入到分片集群，比如新集群计划容纳10个rs，可以先导入5个rs，等业务切换完成，再导入其余5个rs。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2016-06-17</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/mongodb/">MongoDB</a>,&nbsp;<a href="/tags/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/">数据同步</a>,&nbsp;<a href="/tags/%E5%A4%8D%E5%88%B6%E9%9B%86/">复制集</a>,&nbsp;<a href="/tags/%E5%88%86%E7%89%87%E9%9B%86%E7%BE%A4/">分片集群</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2016/05/04/installing-gcc/" class="prev" rel="prev" title="Linux下编译安装GCC 4.9.4"><i class="fas fa-angle-left fa-fw"></i>Linux下编译安装GCC 4.9.4</a>
+            <a href="/posts/2016/08/23/mongodb-wiredtiger-performance-tuning/" class="next" rel="next" title="WiredTiger运行时参数优化">WiredTiger运行时参数优化<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.74.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":1000},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

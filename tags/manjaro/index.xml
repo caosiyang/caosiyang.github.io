@@ -1,0 +1,36 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Manjaro - 标签 - 只是一个备忘录</title>
+        <link>http://caosiyang.github.io/tags/manjaro/</link>
+        <description>Manjaro - 标签 - 只是一个备忘录</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Mon, 27 Jul 2020 00:00:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/manjaro/" rel="self" type="application/rss+xml" /><item>
+    <title>Manjaro Xfce使用笔记</title>
+    <link>http://caosiyang.github.io/posts/2020/07/27/manjaro-xfce-notes/</link>
+    <pubDate>Mon, 27 Jul 2020 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2020/07/27/manjaro-xfce-notes/</guid>
+    <description><![CDATA[Manjaro Xfce使用过程遇到的一些问题和解决方法。 Python版本 系统预装和默认使用的是Python 3（默认版本通过软连接/usr/bin/pyt]]></description>
+</item><item>
+    <title>京东京造K6键盘在Linux下的兼容问题及解决方法</title>
+    <link>http://caosiyang.github.io/posts/2020/07/22/using-keychron-k6-on-manjaro/</link>
+    <pubDate>Wed, 22 Jul 2020 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2020/07/22/using-keychron-k6-on-manjaro/</guid>
+    <description><![CDATA[近期入手京东京造K6键盘，其实是Keychron K6，这款键盘的亮点是Windows和MacOS双系统兼容，然而我在Manjaro系统下遇到]]></description>
+</item><item>
+    <title>如何在Manjaro安装deb包</title>
+    <link>http://caosiyang.github.io/posts/2019/10/30/how-to-install-deb-package-in-manjaro/</link>
+    <pubDate>Wed, 30 Oct 2019 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2019/10/30/how-to-install-deb-package-in-manjaro/</guid>
+    <description><![CDATA[安装debtap，这里用的是yay，使用其他AUR helper也一样。 1 yay -S debtap 使用debtap将deb包转换为arch包，假设deb包文件是]]></description>
+</item><item>
+    <title>Manjaro安装与配置</title>
+    <link>http://caosiyang.github.io/posts/2018/02/20/install-manjaro/</link>
+    <pubDate>Tue, 20 Feb 2018 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2018/02/20/install-manjaro/</guid>
+    <description><![CDATA[Last updated: 2019-06-14 Last updated: 2019-04-29 以下摘自维基百科： Manjaro Linux（或简称Manjaro）是基于Arch Linux的Linux发行版，使用Xfce和KDE Plasm]]></description>
+</item></channel>
+</rss>

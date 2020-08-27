@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>MongoDB并发复制 - 只是一个备忘录</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="MongoDB并发复制" />
+<meta property="og:description" content="如果没记错的话，支持WiredTiger存储引擎后，MongoDB实现了oplog并发回放。 之前凭借经验写过一个基于oplog并发回放的实时" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2017/04/21/mongodb-replication/" />
+<meta property="article:published_time" content="2017-04-21T00:00:00+08:00" />
+<meta property="article:modified_time" content="2017-04-21T00:00:00+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="MongoDB并发复制"/>
+<meta name="twitter:description" content="如果没记错的话，支持WiredTiger存储引擎后，MongoDB实现了oplog并发回放。 之前凭借经验写过一个基于oplog并发回放的实时"/>
+<meta name="application-name" content="只是一个备忘录">
+<meta name="apple-mobile-web-app-title" content="只是一个备忘录"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2017/04/21/mongodb-replication/" /><link rel="prev" href="http://caosiyang.github.io/posts/2017/03/23/tmout/" /><link rel="next" href="http://caosiyang.github.io/posts/2017/07/07/orphaned-document-negative-effect-on-syncing-sharded-cluster/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "MongoDB并发复制",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/caosiyang.github.io\/posts\/2017\/04\/21\/mongodb-replication\/"
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "MongoDB","wordcount":  1452 ,
+        "url": "http:\/\/caosiyang.github.io\/posts\/2017\/04\/21\/mongodb-replication\/","datePublished": "2017-04-21T00:00:00+08:00","dateModified": "2017-04-21T00:00:00+08:00","publisher": {
+            "@type": "Organization",
+            "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "caosiyang"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/" title="">首页</a><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">MongoDB并发复制</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><i class="far fa-folder fa-fw"></i>数据库</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2017-04-21">2017-04-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1452 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#批量读取oplog">批量读取oplog</a></li>
+    <li><a href="#并发回放">并发回放</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>如果没记错的话，支持WiredTiger存储引擎后，MongoDB实现了oplog并发回放。
+之前凭借经验写过一个基于oplog并发回放的实时同步工具，一直想看看原生实现，以下分析参考v3.0.12源码。</p>
+<p>核心函数是SyncTail::oplogApplication()，做了两件事：</p>
+<ul>
+<li>批量读取oplog</li>
+<li>并发回放</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="cm">/* tail an oplog.  ok to return, will be re-called. */</span>
+<span class="kt">void</span> <span class="n">SyncTail</span><span class="o">::</span><span class="n">oplogApplication</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">ReplicationCoordinator</span><span class="o">*</span> <span class="n">replCoord</span> <span class="o">=</span> <span class="n">getGlobalReplicationCoordinator</span><span class="p">();</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">inShutdown</span><span class="p">())</span> <span class="p">{</span>
+        <span class="n">OpQueue</span> <span class="n">ops</span><span class="p">;</span>
+        <span class="n">OperationContextImpl</span> <span class="n">txn</span><span class="p">;</span>
+
+        <span class="n">Timer</span> <span class="n">batchTimer</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">lastTimeChecked</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+        <span class="k">do</span> <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">now</span> <span class="o">=</span> <span class="n">batchTimer</span><span class="p">.</span><span class="n">seconds</span><span class="p">();</span>
+
+            <span class="c1">// apply replication batch limits
+</span><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ops</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">now</span> <span class="o">&gt;</span> <span class="n">replBatchLimitSeconds</span><span class="p">)</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">ops</span><span class="p">.</span><span class="n">getDeque</span><span class="p">().</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">replBatchLimitOperations</span><span class="p">)</span>
+                    <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>   
+            <span class="c1">// occasionally check some things
+</span><span class="c1"></span>            <span class="c1">// (always checked in the first iteration of this do-while loop, because
+</span><span class="c1"></span>            <span class="c1">// ops is empty)
+</span><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="n">ops</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">||</span> <span class="n">now</span> <span class="o">&gt;</span> <span class="n">lastTimeChecked</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">BackgroundSync</span><span class="o">*</span> <span class="n">bgsync</span> <span class="o">=</span> <span class="n">BackgroundSync</span><span class="o">::</span><span class="n">get</span><span class="p">();</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">bgsync</span><span class="o">-&gt;</span><span class="n">getInitialSyncRequestedFlag</span><span class="p">())</span> <span class="p">{</span>
+                    <span class="c1">// got a resync command
+</span><span class="c1"></span>                    <span class="k">return</span><span class="p">;</span>
+                <span class="p">}</span>   
+                <span class="n">lastTimeChecked</span> <span class="o">=</span> <span class="n">now</span><span class="p">;</span>
+                <span class="c1">// can we become secondary?
+</span><span class="c1"></span>                <span class="c1">// we have to check this before calling mgr, as we must be a secondary to
+</span><span class="c1"></span>                <span class="c1">// become primary
+</span><span class="c1"></span>                <span class="n">tryToGoLiveAsASecondary</span><span class="p">(</span><span class="o">&amp;</span><span class="n">txn</span><span class="p">,</span> <span class="n">replCoord</span><span class="p">);</span>
+            <span class="p">}</span>   
+
+            <span class="k">const</span> <span class="kt">int</span> <span class="n">slaveDelaySecs</span> <span class="o">=</span> <span class="n">replCoord</span><span class="o">-&gt;</span><span class="n">getSlaveDelaySecs</span><span class="p">().</span><span class="n">total_seconds</span><span class="p">();</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ops</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">slaveDelaySecs</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">const</span> <span class="n">BSONObj</span><span class="o">&amp;</span> <span class="n">lastOp</span> <span class="o">=</span> <span class="n">ops</span><span class="p">.</span><span class="n">getDeque</span><span class="p">().</span><span class="n">back</span><span class="p">();</span>
+                <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">opTimestampSecs</span> <span class="o">=</span> <span class="n">lastOp</span><span class="p">[</span><span class="s">&#34;ts&#34;</span><span class="p">].</span><span class="n">_opTime</span><span class="p">().</span><span class="n">getSecs</span><span class="p">();</span>
+
+                <span class="c1">// Stop the batch as the lastOp is too new to be applied. If we continue
+</span><span class="c1"></span>                <span class="c1">// on, we can get ops that are way ahead of the delay and this will
+</span><span class="c1"></span>                <span class="c1">// make this thread sleep longer when handleSlaveDelay is called
+</span><span class="c1"></span>                <span class="c1">// and apply ops much sooner than we like.
+</span><span class="c1"></span>                <span class="k">if</span> <span class="p">(</span><span class="n">opTimestampSecs</span> <span class="o">&gt;</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">unsigned</span> <span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">slaveDelaySecs</span><span class="p">))</span> <span class="p">{</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="c1">// keep fetching more ops as long as we haven&#39;t filled up a full batch yet
+</span><span class="c1"></span>        <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">tryPopAndWaitForMore</span><span class="p">(</span><span class="o">&amp;</span><span class="n">txn</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ops</span><span class="p">,</span> <span class="n">replCoord</span><span class="p">)</span> <span class="o">&amp;&amp;</span>  <span class="c1">// tryPopAndWaitForMore returns
+</span><span class="c1"></span>                                                                  <span class="c1">// true when we need to end a
+</span><span class="c1"></span>                                                                  <span class="c1">// batch early
+</span><span class="c1"></span>                 <span class="p">(</span><span class="n">ops</span><span class="p">.</span><span class="n">getSize</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">replBatchLimitBytes</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+                 <span class="o">!</span><span class="n">inShutdown</span><span class="p">());</span>
+
+        <span class="c1">// For pausing replication in tests
+</span><span class="c1"></span>        <span class="k">while</span> <span class="p">(</span><span class="n">MONGO_FAIL_POINT</span><span class="p">(</span><span class="n">rsSyncApplyStop</span><span class="p">))</span> <span class="p">{</span>
+            <span class="n">sleepmillis</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">ops</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+            <span class="k">continue</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">const</span> <span class="n">BSONObj</span><span class="o">&amp;</span> <span class="n">lastOp</span> <span class="o">=</span> <span class="n">ops</span><span class="p">.</span><span class="n">getDeque</span><span class="p">().</span><span class="n">back</span><span class="p">();</span>
+        <span class="n">handleSlaveDelay</span><span class="p">(</span><span class="n">lastOp</span><span class="p">);</span>
+
+        <span class="c1">// Set minValid to the last op to be applied in this next batch.
+</span><span class="c1"></span>        <span class="c1">// This will cause this node to go into RECOVERING state
+</span><span class="c1"></span>        <span class="c1">// if we should crash and restart before updating the oplog
+</span><span class="c1"></span>        <span class="n">OpTime</span> <span class="n">minValid</span> <span class="o">=</span> <span class="n">lastOp</span><span class="p">[</span><span class="s">&#34;ts&#34;</span><span class="p">].</span><span class="n">_opTime</span><span class="p">();</span>
+        <span class="n">setMinValid</span><span class="p">(</span><span class="o">&amp;</span><span class="n">txn</span><span class="p">,</span> <span class="n">minValid</span><span class="p">);</span>
+        <span class="n">multiApply</span><span class="p">(</span><span class="o">&amp;</span><span class="n">txn</span><span class="p">,</span> <span class="n">ops</span><span class="p">.</span><span class="n">getDeque</span><span class="p">());</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="批量读取oplog">批量读取oplog</h2>
+<p>这里用了一个do&hellip;while循环，do附加一些硬性限制以终止读取，比如读取时间超过1s、oplog数量超过5000条；while是核心逻辑，除了oplog在体积上的硬性限制（32位系统是50MB，64位系统是100MB），还有对文档操作和命令/索引操作的区分。</p>
+<p>核心函数是SyncTail::tryPopAndWaitForMore()，从oplog缓冲队列预读一条oplog，判断其类型，如果是文档操作，返回false，继续取下一条；如果是command或索引操作，返回true，终止do&hellip;while循环，就是说文档操作可以批量回放，而命令及索引操作必须单条阻塞回放，因为此类操作的锁粒度较大（数据库锁，非文档锁）。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Cpp" data-lang="Cpp">    <span class="c1">// check for commands
+</span><span class="c1"></span>    <span class="k">if</span> <span class="p">((</span><span class="n">op</span><span class="p">[</span><span class="s">&#34;op&#34;</span><span class="p">].</span><span class="n">valuestrsafe</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;c&#39;</span><span class="p">)</span> <span class="o">||</span>
+        <span class="c1">// Index builds are acheived through the use of an insert op, not a command op.
+</span><span class="c1"></span>        <span class="c1">// The following line is the same as what the insert code uses to detect an index build.
+</span><span class="c1"></span>        <span class="p">(</span><span class="o">*</span><span class="n">ns</span> <span class="o">!=</span> <span class="sc">&#39;\0&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">nsToCollectionSubstring</span><span class="p">(</span><span class="n">ns</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#34;system.indexes&#34;</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ops</span><span class="o">-&gt;</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+            <span class="c1">// apply commands one-at-a-time
+</span><span class="c1"></span>            <span class="n">ops</span><span class="o">-&gt;</span><span class="n">push_back</span><span class="p">(</span><span class="n">op</span><span class="p">);</span>
+            <span class="n">_networkQueue</span><span class="o">-&gt;</span><span class="n">consume</span><span class="p">();</span>
+        <span class="p">}</span>                     
+        
+        <span class="c1">// otherwise, apply what we have so far and come back for the command
+</span><span class="c1"></span>        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="并发回放">并发回放</h2>
+<p>SyncTail::multiApply()实现对文档操作的并发回放。</p>
+<p>核心函数是SyncTail::fillWriterVectors()，对oplog分组。首先对oplog的namespace散列，如果存储引擎支持文档锁并且oplog类型是i/u/d，则进一步对ObjectID散列，这样保证对同一文档的操作在一个工作线程内有序回放。</p>
+<p>SyncTail::applyOps()将各个oplog分组投递到工作线程，主进程等待回放完成，再继续取下一批oplog。</p>
+<p>ps：所采用的散列算法是<a href="https://en.wikipedia.org/wiki/MurmurHash" target="_blank" rel="noopener noreffer">murmurhash3</a>，特点是对于规律性较强的key，随机分布特性表现良好。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="kt">void</span> <span class="n">SyncTail</span><span class="o">::</span><span class="n">fillWriterVectors</span><span class="p">(</span><span class="n">OperationContext</span><span class="o">*</span> <span class="n">txn</span><span class="p">,</span>
+                                 <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">deque</span><span class="o">&lt;</span><span class="n">BSONObj</span><span class="o">&gt;&amp;</span> <span class="n">ops</span><span class="p">,</span>
+                                 <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BSONObj</span><span class="o">&gt;&gt;*</span> <span class="n">writerVectors</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">const</span> <span class="kt">bool</span> <span class="n">supportsDocLocking</span> <span class="o">=</span>
+        <span class="n">getGlobalEnvironment</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">getGlobalStorageEngine</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">supportsDocLocking</span><span class="p">();</span>
+
+    <span class="n">Lock</span><span class="o">::</span><span class="n">GlobalRead</span> <span class="n">globalReadLock</span><span class="p">(</span><span class="n">txn</span><span class="o">-&gt;</span><span class="n">lockState</span><span class="p">());</span>
+    <span class="n">CachingCappedChecker</span> <span class="n">isCapped</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">deque</span><span class="o">&lt;</span><span class="n">BSONObj</span><span class="o">&gt;::</span><span class="n">const_iterator</span> <span class="n">it</span> <span class="o">=</span> <span class="n">ops</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">it</span> <span class="o">!=</span> <span class="n">ops</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">it</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">const</span> <span class="n">BSONElement</span> <span class="n">e</span> <span class="o">=</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">getField</span><span class="p">(</span><span class="s">&#34;ns&#34;</span><span class="p">);</span>
+        <span class="n">verify</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">type</span><span class="p">()</span> <span class="o">==</span> <span class="n">String</span><span class="p">);</span>
+        <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">ns</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">valuestr</span><span class="p">();</span>
+        <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">valuestrsize</span><span class="p">();</span>
+        <span class="kt">uint32_t</span> <span class="n">hash</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="n">MurmurHash3_x86_32</span><span class="p">(</span><span class="n">ns</span><span class="p">,</span> <span class="n">len</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hash</span><span class="p">);</span>
+
+        <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">opType</span> <span class="o">=</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">getField</span><span class="p">(</span><span class="s">&#34;op&#34;</span><span class="p">).</span><span class="n">valuestrsafe</span><span class="p">();</span>
+
+        <span class="c1">// For doc locking engines, include the _id of the document in the hash so we get
+</span><span class="c1"></span>        <span class="c1">// parallelism even if all writes are to a single collection. We can&#39;t do this for capped
+</span><span class="c1"></span>        <span class="c1">// collections because the order of inserts is a guaranteed property, unlike for normal
+</span><span class="c1"></span>        <span class="c1">// collections.
+</span><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="n">supportsDocLocking</span> <span class="o">&amp;&amp;</span> <span class="n">isCrudOpType</span><span class="p">(</span><span class="n">opType</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isCapped</span><span class="p">(</span><span class="n">txn</span><span class="p">,</span> <span class="n">ns</span><span class="p">))</span> <span class="p">{</span>
+            <span class="n">BSONElement</span> <span class="n">id</span><span class="p">;</span>
+            <span class="k">switch</span> <span class="p">(</span><span class="n">opType</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="p">{</span>
+                <span class="k">case</span> <span class="sc">&#39;u&#39;</span><span class="o">:</span>
+                    <span class="n">id</span> <span class="o">=</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">getField</span><span class="p">(</span><span class="s">&#34;o2&#34;</span><span class="p">).</span><span class="n">Obj</span><span class="p">()[</span><span class="s">&#34;_id&#34;</span><span class="p">];</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="k">case</span> <span class="sc">&#39;d&#39;</span><span class="o">:</span>
+                <span class="k">case</span> <span class="sc">&#39;i&#39;</span><span class="o">:</span>
+                    <span class="n">id</span> <span class="o">=</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">getField</span><span class="p">(</span><span class="s">&#34;o&#34;</span><span class="p">).</span><span class="n">Obj</span><span class="p">()[</span><span class="s">&#34;_id&#34;</span><span class="p">];</span>
+                    <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="k">const</span> <span class="n">size_t</span> <span class="n">idHash</span> <span class="o">=</span> <span class="n">BSONElement</span><span class="o">::</span><span class="n">Hasher</span><span class="p">()(</span><span class="n">id</span><span class="p">);</span>
+            <span class="n">MurmurHash3_x86_32</span><span class="p">(</span><span class="o">&amp;</span><span class="n">idHash</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">idHash</span><span class="p">),</span> <span class="n">hash</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hash</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="p">(</span><span class="o">*</span><span class="n">writerVectors</span><span class="p">)[</span><span class="n">hash</span> <span class="o">%</span> <span class="n">writerVectors</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">()].</span><span class="n">push_back</span><span class="p">(</span><span class="o">*</span><span class="n">it</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2017-04-21</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/mongodb/">MongoDB</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2017/03/23/tmout/" class="prev" rel="prev" title="timed out waiting for input: auto-logout"><i class="fas fa-angle-left fa-fw"></i>timed out waiting for input: auto-logout</a>
+            <a href="/posts/2017/07/07/orphaned-document-negative-effect-on-syncing-sharded-cluster/" class="next" rel="next" title="孤立文档对分片集群数据同步的影响">孤立文档对分片集群数据同步的影响<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.74.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":1000},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

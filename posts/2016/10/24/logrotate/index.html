@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>logrotate问题及分析 - 只是一个备忘录</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="logrotate问题及分析" />
+<meta property="og:description" content="在这之前对logrotate理解存在误区，以为只要对目标文件配置logrotate，就可以搞定日志轮转。 生产环境下，偶有发生mongod日志" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2016/10/24/logrotate/" />
+<meta property="article:published_time" content="2016-10-24T00:00:00+08:00" />
+<meta property="article:modified_time" content="2016-10-24T00:00:00+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="logrotate问题及分析"/>
+<meta name="twitter:description" content="在这之前对logrotate理解存在误区，以为只要对目标文件配置logrotate，就可以搞定日志轮转。 生产环境下，偶有发生mongod日志"/>
+<meta name="application-name" content="只是一个备忘录">
+<meta name="apple-mobile-web-app-title" content="只是一个备忘录"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2016/10/24/logrotate/" /><link rel="prev" href="http://caosiyang.github.io/posts/2016/08/23/mongodb-wiredtiger-performance-tuning/" /><link rel="next" href="http://caosiyang.github.io/posts/2016/11/25/thrfit-serialize-and-deserialize/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "logrotate问题及分析",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/caosiyang.github.io\/posts\/2016\/10\/24\/logrotate\/"
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "logrotate, MongoDB","wordcount":  716 ,
+        "url": "http:\/\/caosiyang.github.io\/posts\/2016\/10\/24\/logrotate\/","datePublished": "2016-10-24T00:00:00+08:00","dateModified": "2016-10-24T00:00:00+08:00","publisher": {
+            "@type": "Organization",
+            "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "caosiyang"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="只是一个备忘录">Caosiyang&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/" title="">首页</a><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">logrotate问题及分析</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E7%B3%BB%E7%BB%9F%E5%B7%A5%E5%85%B7/"><i class="far fa-folder fa-fw"></i>系统工具</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2016-10-24">2016-10-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 716 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><p>在这之前对logrotate理解存在误区，以为只要对目标文件配置logrotate，就可以搞定日志轮转。</p>
+<p>生产环境下，偶有发生mongod日志为空的问题，即日志轮转后，新的mongod日志并没有写到原始日志文件，日志文件长度始终是0，此时执行mongodb自身的<code>logRotate</code>命令也无济于事，除非重启mongod，如果碰巧这个时间点数据库出了故障，日志都没有，搞毛线啊~~</p>
+<p>所以花时间了解下logrotate，项目托管在<a href="https://github.com/logrotate/logrotate" target="_blank" rel="noopener noreffer">github.com/logrotate/logrotate</a>。</p>
+<p>由于我的logrotate配置包含copytruncate选项，即先拷贝再清空，直接看关键代码，函数调用关系是<em>rotateLogSet()</em> =&gt; <em>rotateSingLog()</em> =&gt; <em>copyTruncate()</em> 。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-C" data-lang="C"><span class="c1">// 拷贝日志文件副本
+</span><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="n">sparse_copy</span><span class="p">(</span><span class="n">fdcurr</span><span class="p">,</span> <span class="n">fdsave</span><span class="p">,</span> <span class="n">sb</span><span class="p">,</span> <span class="n">saveLog</span><span class="p">,</span> <span class="n">currLog</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="n">close</span><span class="p">(</span><span class="n">fdcurr</span><span class="p">);</span>
+    <span class="n">close</span><span class="p">(</span><span class="n">fdsave</span><span class="p">);</span>
+    <span class="n">message</span><span class="p">(</span><span class="n">MESS_ERROR</span><span class="p">,</span> <span class="s">&#34;error copying %s to %s: %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">currLog</span><span class="p">,</span>
+            <span class="n">saveLog</span><span class="p">,</span> <span class="n">strerror</span><span class="p">(</span><span class="n">errno</span><span class="p">));</span>
+    <span class="n">unlink</span><span class="p">(</span><span class="n">saveLog</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 清空原始日志文件
+</span><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">LOG_FLAG_COPYTRUNCATE</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">message</span><span class="p">(</span><span class="n">MESS_DEBUG</span><span class="p">,</span> <span class="s">&#34;truncating %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">currLog</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">debug</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">fsync</span><span class="p">(</span><span class="n">fdsave</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ftruncate</span><span class="p">(</span><span class="n">fdcurr</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">message</span><span class="p">(</span><span class="n">MESS_ERROR</span><span class="p">,</span> <span class="s">&#34;error truncating %s: %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">currLog</span><span class="p">,</span>
+            <span class="n">strerror</span><span class="p">(</span><span class="n">errno</span><span class="p">));</span>
+        <span class="n">close</span><span class="p">(</span><span class="n">fdcurr</span><span class="p">);</span>
+        <span class="n">close</span><span class="p">(</span><span class="n">fdsave</span><span class="p">);</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span> <span class="k">else</span>
+    <span class="n">message</span><span class="p">(</span><span class="n">MESS_DEBUG</span><span class="p">,</span> <span class="s">&#34;Not truncating %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">currLog</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这里逻辑很简单，直接调用 <em>ftruncate()</em> 清空文件，回到文章开头的问题，mongod进程在写日志，logrotate进程执行 <em>ftruncate()</em>，至少logrotate没有对文件加锁，我觉得是两个进程同时写日志导致问题发生。</p>
+<p>所以，mongodb日志轮转正确的方法是先执行mongodb自带的<code>logRotate</code>命令，然后利用Linux logrotate工具处理转储日志文件。</p>
+<p>在此过程中，学习掌握了文件截断函数 <em>truncate()</em> 和 <em>ftruncate()</em> 。</p>
+<p>还有，<em>truncate()</em> 重置了文件长度，如果其他进程也正在写此文件，文件偏移是怎么处理的？答案是<code>O_APPEND</code>，该选项使得每一次写操作，先将定位到文件末尾，以保证追加写入。</p>
+<hr>
+<p>参考资料</p>
+<ul>
+<li><a href="https://linux.die.net/man/2/open" target="_blank" rel="noopener noreffer">https://linux.die.net/man/2/open</a></li>
+<li><a href="https://linux.die.net/man/2/ftruncate" target="_blank" rel="noopener noreffer">https://linux.die.net/man/2/ftruncate</a></li>
+<li><a href="https://github.com/logrotate/logrotate" target="_blank" rel="noopener noreffer">https://github.com/logrotate/logrotate</a></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2016-10-24</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/logrotate/">logrotate</a>,&nbsp;<a href="/tags/mongodb/">MongoDB</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2016/08/23/mongodb-wiredtiger-performance-tuning/" class="prev" rel="prev" title="WiredTiger运行时参数优化"><i class="fas fa-angle-left fa-fw"></i>WiredTiger运行时参数优化</a>
+            <a href="/posts/2016/11/25/thrfit-serialize-and-deserialize/" class="next" rel="next" title="Thrift对象的序列化与反序列化">Thrift对象的序列化与反序列化<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.74.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":1000},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

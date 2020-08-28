@@ -1,8 +1,8 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>复制集 - 标签 - 只是一个备忘录</title>
+        <title>复制集 - 标签 - Caosiyang&#39;s Blog</title>
         <link>http://caosiyang.github.io/tags/%E5%A4%8D%E5%88%B6%E9%9B%86/</link>
-        <description>复制集 - 标签 - 只是一个备忘录</description>
+        <description>复制集 - 标签 - Caosiyang&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
             <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Fri, 17 Jun 2016 00:00:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/%E5%A4%8D%E5%88%B6%E9%9B%86/" rel="self" type="application/rss+xml" /><item>
     <title>MongoDB多个复制集到分片集群的数据同步</title>

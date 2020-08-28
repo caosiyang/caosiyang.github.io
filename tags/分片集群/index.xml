@@ -1,8 +1,8 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>分片集群 - 标签 - 只是一个备忘录</title>
+        <title>分片集群 - 标签 - Caosiyang&#39;s Blog</title>
         <link>http://caosiyang.github.io/tags/%E5%88%86%E7%89%87%E9%9B%86%E7%BE%A4/</link>
-        <description>分片集群 - 标签 - 只是一个备忘录</description>
+        <description>分片集群 - 标签 - Caosiyang&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
             <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Fri, 14 Jun 2019 00:00:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/%E5%88%86%E7%89%87%E9%9B%86%E7%BE%A4/" rel="self" type="application/rss+xml" /><item>
     <title>MongoDB分片配置的实时同步</title>

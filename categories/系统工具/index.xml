@@ -1,8 +1,8 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>系统工具 - 分类 - 只是一个备忘录</title>
+        <title>系统工具 - 分类 - Caosiyang&#39;s Blog</title>
         <link>http://caosiyang.github.io/categories/%E7%B3%BB%E7%BB%9F%E5%B7%A5%E5%85%B7/</link>
-        <description>系统工具 - 分类 - 只是一个备忘录</description>
+        <description>系统工具 - 分类 - Caosiyang&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
             <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Mon, 27 Jul 2020 00:00:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/categories/%E7%B3%BB%E7%BB%9F%E5%B7%A5%E5%85%B7/" rel="self" type="application/rss+xml" /><item>
     <title>Manjaro Xfce使用笔记</title>

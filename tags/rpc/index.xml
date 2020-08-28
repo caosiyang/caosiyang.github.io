@@ -1,8 +1,8 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>RPC - 标签 - 只是一个备忘录</title>
+        <title>RPC - 标签 - Caosiyang&#39;s Blog</title>
         <link>http://caosiyang.github.io/tags/rpc/</link>
-        <description>RPC - 标签 - 只是一个备忘录</description>
+        <description>RPC - 标签 - Caosiyang&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
             <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Fri, 25 Nov 2016 00:00:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/rpc/" rel="self" type="application/rss+xml" /><item>
     <title>Thrift对象的序列化与反序列化</title>

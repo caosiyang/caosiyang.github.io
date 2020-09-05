@@ -10,7 +10,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://caosiyang.github.io/posts/2020/07/27/manjaro-xfce-notes/" />
 <meta property="article:published_time" content="2020-07-27T00:00:00+08:00" />
-<meta property="article:modified_time" content="2020-07-27T00:00:00+08:00" />
+<meta property="article:modified_time" content="2020-09-05T23:44:20+08:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Manjaro Xfce使用笔记"/>
 <meta name="twitter:description" content="Manjaro Xfce使用过程遇到的一些问题和解决方法。 Python版本 系统预装和默认使用的是Python 3（默认版本通过软连接/usr/bin/pyt"/>
@@ -24,8 +24,8 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/caosiyang.github.io\/posts\/2020\/07\/27\/manjaro-xfce-notes\/"
-        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "Linux, Manjaro, Xfce","wordcount":  492 ,
-        "url": "http:\/\/caosiyang.github.io\/posts\/2020\/07\/27\/manjaro-xfce-notes\/","datePublished": "2020-07-27T00:00:00+08:00","dateModified": "2020-07-27T00:00:00+08:00","publisher": {
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "Linux, Manjaro, Xfce, pacman","wordcount":  865 ,
+        "url": "http:\/\/caosiyang.github.io\/posts\/2020\/07\/27\/manjaro-xfce-notes\/","datePublished": "2020-07-27T00:00:00+08:00","dateModified": "2020-09-05T23:44:20+08:00","publisher": {
             "@type": "Organization",
             "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
                 "@type": "Person",
@@ -74,8 +74,8 @@
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">Manjaro Xfce使用笔记</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E7%B3%BB%E7%BB%9F%E5%B7%A5%E5%85%B7/"><i class="far fa-folder fa-fw"></i>系统工具</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-07-27">2020-07-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 492 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 1 分钟&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-07-27">2020-07-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 865 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
                     <span>目录</span>
@@ -85,6 +85,7 @@
   <ul>
     <li><a href="#python版本">Python版本</a></li>
     <li><a href="#桌面背景和登录界面背景">桌面背景和登录界面背景</a></li>
+    <li><a href="#清理软件包缓存">清理软件包缓存</a></li>
   </ul>
 </nav></div>
             </div><div class="content" id="content"><p>Manjaro Xfce使用过程遇到的一些问题和解决方法。</p>
@@ -102,11 +103,55 @@
 <p>如果你有多个工作区，一定要在第一个工作区执行设置桌面背景图片的操作，否则登录背景不会跟随</p>
 </blockquote>
 <p>不勾选该选项则使用固定的登录背景，不跟随桌面背景，比较省心。</p>
+<h2 id="清理软件包缓存">清理软件包缓存</h2>
+<p>pacman安装软件的过程，先下载软件包压缩文件，再进行安装。
+pacman缓存目录是 <em>/var/cache/pacman/pkg</em> ，内部包含扩展名为 <em>tar.xz</em> 或 <em>tar.zst</em> 的压缩文件，它们不会自动清理（即使卸载软件），随着长期使用，所占用的磁盘空间越来越大。</p>
+<p>清理软件包缓存的工具有pacman和paccache，前者简单暴力，后者更加灵活。</p>
+<p><code>pacman -Sc</code> 删除当前已安装软件包外的所有缓存文件</p>
+<p><code>pacman -Scc</code> 删除所有缓存文件</p>
+<p><code>paccache -r</code> 每个软件（无论安装与否）保留最近3个版本的缓存文件，其余的删除</p>
+<p><code>paccache -rk 1</code> 每个软件（无论安装与否）保留最近1个版本的缓存文件，其余的删除</p>
+<p><code>paccache -ruk 0</code> 删除所有未安装软件的缓存文件</p>
+<p>如果不想手动执行命令删除，可以使用pacman hook在每次安装/更新/删除软件后自动删除缓存。</p>
+<p>新建hook配置文件 <em>/etc/pacman.d/hooks/clean_package_cache.hook</em> ，添加以下内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">[Trigger]
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Type = Package
+Target = *
+
+[Action]
+Description = Cleaning pacman cache...
+When = PostTransaction
+Exec = /usr/bin/paccache -rk 0
+</code></pre></td></tr></table>
+</div>
+</div><hr>
+<p>参考文档</p>
+<ul>
+<li><a href="http://www.ostechnix.com/recommended-way-clean-package-cache-arch-linux/">www.ostechnix.com/recommended-way-clean-package-cache-arch-linux/</a></li>
+</ul>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>更新于 2020-07-27</span>
+                <span>更新于 2020-09-05</span>
             </div>
             <div class="post-info-license"></div>
         </div>
@@ -119,7 +164,7 @@
     </div>
 
     <div class="post-info-more">
-        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/linux/">Linux</a>,&nbsp;<a href="/tags/manjaro/">Manjaro</a>,&nbsp;<a href="/tags/xfce/">Xfce</a></section>
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/linux/">Linux</a>,&nbsp;<a href="/tags/manjaro/">Manjaro</a>,&nbsp;<a href="/tags/xfce/">Xfce</a>,&nbsp;<a href="/tags/pacman/">pacman</a></section>
         <section>
             <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
         </section>

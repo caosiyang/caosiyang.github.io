@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>pacman - 标签 - Caosiyang&#39;s Blog</title>
+        <link>http://caosiyang.github.io/tags/pacman/</link>
+        <description>pacman - 标签 - Caosiyang&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Mon, 27 Jul 2020 00:00:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/pacman/" rel="self" type="application/rss+xml" /><item>
+    <title>Manjaro Xfce使用笔记</title>
+    <link>http://caosiyang.github.io/posts/2020/07/27/manjaro-xfce-notes/</link>
+    <pubDate>Mon, 27 Jul 2020 00:00:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2020/07/27/manjaro-xfce-notes/</guid>
+    <description><![CDATA[Manjaro Xfce使用过程遇到的一些问题和解决方法。 Python版本 系统预装和默认使用的是Python 3（默认版本通过软连接/usr/bin/pyt]]></description>
+</item></channel>
+</rss>

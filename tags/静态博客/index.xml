@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>静态博客 - 标签 - Caosiyang&#39;s Blog</title>
+        <link>http://caosiyang.github.io/tags/%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/</link>
+        <description>静态博客 - 标签 - Caosiyang&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Sat, 29 Aug 2020 16:32:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/" rel="self" type="application/rss+xml" /><item>
+    <title>从Jekyll迁移到Hugo</title>
+    <link>http://caosiyang.github.io/posts/2020/08/29/migrating-from-jekyll-to-hugo/</link>
+    <pubDate>Sat, 29 Aug 2020 16:32:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2020/08/29/migrating-from-jekyll-to-hugo/</guid>
+    <description><![CDATA[最终还是投入Hugo的怀抱，原因是： 熟悉和欣赏Go 发现一个超级喜欢的Hugo主题 - LoveIt 本文记录下博客从Jekyll迁移到Hugo的过程。 创建项]]></description>
+</item></channel>
+</rss>

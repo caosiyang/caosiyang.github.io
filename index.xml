@@ -4,9 +4,23 @@
         <link>http://caosiyang.github.io/</link>
         <description>Caosiyang&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
-            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Wed, 29 Jul 2020 00:00:00 &#43;0800</lastBuildDate>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Sun, 30 Aug 2020 19:25:00 &#43;0800</lastBuildDate>
             <atom:link href="http://caosiyang.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>PyYAML笔记</title>
+    <link>http://caosiyang.github.io/posts/2020/08/30/pyyaml/</link>
+    <pubDate>Sun, 30 Aug 2020 19:25:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2020/08/30/pyyaml/</guid>
+    <description><![CDATA[最近使用PyYAML处理YAML文件，做个记录。 关于Node 在PyYAML中，Node作为YAML信息模型的实体，有三种类型： [标量]^(s]]></description>
+</item><item>
+    <title>从Jekyll迁移到Hugo</title>
+    <link>http://caosiyang.github.io/posts/2020/08/29/migrating-from-jekyll-to-hugo/</link>
+    <pubDate>Sat, 29 Aug 2020 16:32:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2020/08/29/migrating-from-jekyll-to-hugo/</guid>
+    <description><![CDATA[最终还是投入Hugo的怀抱，原因是： 熟悉和欣赏Go 发现一个超级喜欢的Hugo主题 - LoveIt 本文记录下博客从Jekyll迁移到Hugo的过程。 创建项]]></description>
+</item><item>
     <title>C&#43;&#43;类与模板</title>
     <link>http://caosiyang.github.io/posts/2020/07/29/cpp-template-notes/</link>
     <pubDate>Wed, 29 Jul 2020 00:00:00 &#43;0800</pubDate>
@@ -62,19 +76,5 @@
     <author>作者</author>
     <guid>http://caosiyang.github.io/posts/2019/06/14/sharding-config-sync/</guid>
     <description><![CDATA[本文内容适用于MongoDB v3.2及以上版本 数据库分片 集合分片 实时同步原理 分片集群在config server存储集群的各种配置信息，比如节]]></description>
-</item><item>
-    <title>Thunderbird邮件客户端配置</title>
-    <link>http://caosiyang.github.io/posts/2019/04/29/thunderbird/</link>
-    <pubDate>Mon, 29 Apr 2019 00:00:00 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>http://caosiyang.github.io/posts/2019/04/29/thunderbird/</guid>
-    <description><![CDATA[Thunderbird是一款好用的Linux邮件客户端。 账户 添加账户，窗口左侧Local Folders 右键选择 settings 进入account settings，左下]]></description>
-</item><item>
-    <title>Vim在tmux下的配色方案不兼容问题</title>
-    <link>http://caosiyang.github.io/posts/2018/07/24/tmux-vim-color/</link>
-    <pubDate>Tue, 24 Jul 2018 00:00:00 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>http://caosiyang.github.io/posts/2018/07/24/tmux-vim-color/</guid>
-    <description><![CDATA[平时使用SecureCRT远程连接到CentOS开发机，Vim用了jellybeans配色方案，配置如下： 1 2 set t_Co=256 colorscheme jellybeans bash下一切正常，但]]></description>
 </item></channel>
 </rss>

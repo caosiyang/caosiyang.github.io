@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>PyYAML笔记 - Caosiyang&#39;s Blog</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="PyYAML笔记" />
+<meta property="og:description" content="最近使用PyYAML处理YAML文件，做个记录。 关于Node 在PyYAML中，Node作为YAML信息模型的实体，有三种类型： [标量]^(s" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2020/08/30/pyyaml/" />
+<meta property="article:published_time" content="2020-08-30T19:25:00+08:00" />
+<meta property="article:modified_time" content="2020-08-30T19:25:00+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="PyYAML笔记"/>
+<meta name="twitter:description" content="最近使用PyYAML处理YAML文件，做个记录。 关于Node 在PyYAML中，Node作为YAML信息模型的实体，有三种类型： [标量]^(s"/>
+<meta name="application-name" content="Caosiyang&#39;s Blog">
+<meta name="apple-mobile-web-app-title" content="Caosiyang&#39;s Blog"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2020/08/30/pyyaml/" /><link rel="prev" href="http://caosiyang.github.io/posts/2020/08/29/migrating-from-jekyll-to-hugo/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "PyYAML笔记",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/caosiyang.github.io\/posts\/2020\/08\/30\/pyyaml\/"
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "YAML, PyYAML, Python","wordcount":  1624 ,
+        "url": "http:\/\/caosiyang.github.io\/posts\/2020\/08\/30\/pyyaml\/","datePublished": "2020-08-30T19:25:00+08:00","dateModified": "2020-08-30T19:25:00+08:00","publisher": {
+            "@type": "Organization",
+            "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "caosiyang"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Caosiyang&#39;s Blog">Caosiyang&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Caosiyang&#39;s Blog">Caosiyang&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/" title="">首页</a><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">PyYAML笔记</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href=""><i class="far fa-folder fa-fw"></i></a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-08-30">2020-08-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1624 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#关于node">关于Node</a></li>
+    <li><a href="#关于constructor和representer">关于constructor和representer</a>
+      <ul>
+        <li><a href="#constructor">constructor</a></li>
+        <li><a href="#representer">representer</a></li>
+      </ul>
+    </li>
+    <li><a href="#关于yamldump参数">关于yaml.dump()参数</a></li>
+    <li><a href="#关于tag">关于Tag</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>最近使用PyYAML处理YAML文件，做个记录。</p>
+<h2 id="关于node">关于Node</h2>
+<p>在PyYAML中，Node作为YAML信息模型的实体，有三种类型：</p>
+<ul>
+<li><strong><ruby>标量<rt>scalar</rt></ruby></strong> <code>ScalarNode(tag, value, style, start_mark, end_mark)</code></li>
+<li><strong><ruby>序列<rt>sequence</rt></ruby></strong> <code>SequenceNode(tag, value, flow_style, start_mark, end_mark)</code></li>
+<li><strong><ruby>映射<rt>mapping</rt></ruby></strong> <code>MappingNode(tag, value, flow_style, start_mark, end_mark)</code></li>
+</ul>
+<p>node由Composer产生，通过Serializer可将其序列化为YAML流。</p>
+<p>示例代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Python" data-lang="Python"><span class="n">content</span> <span class="o">=</span> <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">title: 这是一个标题
+</span><span class="s2">categories:
+</span><span class="s2">- 分类1
+</span><span class="s2">tags:
+</span><span class="s2">- 标签1
+</span><span class="s2">- 标签2
+</span><span class="s2">&#34;&#34;&#34;</span>
+
+<span class="n">node</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">stream</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>输出：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">MappingNode(tag=&#39;tag:yaml.org,2002:map&#39;, value=[(ScalarNode(tag=&#39;tag:yaml.org,2002:str&#39;, value=&#39;title&#39;), ScalarNode(tag=&#39;tag:yaml.org,2002:str&#39;, value=&#39;这是一个标题&#39;)), (ScalarNode(tag=&#39;tag:yaml.org,2002:str&#39;, value=&#39;categories&#39;), SequenceNode(tag=&#39;tag:yaml.org,2002:seq&#39;, value=[ScalarNode(tag=&#39;tag:yaml.org,2002:str&#39;, value=&#39;分类1&#39;)])), (ScalarNode(tag=&#39;tag:yaml.org,2002:str&#39;, value=&#39;tags&#39;), SequenceNode(tag=&#39;tag:yaml.org,2002:seq&#39;, value=[ScalarNode(tag=&#39;tag:yaml.org,2002:str&#39;, value=&#39;标签1&#39;), ScalarNode(tag=&#39;tag:yaml.org,2002:str&#39;, value=&#39;标签2&#39;)]))])
+
+title: &#34;\u8FD9\u662F\u4E00\u4E2A\u6807\u9898&#34;
+categories:
+- &#34;\u5206\u7C7B1&#34;
+tags:
+- &#34;\u6807\u7B7E1&#34;
+- &#34;\u6807\u7B7E2&#34;
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="关于constructor和representer">关于constructor和representer</h2>
+<p>constructor之于Loading，representer之于Dumping，二者功能相反。</p>
+<h3 id="constructor">constructor</h3>
+<p>用于将一个YAML节点转换为Python对象。</p>
+<p><code>yaml.add_constructor(tag, constructor, Loader=Loader)</code>为目标tag指定constructor；constructor的参数包括一个Loader实例和一个YAML节点，返回值是一个Python对象。</p>
+<p>Loader提供了获取YAML节点值的方法（该值用于构造Python对象）：</p>
+<ul>
+<li>
+<p>Loader.construct_scalar(node)</p>
+<p>验证目标YAML节点是<strong><ruby>标量节点<rt>scalar node</rt></ruby></strong>并返回其值</p>
+</li>
+<li>
+<p>Loader.construct_sequence(node)</p>
+<p>验证目标YAML节点是<strong><ruby>序列节点<rt>sequence node</rt></ruby></strong>并返回其值</p>
+</li>
+<li>
+<p>Loader.construct_mapping(node)</p>
+<p>验证目标YAML节点是<strong><ruby>映射节点<rt>mapping node</rt></ruby></strong>并返回其值</p>
+</li>
+</ul>
+<p>示例代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Python" data-lang="Python"><span class="k">class</span> <span class="nc">Post</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">categories</span><span class="p">,</span> <span class="n">tags</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">categories</span> <span class="o">=</span> <span class="n">categories</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tags</span> <span class="o">=</span> <span class="n">tags</span>
+
+<span class="k">def</span> <span class="nf">post_constructor</span><span class="p">(</span><span class="n">loader</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="n">mapping_value</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">construct_mapping</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Post</span><span class="p">(</span><span class="n">mapping_value</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">],</span> <span class="n">mapping_value</span><span class="p">[</span><span class="s1">&#39;categories&#39;</span><span class="p">],</span> <span class="n">mapping_value</span><span class="p">[</span><span class="s1">&#39;tags&#39;</span><span class="p">])</span>
+
+
+<span class="n">yaml</span><span class="o">.</span><span class="n">add_constructor</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;!Post&#39;</span><span class="p">,</span> <span class="n">post_constructor</span><span class="p">)</span>	
+<span class="n">res</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&#34;&#34;&#34;
+</span><span class="s2">!Post
+</span><span class="s2">title: 这是一个标题
+</span><span class="s2">categories:
+</span><span class="s2">- 分类1
+</span><span class="s2">tags:
+</span><span class="s2">- 标签1
+</span><span class="s2">- 标签2
+</span><span class="s2">&#34;&#34;&#34;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">res</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">categories</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>输出：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">&lt;class &#39;__main__.Post&#39;&gt;
+这是一个标题
+[&#39;分类1&#39;]
+[&#39;标签1&#39;, &#39;标签2&#39;]
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="representer">representer</h3>
+<p>用于将一个Python对象转换为YAML节点。</p>
+<p><code>yaml.add_representer(data_type, representer, Dumper=Dumper)</code>为指定类型的对象指定representer；representer的参数包含一个Dumper实例和一个Python对象，返回值是一个YAML节点。</p>
+<p>Dumper提供了构造YAML节点的方法：</p>
+<ul>
+<li>
+<p>Dumper.represent_scalar(tag, value, style=None)</p>
+<p>返回具有指定tag和value的<strong><ruby>标量节点<rt>scalar node</rt></ruby></strong></p>
+</li>
+<li>
+<p>Dumper.represent_sequence(tag, sequence, flow_style=None)</p>
+<p>返回具有指定tag和value的<strong><ruby>序列节点<rt>sequence node</rt></ruby></strong></p>
+</li>
+<li>
+<p>Dumper.represent_mapping(tag, mapping, flow_style=None)</p>
+<p>返回具有指定tag和value的<strong><ruby>映射节点<rt>mapping node</rt></ruby></strong></p>
+</li>
+</ul>
+<p>示例代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Python" data-lang="Python"><span class="k">class</span> <span class="nc">Post</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">categories</span><span class="p">,</span> <span class="n">tags</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">categories</span> <span class="o">=</span> <span class="n">categories</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tags</span> <span class="o">=</span> <span class="n">tags</span>
+
+<span class="k">def</span> <span class="nf">post_representer</span><span class="p">(</span><span class="n">dumper</span><span class="p">,</span> <span class="n">post</span><span class="p">):</span>
+    <span class="n">attrs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">attrs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="n">post</span><span class="o">.</span><span class="n">title</span><span class="p">))</span>
+    <span class="n">attrs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;categories&#39;</span><span class="p">,</span> <span class="n">post</span><span class="o">.</span><span class="n">categories</span><span class="p">))</span>
+    <span class="n">attrs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;tags&#39;</span><span class="p">,</span> <span class="n">post</span><span class="o">.</span><span class="n">tags</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">dumper</span><span class="o">.</span><span class="n">represent_mapping</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;!Post&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="p">)</span>
+
+<span class="n">post</span> <span class="o">=</span> <span class="n">Post</span><span class="p">(</span><span class="s1">&#39;这是一个标题&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;分类1&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;标签1&#39;</span><span class="p">,</span> <span class="s1">&#39;标签2&#39;</span><span class="p">])</span>
+<span class="n">yaml</span><span class="o">.</span><span class="n">add_representer</span><span class="p">(</span><span class="n">Post</span><span class="p">,</span> <span class="n">post_representer</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">post</span><span class="p">,</span> <span class="n">allow_unicode</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>输出：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">!Post
+title: 这是一个标题
+categories:
+- 分类1
+tags:
+- 标签1
+- 标签2
+</code></pre></td></tr></table>
+</div>
+</div><p>可以看到输出内容带有类型tag，如果希望不附带tag，需使用YAML标准类型，在本例中<code>dumper.represent_mapping(u'tag:yaml.org,2002:map', attrs)</code>。</p>
+<p>YAML标准类型tag可以参考 <a href="https://yaml.org/type/index.html">https://yaml.org/type/index.html</a> 。</p>
+<h2 id="关于yamldump参数">关于yaml.dump()参数</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Python" data-lang="Python"><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">Dumper</span><span class="o">=</span><span class="n">Dumper</span><span class="p">,</span>
+    <span class="n">default_style</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+    <span class="n">default_flow_style</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+    <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="c1"># encoding=None (Python 3)</span>
+    <span class="n">explicit_start</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+    <span class="n">explicit_end</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+    <span class="n">tags</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+    <span class="n">canonical</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+    <span class="n">indent</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+    <span class="n">width</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+    <span class="n">allow_unicode</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+    <span class="n">line_break</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>已知参数用法：</p>
+<ul>
+<li>
+<p><code>allow_unicode=True</code> 正常显示Unicode字符，比如中文</p>
+</li>
+<li>
+<p><code>default_flow_style=True</code> 紧凑输出为一行</p>
+</li>
+<li>
+<p><code>canonical=True</code> 以<strong>Canonical Form</strong>格式输出</p>
+</li>
+</ul>
+<h2 id="关于tag">关于Tag</h2>
+<p>YAML使用tag标识数据类型，全局tag采用<code>tag:</code>起始的URL格式，本地tag采用<code>!</code>起始的格式，格式说明参考下面官方文档：</p>
+<blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">Tag property: # Usually unspecified.
+    none    : Unspecified tag (automatically resolved by application).
+    &#39;!&#39;     : Non-specific tag (by default, &#34;!!map&#34;/&#34;!!seq&#34;/&#34;!!str&#34;).
+    &#39;!foo&#39;  : Primary (by convention, means a local &#34;!foo&#34; tag).
+    &#39;!!foo&#39; : Secondary (by convention, means &#34;tag:yaml.org,2002:foo&#34;).
+    &#39;!h!foo&#39;: Requires &#34;%TAG !h! &lt;prefix&gt;&#34; (and then means &#34;&lt;prefix&gt;foo&#34;).
+    &#39;!&lt;foo&gt;&#39;: Verbatim tag (always means &#34;foo&#34;)
+</code></pre></td></tr></table>
+</div>
+</div></blockquote>
+<p>其中，<code>!!</code>是<code>tag:yaml.org,2002:</code>的缩写，dump内容所包含的tag采用缩写格式。</p>
+<hr>
+<p>参考文档</p>
+<ul>
+<li><a href="https://pyyaml.org/wiki/PyYAMLDocumentation">https://pyyaml.org/wiki/PyYAMLDocumentation</a></li>
+<li><a href="https://yaml.org/type/index.html">https://yaml.org/type/index.html</a></li>
+<li><a href="https://yaml.org/refcard.html">https://yaml.org/refcard.html</a></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-08-30</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/yaml/">YAML</a>,&nbsp;<a href="/tags/pyyaml/">PyYAML</a>,&nbsp;<a href="/tags/python/">Python</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2020/08/29/migrating-from-jekyll-to-hugo/" class="prev" rel="prev" title="从Jekyll迁移到Hugo"><i class="fas fa-angle-left fa-fw"></i>从Jekyll迁移到Hugo</a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.74.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":1000},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

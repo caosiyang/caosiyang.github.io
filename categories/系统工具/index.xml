@@ -4,7 +4,14 @@
         <link>http://caosiyang.github.io/categories/%E7%B3%BB%E7%BB%9F%E5%B7%A5%E5%85%B7/</link>
         <description>系统工具 - 分类 - Caosiyang&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
-            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Mon, 27 Jul 2020 00:00:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/categories/%E7%B3%BB%E7%BB%9F%E5%B7%A5%E5%85%B7/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Sat, 29 Aug 2020 16:32:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/categories/%E7%B3%BB%E7%BB%9F%E5%B7%A5%E5%85%B7/" rel="self" type="application/rss+xml" /><item>
+    <title>从Jekyll迁移到Hugo</title>
+    <link>http://caosiyang.github.io/posts/2020/08/29/migrating-from-jekyll-to-hugo/</link>
+    <pubDate>Sat, 29 Aug 2020 16:32:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2020/08/29/migrating-from-jekyll-to-hugo/</guid>
+    <description><![CDATA[最终还是投入Hugo的怀抱，原因是： 熟悉和欣赏Go 发现一个超级喜欢的Hugo主题 - LoveIt 本文记录下博客从Jekyll迁移到Hugo的过程。 创建项]]></description>
+</item><item>
     <title>Manjaro Xfce使用笔记</title>
     <link>http://caosiyang.github.io/posts/2020/07/27/manjaro-xfce-notes/</link>
     <pubDate>Mon, 27 Jul 2020 00:00:00 &#43;0800</pubDate>
@@ -67,12 +74,5 @@
     <author>作者</author>
     <guid>http://caosiyang.github.io/posts/2018/02/12/git-rebase/</guid>
     <description><![CDATA[Git的rebase命令用于操作commits，包括合并、删除、提交内容修改、注释修改等。 比如实现了一个新功能，开发过程中提了多个commi]]></description>
-</item><item>
-    <title>Linux下使用Vim配置Python开发环境</title>
-    <link>http://caosiyang.github.io/posts/2017/12/24/python-vim/</link>
-    <pubDate>Sun, 24 Dec 2017 00:00:00 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>http://caosiyang.github.io/posts/2017/12/24/python-vim/</guid>
-    <description><![CDATA[Linux下使用Vim配置Python开发环境，我能想到的，首先要有语法高亮，然后代码自动补全，提高编码效率，再就是语法错误检查，便于纠错，]]></description>
 </item></channel>
 </rss>

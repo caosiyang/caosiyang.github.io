@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>PyYAML - 标签 - Caosiyang&#39;s Blog</title>
+        <link>http://caosiyang.github.io/tags/pyyaml/</link>
+        <description>PyYAML - 标签 - Caosiyang&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Sun, 30 Aug 2020 19:25:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/pyyaml/" rel="self" type="application/rss+xml" /><item>
+    <title>PyYAML笔记</title>
+    <link>http://caosiyang.github.io/posts/2020/08/30/pyyaml/</link>
+    <pubDate>Sun, 30 Aug 2020 19:25:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2020/08/30/pyyaml/</guid>
+    <description><![CDATA[最近使用PyYAML处理YAML文件，做个记录。 关于Node 在PyYAML中，Node作为YAML信息模型的实体，有三种类型： [标量]^(s]]></description>
+</item></channel>
+</rss>

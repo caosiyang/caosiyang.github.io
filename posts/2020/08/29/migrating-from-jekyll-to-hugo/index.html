@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>从Jekyll迁移到Hugo - Caosiyang&#39;s Blog</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="从Jekyll迁移到Hugo" />
+<meta property="og:description" content="最终还是投入Hugo的怀抱，原因是： 熟悉和欣赏Go 发现一个超级喜欢的Hugo主题 - LoveIt 本文记录下博客从Jekyll迁移到Hugo的过程。 创建项" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2020/08/29/migrating-from-jekyll-to-hugo/" />
+<meta property="article:published_time" content="2020-08-29T16:32:00+08:00" />
+<meta property="article:modified_time" content="2020-08-29T16:32:00+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="从Jekyll迁移到Hugo"/>
+<meta name="twitter:description" content="最终还是投入Hugo的怀抱，原因是： 熟悉和欣赏Go 发现一个超级喜欢的Hugo主题 - LoveIt 本文记录下博客从Jekyll迁移到Hugo的过程。 创建项"/>
+<meta name="application-name" content="Caosiyang&#39;s Blog">
+<meta name="apple-mobile-web-app-title" content="Caosiyang&#39;s Blog"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2020/08/29/migrating-from-jekyll-to-hugo/" /><link rel="prev" href="http://caosiyang.github.io/posts/2020/07/29/cpp-template-notes/" /><link rel="next" href="http://caosiyang.github.io/posts/2020/08/30/pyyaml/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "从Jekyll迁移到Hugo",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/caosiyang.github.io\/posts\/2020\/08\/29\/migrating-from-jekyll-to-hugo\/"
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "Hugo, Jekyll, 静态博客","wordcount":  2407 ,
+        "url": "http:\/\/caosiyang.github.io\/posts\/2020\/08\/29\/migrating-from-jekyll-to-hugo\/","datePublished": "2020-08-29T16:32:00+08:00","dateModified": "2020-08-29T16:32:00+08:00","publisher": {
+            "@type": "Organization",
+            "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "caosiyang"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Caosiyang&#39;s Blog">Caosiyang&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Caosiyang&#39;s Blog">Caosiyang&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/" title="">首页</a><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">从Jekyll迁移到Hugo</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E7%B3%BB%E7%BB%9F%E5%B7%A5%E5%85%B7/"><i class="far fa-folder fa-fw"></i>系统工具</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-08-29">2020-08-29</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2407 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#创建项目">创建项目</a></li>
+    <li><a href="#文章迁移">文章迁移</a></li>
+    <li><a href="#url规则">URL规则</a></li>
+    <li><a href="#github-pages发布">GitHub Pages发布</a></li>
+    <li><a href="#博客历程回顾">博客历程回顾</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>最终还是投入Hugo的怀抱，原因是：</p>
+<ol>
+<li>熟悉和欣赏Go</li>
+<li>发现一个超级喜欢的Hugo主题 - <strong><a href="https://themes.gohugo.io/loveit/" target="_blank" rel="noopener noreffer">LoveIt</a></strong></li>
+</ol>
+<p>本文记录下博客从Jekyll迁移到Hugo的过程。</p>
+<h2 id="创建项目">创建项目</h2>
+<p>安装Hugo</p>
+<p><code>sudo pacman -S hugo</code></p>
+<p>创建名称为Demo的新项目</p>
+<p><code>hugo new site Demo</code></p>
+<p>添加主题（此为必需步骤，可以选择其他主题）</p>
+<p><code>cd Demo &amp;&amp; git init &amp;&amp; git submodule add https://github.com/dillonzq/LoveIt.git themes/LoveIt</code></p>
+<blockquote>
+<p>也可以自行下载主题，放置于 <em>Demo/themes</em> 目录下</p>
+<p>但作为submodule添加进Git项目是一个更好的方式</p>
+</blockquote>
+<p>创建示例文章</p>
+<p><code>hugo new posts/first.md</code></p>
+<blockquote>
+<p>产生的文件位于是 <em>Demo/content/posts/first.md</em></p>
+</blockquote>
+<p>启动Hugo服务</p>
+<p><code>hugo server</code></p>
+<p>本地预览访问 <a href="http://localhost:1313/" target="_blank" rel="noopener noreffer">http://localhost:1313/</a></p>
+<h2 id="文章迁移">文章迁移</h2>
+<p>Hugo提供了迁移命令<code>import</code>，可以方便地将Jekyll项目转换为Hugo项目，包括文章和其他静态资源文件。</p>
+<p>命令格式是<code>hugo import jekyll JEKYLL_ROOT_PATH TARGET_PATH</code>，其中 <em>JEKYLL_ROOT_PATH</em> 是Jekyll项目主目录，<em>TARGET_PATH</em> 是新生成的Hugo项目目录。</p>
+<p>以我的一篇文章为例，原Jekyll项目中的位置是 <em>_post/2020-07-29-cpp-template-notes.md</em>，Hugo项目中的位置是 <em>content/post/2020-07-29-cpp-template-notes.md</em>，需要注意的是，<strong>迁移前后文件名保持一致</strong>，划重点后面用到。</p>
+<p>Jekyll Front Matter</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-YAML" data-lang="YAML">---<span class="w">
+</span><span class="w"></span><span class="k">layout</span><span class="p">:</span><span class="w"> </span>post<span class="w">
+</span><span class="w"></span><span class="k">title</span><span class="p">:</span><span class="w"> </span>C++类与模板<span class="w">
+</span><span class="w"></span><span class="k">categories</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span>编程语言<span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="w"></span><span class="k">tags</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span>C++<span class="p">,</span><span class="w"> </span>Template<span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="w"></span>---<span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>Hugo Front Matter</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-YAML" data-lang="YAML">---<span class="w">
+</span><span class="w"></span><span class="k">categories</span><span class="p">:</span><span class="w">
+</span><span class="w"></span>- 编程语言<span class="w">
+</span><span class="w"></span><span class="k">date</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;2020-07-29T00:00:00Z&#34;</span><span class="w">
+</span><span class="w"></span><span class="k">tags</span><span class="p">:</span><span class="w">
+</span><span class="w"></span>- C++<span class="w">
+</span><span class="w"></span>- Template<span class="w">
+</span><span class="w"></span><span class="k">title</span><span class="p">:</span><span class="w"> </span>C++类与模板<span class="w">
+</span><span class="w"></span>---<span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>同时需要注意，<strong>Jekyll和Hugo在FrontMatter变量的定义有区别</strong>，划重点。</p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left">Jekyll</th>
+<th align="left">Hugo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>date</code></td>
+<td align="left">post文件名或FrontMatter指定，FrontMatter重写前者</td>
+<td align="left">FrontMatter指定</td>
+</tr>
+<tr>
+<td align="left"><code>title</code></td>
+<td align="left">post文件名指定</td>
+<td align="left">FrontMatter指定，即文章标题</td>
+</tr>
+<tr>
+<td align="left"><code>filename</code></td>
+<td align="left">N/A</td>
+<td align="left">即文件名（不包含扩展名）</td>
+</tr>
+<tr>
+<td align="left"><code>section</code></td>
+<td align="left">N/A</td>
+<td align="left">content下的目录名</td>
+</tr>
+</tbody>
+</table>
+<p>以 <em>2020-07-29-cpp-template-notes.md</em> 为例，</p>
+<p>对于Jekyll，<code>date</code>是 <em>2020-07-29</em>，<code>title</code>是 <em>cpp-template-notes</em>；</p>
+<p>对于Hugo，<code>date</code>是 <em>2020-07-29</em>，<code>title</code>是 <em>C++类与模板</em>，<code>filename</code>是 <em>2020-07-29-cpp-template-notes</em>。</p>
+<h2 id="url规则">URL规则</h2>
+<p>URL规则在全局配置文件（config.toml）的 <em>permalinks</em> 进行配置，也可以使用文章HugoFrontMatter的 <code>url</code> 变量指定（优先级高于前者）。</p>
+<p>需要保证，<strong>无论URL规则是否变化，都能通过原始URL访问到文章</strong>。</p>
+<p>对于迁移后的三种情形：</p>
+<ul>
+<li>
+<p>保持原有URL规则</p>
+<p>如果原Jekyll的permalink配置使用 <em>title</em> 变量，相应地在Hugo下使用 <em>filename</em> 变量，由于迁移前后文件名保持一致，这将破坏原有的URL规则，可以采取两个方案：</p>
+<ol>
+<li>使用HugoFrontMatter的 <em>url</em> 变量指定原始URL</li>
+<li>去除迁移后文件名的date部分</li>
+</ol>
+<p>个人采用第一种，因为通过文件名可以区分哪些是迁移前的文章。</p>
+</li>
+<li>
+<p>老文章保持原有URL规则，新文章采用新的URL规则</p>
+<p>老文章使用HugoFrontMatter的 <em>url</em> 变量指定原始URL，新文章采用全局 <em>permalinks</em> 配置，这种方式实现起来最简单，但URL规则不统一，看着很不规范，不推荐！</p>
+</li>
+<li>
+<p>采用新的URL规则</p>
+<p>如果原Jekyll的permalink配置使用 <em>title</em> 变量，使用HugoFrontMatter的 <code>url</code> 变量指定新URL；</p>
+<p>使用HugoFrontMatter的 <code>aliases</code> 变量指定原始URL，实现页面重定向。</p>
+</li>
+</ul>
+<p>对于我的博客，原Jekyll的URL规则是</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-YAML" data-lang="YAML"><span class="k">permalink</span><span class="p">:</span><span class="w"> </span>/<span class="p">:</span>year/<span class="p">:</span>month/<span class="p">:</span>day/<span class="p">:</span>title<span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>在Hugo下使用了新的URL规则</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-TOML" data-lang="TOML"><span class="p">[</span><span class="nx">permalinks</span><span class="p">]</span>
+  <span class="nx">posts</span> <span class="p">=</span> <span class="s2">&#34;/:section/:year/:month/:day/:filename/&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>JekyllFrontMatter</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-YAML" data-lang="YAML">---<span class="w">
+</span><span class="w"></span><span class="k">layout</span><span class="p">:</span><span class="w"> </span>post<span class="w">
+</span><span class="w"></span><span class="k">title</span><span class="p">:</span><span class="w"> </span>C++类与模板<span class="w">
+</span><span class="w"></span><span class="k">categories</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span>编程语言<span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="w"></span><span class="k">tags</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span>C++<span class="p">,</span><span class="w"> </span>Template<span class="w"> </span><span class="p">]</span><span class="w">
+</span><span class="w"></span>---<span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>HugoFrontMatter</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-YAML" data-lang="YAML">---<span class="w">
+</span><span class="w"></span><span class="k">title</span><span class="p">:</span><span class="w"> </span>C++类与模板<span class="w">
+</span><span class="w"></span><span class="k">categories</span><span class="p">:</span><span class="w">
+</span><span class="w"></span>- 编程语言<span class="w">
+</span><span class="w"></span><span class="k">tags</span><span class="p">:</span><span class="w">
+</span><span class="w"></span>- C++<span class="w">
+</span><span class="w"></span>- Template<span class="w">
+</span><span class="w"></span><span class="k">date</span><span class="p">:</span><span class="w"> </span><span class="ld">2020-07-29 00:00:00</span><span class="m">+08</span><span class="p">:</span><span class="m">00</span><span class="w">
+</span><span class="w"></span><span class="k">url</span><span class="p">:</span><span class="w"> </span>/posts/<span class="m">2020</span>/<span class="m">07</span>/<span class="m">29</span>/cpp-template-notes/<span class="w">
+</span><span class="w"></span><span class="k">aliases</span><span class="p">:</span><span class="w">
+</span><span class="w"></span>- /<span class="m">2020</span>/<span class="m">07</span>/<span class="m">29</span>/cpp-template-notes/<span class="w">
+</span><span class="w"></span>---<span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>Hugo import命令无法满足我的场景，而且HugoFrontMatter变量按照首字符顺序排序，看着实在难受，本着轮子能造就造的原则，写了一个转换工具，仅对_posts下文章进行转换，有需要可以尝试下，项目地址是 <a href="https://github.com/caosiyang/convert-jekyll-to-hugo">https://github.com/caosiyang/convert-jekyll-to-hugo</a> ，嗯，这个硬广阔以：）</p>
+<h2 id="github-pages发布">GitHub Pages发布</h2>
+<p>执行<code>hugo</code>命令，在 <em>public</em> 目录下生成静态网站，push里面的内容到github就可以了。</p>
+<p>Hugo官方提供的方案是submodule方式，如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Shell" data-lang="Shell">$ rm -rf public
+$ git submodule add -b master https://github.com/&lt;USERNAME&gt;/&lt;USERNAME&gt;.github.io.git public
+$ hugo
+</code></pre></td></tr></table>
+</div>
+</div><p>发布新的Hugo页面时遇到了问题，顺便说一下吧。</p>
+<p>之前我的博客项目已经托管在GitHub，我把原repo重命名了（暂且称“A&rdquo;），新建一个repo（暂且称为“B”），名字是<USERNAME>.github.io，然后push页面，之后浏览，“首页/分类/标签/关于”页面都是正常的，而“文章”页面还是原始的Jekyll生成的页面，初以为是缓存问题，过了一晚还这样，怀疑跟A有管，把A删除，问题仍然存在，之后又把B删除，重新建repo和push，恢复正常。</p>
+<h2 id="博客历程回顾">博客历程回顾</h2>
+<p>最初产生写博客的想法是2011年，试用了当时几个流行的技术博客平台（csdn/cnblogs/cppblog），最终选择了cnblogs。</p>
+<p>2015年了解到GitHub Pages可以搭建博客，当时已经在用GitHub，所以不假思索地转过去，使用Jekyll搭建了新博客，看了很多主题，选了一个并进行小改，但并不满意，最后抱着学习前端的想法，自己写了一个相当相当粗糙的主题，凑合用着了。</p>
+<p>后来先后了解到Hexo和Hugo，同为热门的静态网站生成工具，前者node.js实现，后者Go实现，看过它们的主题，感觉都比Jekyll的好看，也很玄学，但迟迟没有折腾，现在想来，能坚持更博就不错了。</p>
+<p>2020年是不平凡的一年，新冠疫情爆发，我的工作生活发生了很大变化，在一段闲暇的日子里，又开始琢磨博客，在看到一个相当中意的Hugo主题，坚定了我转到Hugo的决心，于是有了现在的博客。</p>
+<hr>
+<p>参考文档</p>
+<ol>
+<li><a href="https://gohugo.io/tools/migrations/">https://gohugo.io/tools/migrations/</a></li>
+<li><a href="https://gohugo.io/commands/hugo_import_jekyll/">https://gohugo.io/commands/hugo_import_jekyll/</a></li>
+<li><a href="https://gohugo.io/hosting-and-deployment/hosting-on-github/">https://gohugo.io/hosting-and-deployment/hosting-on-github/</a></li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-08-29</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/hugo/">Hugo</a>,&nbsp;<a href="/tags/jekyll/">Jekyll</a>,&nbsp;<a href="/tags/%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2/">静态博客</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2020/07/29/cpp-template-notes/" class="prev" rel="prev" title="C&#43;&#43;类与模板"><i class="fas fa-angle-left fa-fw"></i>C&#43;&#43;类与模板</a>
+            <a href="/posts/2020/08/30/pyyaml/" class="next" rel="next" title="PyYAML笔记">PyYAML笔记<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.74.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":1000},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

@@ -24,7 +24,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/caosiyang.github.io\/posts\/2017\/09\/12\/pymongo-bugfix\/"
-        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "MongoDB, pymongo","wordcount":  1201 ,
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "MongoDB, pymongo","wordcount":  1200 ,
         "url": "http:\/\/caosiyang.github.io\/posts\/2017\/09\/12\/pymongo-bugfix\/","datePublished": "2017-09-12T00:00:00+08:00","dateModified": "2020-08-27T17:51:51+08:00","publisher": {
             "@type": "Organization",
             "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
@@ -74,7 +74,7 @@
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">pymongo bugfix后记</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><i class="far fa-folder fa-fw"></i>数据库</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2017-09-12">2017-09-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1201 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2017-09-12">2017-09-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1200 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -82,7 +82,7 @@
                     <span><i class="details-icon fas fa-angle-right"></i></span>
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
-            </div><div class="content" id="content"><p>有网友反馈py-mongo-sync同步异常，检查发现curosr[0]取查询结果第一个文档时报错&quot;no such item for Cursor instance&rdquo;。</p>
+            </div><div class="content" id="content"><p>有网友反馈py-mongo-sync同步异常，检查发现curosr[0]取查询结果第一个文档时报错&quot;no such item for Cursor instance&quot;。</p>
 <p>这里的逻辑是，根据timestamp查询oplog起始位置，cursor类型是TAILABLE，然后取出第一条oplog，验证timestamp是否一致。</p>
 <p>对方mongo版本是v3.4，同步工具在v3.2及更早版本的MongoDB上还没出过类似问题。
 使用pymongo 3.5.1（最新版本）分别用v3.2和v3.4跑同步测试，在query结果非空的情况下，v3.2正常，v3.4报错，怀疑是不是v3.4做了什么改动，导致dirver不兼容。</p>
@@ -213,7 +213,7 @@ cursor.limit设置为-1，导致query的singleBatch选项为True；
 </div>
 <div id="comments"></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.74.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.75.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

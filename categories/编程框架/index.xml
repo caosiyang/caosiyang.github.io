@@ -4,7 +4,14 @@
         <link>http://caosiyang.github.io/categories/%E7%BC%96%E7%A8%8B%E6%A1%86%E6%9E%B6/</link>
         <description>编程框架 - 分类 - Caosiyang&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
-            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Tue, 07 Apr 2020 00:00:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/categories/%E7%BC%96%E7%A8%8B%E6%A1%86%E6%9E%B6/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Sun, 30 Aug 2020 19:25:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/categories/%E7%BC%96%E7%A8%8B%E6%A1%86%E6%9E%B6/" rel="self" type="application/rss+xml" /><item>
+    <title>PyYAML笔记</title>
+    <link>http://caosiyang.github.io/posts/2020/08/30/pyyaml/</link>
+    <pubDate>Sun, 30 Aug 2020 19:25:00 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2020/08/30/pyyaml/</guid>
+    <description><![CDATA[最近使用PyYAML处理YAML文件，做个记录。 关于Node 在PyYAML中，Node作为YAML信息模型的实体，有三种类型： [标量]^(s]]></description>
+</item><item>
     <title>Seastar和DPDK的开发总结</title>
     <link>http://caosiyang.github.io/posts/2020/04/07/seastar-dpdk/</link>
     <pubDate>Tue, 07 Apr 2020 00:00:00 &#43;0800</pubDate>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
     <head>
-	<meta name="generator" content="Hugo 0.74.3" />
+	<meta name="generator" content="Hugo 0.75.1" />
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
@@ -10,7 +10,7 @@
 <meta property="og:description" content="Caosiyang&#39;s Blog" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://caosiyang.github.io/" />
-<meta property="og:updated_time" content="2020-09-05T23:44:20+08:00" />
+<meta property="og:updated_time" content="2020-11-15T17:20:52+08:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Caosiyang&#39;s Blog"/>
 <meta name="twitter:description" content="Caosiyang&#39;s Blog"/>
@@ -71,6 +71,11 @@
         alt="/images/avatar.png"
         title="/images/avatar.png" /></a></div><h2 class="home-subtitle"><div id="id-1" class="typeit"></div></h2><div class="links"><a href="https://github.com/caosiyang" title="GitHub" target="_blank" rel="noopener noreffer me"><i class="fab fa-github-alt fa-fw"></i></a><a href="mailto:csy3228@qq.com" title="Email" rel=" me"><i class="far fa-envelope fa-fw"></i></a></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/2017/07/07/orphaned-document-negative-effect-on-syncing-sharded-cluster/">孤立文档对分片集群数据同步的影响</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2017-07-07">2017-07-07</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><i class="far fa-folder fa-fw"></i>数据库</a></span></div><div class="content">迁移一个分片集群，同步工具是py-mongo-sync，支持复制集同步，趁机安利一下。 跑多个sync进程，源端各shard数据同时写往目标端</div><div class="post-footer">
+        <a href="/posts/2017/07/07/orphaned-document-negative-effect-on-syncing-sharded-cluster/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/mongodb/">MongoDB</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/posts/2017/04/21/mongodb-replication/">MongoDB并发复制</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2017-04-21">2017-04-21</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><i class="far fa-folder fa-fw"></i>数据库</a></span></div><div class="content">如果没记错的话，支持WiredTiger存储引擎后，MongoDB实现了oplog并发回放。 之前凭借经验写过一个基于oplog并发回放的实时</div><div class="post-footer">
         <a href="/posts/2017/04/21/mongodb-replication/">阅读全文</a><div class="post-tags">
@@ -95,11 +100,6 @@
     </h1><div class="post-meta"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2016-12-24">2016-12-24</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><i class="far fa-folder fa-fw"></i>数据库</a></span></div><div class="content">MongoDB数据复制的基础是oplog，复制集的任何数据变更都会在primary节点local.oplog.rs集合下记录oplog，se</div><div class="post-footer">
         <a href="/posts/2016/12/24/mongodb-oplog/">阅读全文</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/mongodb/">MongoDB</a>,&nbsp;<a href="/tags/oplog/">oplog</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/2016/11/25/thrfit-serialize-and-deserialize/">Thrift对象的序列化与反序列化</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-publish">发布于 <time datetime="2016-11-25">2016-11-25</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E7%BC%96%E7%A8%8B%E6%A1%86%E6%9E%B6/"><i class="far fa-folder fa-fw"></i>编程框架</a></span></div><div class="content">对象的序列化与序列化，可能大家更多接触的是谷歌的protobuf。 Thrift作为一个跨语言的RPC代码生成引擎，也具备此功能。 本文要说的是</div><div class="post-footer">
-        <a href="/posts/2016/11/25/thrfit-serialize-and-deserialize/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/thrfit/">Thrfit</a>,&nbsp;<a href="/tags/rpc/">RPC</a>,&nbsp;<a href="/tags/python/">Python</a></div></div>
 </article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/">1</a>
@@ -122,9 +122,13 @@
                     <span class="page-link">
                         <a href="/page/6/">6</a>
                     </span>
+                </li><li class="page-item ">
+                    <span class="page-link">
+                        <a href="/page/7/">7</a>
+                    </span>
                 </li></ul></div></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.74.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.75.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

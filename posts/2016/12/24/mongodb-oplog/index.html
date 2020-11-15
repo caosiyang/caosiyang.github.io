@@ -24,7 +24,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/caosiyang.github.io\/posts\/2016\/12\/24\/mongodb-oplog\/"
-        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "MongoDB, oplog","wordcount":  1608 ,
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "MongoDB, oplog","wordcount":  1607 ,
         "url": "http:\/\/caosiyang.github.io\/posts\/2016\/12\/24\/mongodb-oplog\/","datePublished": "2016-12-24T00:00:00+08:00","dateModified": "2020-08-27T17:51:51+08:00","publisher": {
             "@type": "Organization",
             "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
@@ -74,7 +74,7 @@
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">MongoDB oplog 分析</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><i class="far fa-folder fa-fw"></i>数据库</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2016-12-24">2016-12-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1608 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2016-12-24">2016-12-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1607 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -197,7 +197,7 @@ demo-rs:PRIMARY&gt; db.oplog.rs.find().sort({$natural: -1})
 <p>在写同步工具时碰到过，pymongo将读取的文档存到一个dict，对于Python来说，dict是键序无关的，但对于MongoDB，键序不对将导致command执行失败，解决方法可参考 <a href="https://dzone.com/articles/pymongo-and-key-order" target="_blank" rel="noopener noreffer">https://dzone.com/articles/pymongo-and-key-order</a></p>
 <hr>
 <p>后记@20171229</p>
-<p>如果oplog用于MongoDB间的数据同步，直接回放就行；如果MongoDB数据同步到其他数据库，update需要关注细节，特别是内嵌文档操作，字段名采用&rdquo;<strong>.</strong>&ldquo;点分隔的扁平化表示。</p>
+<p>如果oplog用于MongoDB间的数据同步，直接回放就行；如果MongoDB数据同步到其他数据库，update需要关注细节，特别是内嵌文档操作，字段名采用&quot;<strong>.</strong>&ldquo;点分隔的扁平化表示。</p>
 <p>以文档<code>{ info: { a: 1, b: 2 } }</code>为例，insert操作的olog的o字段即原始文档；update操作的oplog相对复杂，看下面几个情景：</p>
 <ol>
 <li>
@@ -277,7 +277,7 @@ demo-rs:PRIMARY&gt; db.oplog.rs.find().sort({$natural: -1})
 </div>
 <div id="comments"></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.74.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.75.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

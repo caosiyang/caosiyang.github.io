@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>SLI - 标签 - Caosiyang&#39;s Blog</title>
+        <title>SLI - 标签 - 一个单板滑雪爱好者的编程笔记</title>
         <link>http://caosiyang.github.io/tags/sli/</link>
-        <description>SLI - 标签 - Caosiyang&#39;s Blog</description>
+        <description>SLI - 标签 - 一个单板滑雪爱好者的编程笔记</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
             <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Sun, 29 Nov 2020 01:40:09 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/sli/" rel="self" type="application/rss+xml" /><item>
-    <title>SLA/SLO/SLI名词解析</title>
+    <title>SLA SLO SLI 概念和关系</title>
     <link>http://caosiyang.github.io/posts/2020/11/29/sla-slo-sli/</link>
     <pubDate>Sun, 29 Nov 2020 01:40:09 &#43;0800</pubDate>
     <author>作者</author>
     <guid>http://caosiyang.github.io/posts/2020/11/29/sla-slo-sli/</guid>
-    <description><![CDATA[没有做过专门研究，仅从研发人员的角度，聊一聊我对SLA/SLO/SLI的认识. SLA (Service Level Agreement)，服务质量水平协议 SLO (Service Level Object]]></description>
+    <description><![CDATA[没有做过专门研究，仅从研发人员的角度，阐述我对SLA/SLO/SLI的认识。 SLA (Service Level Agreement) 服务质量水平协议 SLO (Service Level Objective) 服务质量水平目标 SLI (Serivce Level Indicator) 服务质量]]></description>
 </item></channel>
 </rss>

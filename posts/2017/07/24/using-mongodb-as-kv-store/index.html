@@ -5,17 +5,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-        <title>一个KV存储的MongoDB使用场景 - Caosiyang&#39;s Blog</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="一个KV存储的MongoDB使用场景" />
+        <title>一个KV存储的MongoDB使用场景 - 一个单板滑雪爱好者的编程笔记</title><meta name="Description" content="一个单板滑雪爱好者的编程笔记"><meta property="og:title" content="一个KV存储的MongoDB使用场景" />
 <meta property="og:description" content="有这样一个业务场景，数据量大（10T以上），数据格式是一个KV，value长度较大（100KB以上），QPS不高，读写延迟要求在5ms以内，" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://caosiyang.github.io/posts/2017/07/24/using-mongodb-as-kv-store/" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2017/07/24/using-mongodb-as-kv-store/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2017-07-24T00:00:00+08:00" />
 <meta property="article:modified_time" content="2020-08-27T17:51:51+08:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="一个KV存储的MongoDB使用场景"/>
 <meta name="twitter:description" content="有这样一个业务场景，数据量大（10T以上），数据格式是一个KV，value长度较大（100KB以上），QPS不高，读写延迟要求在5ms以内，"/>
-<meta name="application-name" content="Caosiyang&#39;s Blog">
-<meta name="apple-mobile-web-app-title" content="Caosiyang&#39;s Blog"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2017/07/24/using-mongodb-as-kv-store/" /><link rel="prev" href="http://caosiyang.github.io/posts/2017/07/07/orphaned-document-negative-effect-on-syncing-sharded-cluster/" /><link rel="next" href="http://caosiyang.github.io/posts/2017/07/27/linux-magic-commands/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+<meta name="application-name" content="一个单板滑雪爱好者的编程笔记">
+<meta name="apple-mobile-web-app-title" content="一个单板滑雪爱好者的编程笔记"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2017/07/24/using-mongodb-as-kv-store/" /><link rel="prev" href="http://caosiyang.github.io/posts/2017/07/07/orphaned-document-negative-effect-on-syncing-sharded-cluster/" /><link rel="next" href="http://caosiyang.github.io/posts/2017/07/27/linux-magic-commands/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -38,7 +39,7 @@
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
-            <a href="/" title="Caosiyang&#39;s Blog">Caosiyang&#39;s Blog</a>
+            <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
         </div>
         <div class="menu">
             <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
@@ -51,7 +52,7 @@
     <div class="header-container">
         <div class="header-wrapper">
             <div class="header-title">
-                <a href="/" title="Caosiyang&#39;s Blog">Caosiyang&#39;s Blog</a>
+                <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
             </div>
             <div class="menu-toggle" id="menu-toggle-mobile">
                 <span></span><span></span><span></span>
@@ -100,7 +101,7 @@
 <p>测试工具用的是<a href="https://github.com/brianfrankcooper/YCSB" target="_blank" rel="noopener noreffer">YCSB</a>，workload配置如下，数据量是100GB，文档包含两个field(_id和field0，field0的value长度是100KB)，数据随机访问（uniform），OPS 200 读写比例1:1</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -128,7 +129,7 @@
 </span><span class="lnt">26
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">workload=com.yahoo.ycsb.workloads.CoreWorkload
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">workload=com.yahoo.ycsb.workloads.CoreWorkload
 
 readallfields=true
 
@@ -164,7 +165,7 @@ mongodb.threadsAllowedToBlockForConnectionMultiplier=5
 <p>因为机器物理内存很大，Linux系统cache不可忽略，定期清除cache，测试结果更符合实际。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -174,7 +175,7 @@ mongodb.threadsAllowedToBlockForConnectionMultiplier=5
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#! /bin/bash
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#! /bin/bash
 </span><span class="cp"></span>
 <span class="k">while</span> <span class="nb">true</span>
 <span class="k">do</span>
@@ -204,10 +205,10 @@ Journal日志默认在storage.dbPath下，不支持指定其他目录，可以�
 <p>经测试，开启磁盘预读，读写性能有一定提升，需要注意的是，重设readahead后需要重启数据库</p>
 <pre><code>  // 查看所有设备情况
   # blockdev --report
-    
+
   // 查看readahead
   # blockdev --getra /dev/sdx
-    
+
   // 设置readahead，单位是512Bytes，256即128KB
   # blockdev --setra 256 /dev/sdx
 </code></pre>
@@ -302,8 +303,8 @@ For a standard block device, you can run sudo blockdev &ndash;report to get the 
 </div>
 <div id="comments"></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.86.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

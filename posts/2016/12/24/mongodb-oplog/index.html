@@ -5,17 +5,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-        <title>MongoDB oplog 分析 - Caosiyang&#39;s Blog</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="MongoDB oplog 分析" />
+        <title>MongoDB oplog 分析 - 一个单板滑雪爱好者的编程笔记</title><meta name="Description" content="一个单板滑雪爱好者的编程笔记"><meta property="og:title" content="MongoDB oplog 分析" />
 <meta property="og:description" content="MongoDB数据复制的基础是oplog，复制集的任何数据变更都会在primary节点local.oplog.rs集合下记录oplog，se" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://caosiyang.github.io/posts/2016/12/24/mongodb-oplog/" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2016/12/24/mongodb-oplog/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2016-12-24T00:00:00+08:00" />
 <meta property="article:modified_time" content="2020-08-27T17:51:51+08:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="MongoDB oplog 分析"/>
 <meta name="twitter:description" content="MongoDB数据复制的基础是oplog，复制集的任何数据变更都会在primary节点local.oplog.rs集合下记录oplog，se"/>
-<meta name="application-name" content="Caosiyang&#39;s Blog">
-<meta name="apple-mobile-web-app-title" content="Caosiyang&#39;s Blog"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2016/12/24/mongodb-oplog/" /><link rel="prev" href="http://caosiyang.github.io/posts/2016/11/25/thrfit-serialize-and-deserialize/" /><link rel="next" href="http://caosiyang.github.io/posts/2017/03/06/zabbix-get-value-error/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+<meta name="application-name" content="一个单板滑雪爱好者的编程笔记">
+<meta name="apple-mobile-web-app-title" content="一个单板滑雪爱好者的编程笔记"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2016/12/24/mongodb-oplog/" /><link rel="prev" href="http://caosiyang.github.io/posts/2016/11/25/thrfit-serialize-and-deserialize/" /><link rel="next" href="http://caosiyang.github.io/posts/2017/03/06/zabbix-get-value-error/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -38,7 +39,7 @@
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
-            <a href="/" title="Caosiyang&#39;s Blog">Caosiyang&#39;s Blog</a>
+            <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
         </div>
         <div class="menu">
             <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
@@ -51,7 +52,7 @@
     <div class="header-container">
         <div class="header-wrapper">
             <div class="header-title">
-                <a href="/" title="Caosiyang&#39;s Blog">Caosiyang&#39;s Blog</a>
+                <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
             </div>
             <div class="menu-toggle" id="menu-toggle-mobile">
                 <span></span><span></span><span></span>
@@ -124,7 +125,7 @@ udpate操作如果只更新部分field，o键的内容是*{ $set: { &hellip; } }
 <p>举个栗子，依次执行下列操作：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -133,7 +134,7 @@ udpate操作如果只更新部分field，o键的内容是*{ $set: { &hellip; } }
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">demo-rs:PRIMARY&gt; use test
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">demo-rs:PRIMARY&gt; use test
 demo-rs:PRIMARY&gt; test.coll.insert({a: 1})
 demo-rs:PRIMARY&gt; test.coll.createIndex({b: 1})
 demo-rs:PRIMARY&gt; test.coll.createIndex({c: 1}, {background: true})
@@ -145,7 +146,7 @@ demo-rs:PRIMARY&gt; test.coll.drop()
 </div><p>然后观察对应的oplog，</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -157,7 +158,7 @@ demo-rs:PRIMARY&gt; test.coll.drop()
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">demo-rs:PRIMARY&gt; use local
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">demo-rs:PRIMARY&gt; use local
 switched to db local
 demo-rs:PRIMARY&gt; db.oplog.rs.find().sort({$natural: -1})
 { &#34;ts&#34; : Timestamp(1482318735, 1), &#34;h&#34; : NumberLong(&#34;6964527823728342008&#34;), &#34;v&#34; : 2, &#34;op&#34; : &#34;c&#34;, &#34;ns&#34; : &#34;test.$cmd&#34;, &#34;o&#34; : { &#34;dropDatabase&#34; : 1 } }
@@ -173,7 +174,7 @@ demo-rs:PRIMARY&gt; db.oplog.rs.find().sort({$natural: -1})
 <p>有一点需要注意，对于类型是c的oplog，o键的值是有序的，比如</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -183,7 +184,7 @@ demo-rs:PRIMARY&gt; db.oplog.rs.find().sort({$natural: -1})
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">{
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">{
     &#34;ts&#34; : Timestamp(1482318662, 1),
     &#34;h&#34; : NumberLong(&#34;7320721234104966244&#34;),
     &#34;v&#34; : 2,
@@ -277,8 +278,8 @@ demo-rs:PRIMARY&gt; db.oplog.rs.find().sort({$natural: -1})
 </div>
 <div id="comments"></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.86.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

@@ -5,17 +5,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-        <title>Linux下使用Vim配置Python开发环境 - Caosiyang&#39;s Blog</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="Linux下使用Vim配置Python开发环境" />
+        <title>Linux下使用Vim配置Python开发环境 - 一个单板滑雪爱好者的编程笔记</title><meta name="Description" content="一个单板滑雪爱好者的编程笔记"><meta property="og:title" content="Linux下使用Vim配置Python开发环境" />
 <meta property="og:description" content="Linux下使用Vim配置Python开发环境，我能想到的，首先要有语法高亮，然后代码自动补全，提高编码效率，再就是语法错误检查，便于纠错，" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://caosiyang.github.io/posts/2017/12/24/python-vim/" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2017/12/24/python-vim/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2017-12-24T00:00:00+08:00" />
 <meta property="article:modified_time" content="2020-08-27T17:51:51+08:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Linux下使用Vim配置Python开发环境"/>
 <meta name="twitter:description" content="Linux下使用Vim配置Python开发环境，我能想到的，首先要有语法高亮，然后代码自动补全，提高编码效率，再就是语法错误检查，便于纠错，"/>
-<meta name="application-name" content="Caosiyang&#39;s Blog">
-<meta name="apple-mobile-web-app-title" content="Caosiyang&#39;s Blog"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2017/12/24/python-vim/" /><link rel="prev" href="http://caosiyang.github.io/posts/2017/10/27/prometheus/" /><link rel="next" href="http://caosiyang.github.io/posts/2018/02/12/git-rebase/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+<meta name="application-name" content="一个单板滑雪爱好者的编程笔记">
+<meta name="apple-mobile-web-app-title" content="一个单板滑雪爱好者的编程笔记"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2017/12/24/python-vim/" /><link rel="prev" href="http://caosiyang.github.io/posts/2017/10/27/prometheus/" /><link rel="next" href="http://caosiyang.github.io/posts/2018/02/12/git-rebase/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -38,7 +39,7 @@
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
-            <a href="/" title="Caosiyang&#39;s Blog">Caosiyang&#39;s Blog</a>
+            <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
         </div>
         <div class="menu">
             <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
@@ -51,7 +52,7 @@
     <div class="header-container">
         <div class="header-wrapper">
             <div class="header-title">
-                <a href="/" title="Caosiyang&#39;s Blog">Caosiyang&#39;s Blog</a>
+                <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
             </div>
             <div class="menu-toggle" id="menu-toggle-mobile">
                 <span></span><span></span><span></span>
@@ -102,11 +103,11 @@
 <p>安装<em>python.vim</em>插件，同时*~/.vimrc*包含以下配置：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">syntax on
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">syntax on
 filetype plugin on
 </code></pre></td></tr></table>
 </div>
@@ -114,20 +115,20 @@ filetype plugin on
 <p>安装<a href="https://github.com/davidhalter/jedi-vim" target="_blank" rel="noopener noreffer"><em>jedi-vim</em></a>插件，其依赖于Python自动补全工具Jedi，所以要在本机安装<em>Jedi</em>。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">pip install jedi
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">pip install jedi
 </code></pre></td></tr></table>
 </div>
 </div><h4 id="语法错误和编码规范检查">语法错误和编码规范检查</h4>
 <p>这两个放在一起说，是因为<a href="https://github.com/nvie/vim-flake8" target="_blank" rel="noopener noreffer"><em>vim-flake8</em></a>插件同时搞定这两件事，其依赖于<em>flake8</em>工具。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">pip install flake8
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">pip install flake8
 </code></pre></td></tr></table>
 </div>
 </div><p><em>flake8</em>是集成了<em>pyflakes</em>和<em>pycodestyle</em>，其中，<em>pyflakes</em>检查代码错误；<em>pycodestyle</em>检查代码是否遵循Python编码规范（PEP8），其取代了<em>pep8</em>，后者已经不再更新。</p>
@@ -135,12 +136,12 @@ filetype plugin on
 <p>如果是用Vundle管理插件，相关配置如下：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">Plugin &#39;python.vim&#39;
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">Plugin &#39;python.vim&#39;
 Plugin &#39;davidhalter/jedi-vim&#39;
 Plugin &#39;nvie/vim-flake8&#39;
 </code></pre></td></tr></table>
@@ -182,8 +183,8 @@ Plugin &#39;nvie/vim-flake8&#39;
 </div>
 <div id="comments"></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.86.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

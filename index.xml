@@ -1,18 +1,25 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>Caosiyang&#39;s Blog</title>
+        <title>一个单板滑雪爱好者的编程笔记</title>
         <link>http://caosiyang.github.io/</link>
-        <description>Caosiyang&#39;s Blog</description>
+        <description>一个单板滑雪爱好者的编程笔记</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
-            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Sun, 29 Nov 2020 01:40:09 &#43;0800</lastBuildDate>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Sun, 01 Aug 2021 02:44:45 &#43;0800</lastBuildDate>
             <atom:link href="http://caosiyang.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
-    <title>SLA/SLO/SLI名词解析</title>
+    <title>Linux系统目录之/proc</title>
+    <link>http://caosiyang.github.io/posts/2021/08/01/linux-filesystem-proc/</link>
+    <pubDate>Sun, 01 Aug 2021 02:44:45 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2021/08/01/linux-filesystem-proc/</guid>
+    <description><![CDATA[proc是一个伪文件系统，为用户提供读写内核数据的接口，一般由系统自动挂载到/proc目录，内部的文件和目录记录内核和进程的相关信息。 内部文]]></description>
+</item><item>
+    <title>SLA SLO SLI 概念和关系</title>
     <link>http://caosiyang.github.io/posts/2020/11/29/sla-slo-sli/</link>
     <pubDate>Sun, 29 Nov 2020 01:40:09 &#43;0800</pubDate>
     <author>作者</author>
     <guid>http://caosiyang.github.io/posts/2020/11/29/sla-slo-sli/</guid>
-    <description><![CDATA[没有做过专门研究，仅从研发人员的角度，聊一聊我对SLA/SLO/SLI的认识. SLA (Service Level Agreement)，服务质量水平协议 SLO (Service Level Object]]></description>
+    <description><![CDATA[没有做过专门研究，仅从研发人员的角度，阐述我对SLA/SLO/SLI的认识。 SLA (Service Level Agreement) 服务质量水平协议 SLO (Service Level Objective) 服务质量水平目标 SLI (Serivce Level Indicator) 服务质量]]></description>
 </item><item>
     <title>《深度探索C&#43;&#43;对象模型》读书笔记（一）</title>
     <link>http://caosiyang.github.io/posts/2020/09/21/cpp-object-model-1/</link>
@@ -69,12 +76,5 @@
     <author>作者</author>
     <guid>http://caosiyang.github.io/posts/2020/04/07/seastar-dpdk/</guid>
     <description><![CDATA[<strong><ruby>DPDK<rt>Data Plane Development Kit</rt></ruby></strong>是Intel提供的数据平面开发套件，为用户空间高效的数据包处理提供驱动和函数库支持。 使用DPDK开发的应用程序，需要自行实现网]]></description>
-</item><item>
-    <title>SCL基本用法</title>
-    <link>http://caosiyang.github.io/posts/2020/02/06/scl/</link>
-    <pubDate>Thu, 06 Feb 2020 00:00:00 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>http://caosiyang.github.io/posts/2020/02/06/scl/</guid>
-    <description><![CDATA[Software collections（SCLs）是一个Linux软件多版本共存的解决方案，适用于RHEL/CentOS/Fedora。 SCL不修改已安装]]></description>
 </item></channel>
 </rss>

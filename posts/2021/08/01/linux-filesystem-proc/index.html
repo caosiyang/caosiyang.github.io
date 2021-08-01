@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Linux系统目录之/proc - 一个单板滑雪爱好者的编程笔记</title><meta name="Description" content="一个单板滑雪爱好者的编程笔记"><meta property="og:title" content="Linux系统目录之/proc" />
+<meta property="og:description" content="proc是一个伪文件系统，为用户提供读写内核数据的接口，一般由系统自动挂载到/proc目录，内部的文件和目录记录内核和进程的相关信息。 内部文" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2021/08/01/linux-filesystem-proc/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-08-01T02:44:45+08:00" />
+<meta property="article:modified_time" content="2021-08-01T13:28:09+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Linux系统目录之/proc"/>
+<meta name="twitter:description" content="proc是一个伪文件系统，为用户提供读写内核数据的接口，一般由系统自动挂载到/proc目录，内部的文件和目录记录内核和进程的相关信息。 内部文"/>
+<meta name="application-name" content="一个单板滑雪爱好者的编程笔记">
+<meta name="apple-mobile-web-app-title" content="一个单板滑雪爱好者的编程笔记"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2021/08/01/linux-filesystem-proc/" /><link rel="prev" href="http://caosiyang.github.io/posts/2020/11/29/sla-slo-sli/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Linux系统目录之/proc",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/caosiyang.github.io\/posts\/2021\/08\/01\/linux-filesystem-proc\/"
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "Linux","wordcount":  781 ,
+        "url": "http:\/\/caosiyang.github.io\/posts\/2021\/08\/01\/linux-filesystem-proc\/","datePublished": "2021-08-01T02:44:45+08:00","dateModified": "2021-08-01T13:28:09+08:00","publisher": {
+            "@type": "Organization",
+            "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "caosiyang"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/" title="">首页</a><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Linux系统目录之/proc</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/linux/"><i class="far fa-folder fa-fw"></i>Linux</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-08-01">2021-08-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 781 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><p>proc是一个伪文件系统，为用户提供读写内核数据的接口，一般由系统自动挂载到/proc目录，内部的文件和目录记录内核和进程的相关信息。</p>
+<blockquote>
+<p>内部文件和目录并非传统的文件和目录，其size通常是0</p>
+</blockquote>
+<p>/proc下大部分文件是只读的，很多系统工具通过/proc获取信息，比如：</p>
+<ul>
+<li><code>lsmod</code>等同于<code>cat /proc/modules</code></li>
+<li><code>lspci</code>等同于<code>cat /proc/pci</code></li>
+</ul>
+<p>部分文件可写，对于这些文件的修改，等同于使用<code>sysctl</code>命令重设内核参数。</p>
+<p>/proc下一部分文件记录内核相关的信息，比如：</p>
+<ul>
+<li>
+<p><em>/proc/cpuinfo</em> CPU统计信息（型号、规格、指令集等）</p>
+</li>
+<li>
+<p><em>/proc/meminfo</em> 内存统计信息</p>
+</li>
+<li>
+<p><em>/proc/stat</em> 内核统计信息（CPU负载、磁盘IO、进程等相关数据）</p>
+</li>
+<li>
+<p><em>/proc/vmstat</em> 虚拟内存统计信息</p>
+</li>
+<li>
+<p><em>/proc/version</em> 内核版本信息</p>
+</li>
+</ul>
+<p>对于一个运行中的进程，/proc下存在对应进程ID的目录，内部记录了该进程相关的数据，比如：</p>
+<ul>
+<li>
+<p><em>/proc/$pid</em> 进程子目录</p>
+</li>
+<li>
+<p><em>/proc/$pid/comm</em> 进程命令名称</p>
+</li>
+<li>
+<p><em>/proc/$pid/cmdline</em> 完整的命令行字符串</p>
+<blockquote>
+<p>命令行参数使用null字节'\0&rsquo;分隔，查看命令 <code>cat /proc/$pid/cmdline | tr '\0' ' '</code></p>
+</blockquote>
+</li>
+<li>
+<p><em>/proc/$pid/cwd</em> 指向当前工作目录（current working directory）的软链接</p>
+</li>
+<li>
+<p><em>/proc/$pid/environ</em> 进程启动所使用的环境变量</p>
+<blockquote>
+<p>记录使用null字节'\0&rsquo;分隔，查看命令 <code>cat /proc/$pid/environ | tr '\0' '\n'</code></p>
+</blockquote>
+</li>
+<li>
+<p><em>/proc/$pid/exe</em> 指向所执行程序的软链接</p>
+<blockquote>
+<p>可以利用exe软链接恢复误删的执行程序，使用命令 <code>cp /proc/$pid/exe /home/caosiyang/myprogram</code></p>
+</blockquote>
+</li>
+<li>
+<p><em>/proc/$pid/fd</em> 文件描述符子目录，内部条目（软链接）对应于该进程打开的各个文件</p>
+<blockquote>
+<p>可以利用fd子目录下的软链接恢复误删的文件, 使用命令 <code>cp /proc/$pid/fd/1 /home/caosiyang/myfile</code></p>
+</blockquote>
+</li>
+<li>
+<p><em>/proc/$pid/stat</em> 进程状态信息，<code>ps</code>命令也从此处获取进程信息</p>
+</li>
+<li>
+<p><em>/proc/$pid/statm</em> 进程内存使用统计，以page为单位</p>
+</li>
+<li>
+<p><em>/proc/$pid/status</em> 格式化后更易理解的进程和内存统计信息，数据来自上面的stat和statm</p>
+</li>
+<li>
+<p><em>/proc/$pid/task</em> 线程子目录，内部目录对应于该进程的各个线程</p>
+<blockquote>
+<p>线程可以修改comm（<em>/proc/$pid/task/$tid/comm</em>），所以可能与进程comm（<em>/proc/$pid/comm</em>）不一致</p>
+</blockquote>
+</li>
+</ul>
+<p>本文只是抛砖引玉，关于/proc内部各个文件及其字段的详细解释，可以参考 <a href="https://man7.org/linux/man-pages/man5/proc.5.html" target="_blank" rel="noopener noreffer">https://man7.org/linux/man-pages/man5/proc.5.html</a></p>
+<hr>
+<p>参考资料</p>
+<ul>
+<li><a href="https://tldp.org/LDP/Linux-Filesystem-Hierarchy/html/proc.html" target="_blank" rel="noopener noreffer">https://tldp.org/LDP/Linux-Filesystem-Hierarchy/html/proc.html</a></li>
+<li><a href="https://man7.org/linux/man-pages/man5/proc.5.html" target="_blank" rel="noopener noreffer">https://man7.org/linux/man-pages/man5/proc.5.html</a></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-08-01</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/linux/">Linux</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/2020/11/29/sla-slo-sli/" class="prev" rel="prev" title="SLA SLO SLI 概念和关系"><i class="fas fa-angle-left fa-fw"></i>SLA SLO SLI 概念和关系</a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.86.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":1000},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

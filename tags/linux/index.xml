@@ -1,10 +1,17 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>Linux - 标签 - Caosiyang&#39;s Blog</title>
+        <title>Linux - 标签 - 一个单板滑雪爱好者的编程笔记</title>
         <link>http://caosiyang.github.io/tags/linux/</link>
-        <description>Linux - 标签 - Caosiyang&#39;s Blog</description>
+        <description>Linux - 标签 - 一个单板滑雪爱好者的编程笔记</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
-            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Mon, 27 Jul 2020 00:00:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/linux/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Sun, 01 Aug 2021 02:44:45 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/linux/" rel="self" type="application/rss+xml" /><item>
+    <title>Linux系统目录之/proc</title>
+    <link>http://caosiyang.github.io/posts/2021/08/01/linux-filesystem-proc/</link>
+    <pubDate>Sun, 01 Aug 2021 02:44:45 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2021/08/01/linux-filesystem-proc/</guid>
+    <description><![CDATA[proc是一个伪文件系统，为用户提供读写内核数据的接口，一般由系统自动挂载到/proc目录，内部的文件和目录记录内核和进程的相关信息。 内部文]]></description>
+</item><item>
     <title>Manjaro Xfce使用笔记</title>
     <link>http://caosiyang.github.io/posts/2020/07/27/manjaro-xfce-notes/</link>
     <pubDate>Mon, 27 Jul 2020 00:00:00 &#43;0800</pubDate>
@@ -67,12 +74,5 @@
     <author>作者</author>
     <guid>http://caosiyang.github.io/posts/2017/07/27/linux-magic-commands/</guid>
     <description><![CDATA[是否经历过这样的场景？ 比如，需要按某种方式去处理一个文本，然后去查有没有现成的Linux命令。果然有！好吧，我把你记录下来。 当然，“不起眼”]]></description>
-</item><item>
-    <title>timed out waiting for input: auto-logout</title>
-    <link>http://caosiyang.github.io/posts/2017/03/23/tmout/</link>
-    <pubDate>Thu, 23 Mar 2017 00:00:00 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>http://caosiyang.github.io/posts/2017/03/23/tmout/</guid>
-    <description><![CDATA[使用SecureCRT远程登录主机，空闲一段时间后，连接自动断开，提示 timed out waiting for input: auto-logout 。 查看目标主机环境变量TMOUT，如果值大于0，那么在指定]]></description>
 </item></channel>
 </rss>

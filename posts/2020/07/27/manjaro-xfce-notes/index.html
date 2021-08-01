@@ -5,17 +5,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-        <title>Manjaro Xfce使用笔记 - Caosiyang&#39;s Blog</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="Manjaro Xfce使用笔记" />
+        <title>Manjaro Xfce使用笔记 - 一个单板滑雪爱好者的编程笔记</title><meta name="Description" content="一个单板滑雪爱好者的编程笔记"><meta property="og:title" content="Manjaro Xfce使用笔记" />
 <meta property="og:description" content="Manjaro Xfce使用过程遇到的一些问题和解决方法。 Python版本 系统预装和默认使用的是Python 3（默认版本通过软连接/usr/bin/pyt" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://caosiyang.github.io/posts/2020/07/27/manjaro-xfce-notes/" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2020/07/27/manjaro-xfce-notes/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2020-07-27T00:00:00+08:00" />
 <meta property="article:modified_time" content="2020-09-05T23:44:20+08:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Manjaro Xfce使用笔记"/>
 <meta name="twitter:description" content="Manjaro Xfce使用过程遇到的一些问题和解决方法。 Python版本 系统预装和默认使用的是Python 3（默认版本通过软连接/usr/bin/pyt"/>
-<meta name="application-name" content="Caosiyang&#39;s Blog">
-<meta name="apple-mobile-web-app-title" content="Caosiyang&#39;s Blog"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2020/07/27/manjaro-xfce-notes/" /><link rel="prev" href="http://caosiyang.github.io/posts/2020/07/22/using-keychron-k6-on-manjaro/" /><link rel="next" href="http://caosiyang.github.io/posts/2020/07/29/cpp-template-notes/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+<meta name="application-name" content="一个单板滑雪爱好者的编程笔记">
+<meta name="apple-mobile-web-app-title" content="一个单板滑雪爱好者的编程笔记"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2020/07/27/manjaro-xfce-notes/" /><link rel="prev" href="http://caosiyang.github.io/posts/2020/07/22/using-keychron-k6-on-manjaro/" /><link rel="next" href="http://caosiyang.github.io/posts/2020/07/29/cpp-template-notes/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -38,7 +39,7 @@
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
-            <a href="/" title="Caosiyang&#39;s Blog">Caosiyang&#39;s Blog</a>
+            <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
         </div>
         <div class="menu">
             <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
@@ -51,7 +52,7 @@
     <div class="header-container">
         <div class="header-wrapper">
             <div class="header-title">
-                <a href="/" title="Caosiyang&#39;s Blog">Caosiyang&#39;s Blog</a>
+                <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
             </div>
             <div class="menu-toggle" id="menu-toggle-mobile">
                 <span></span><span></span><span></span>
@@ -116,7 +117,7 @@ pacman缓存目录是 <em>/var/cache/pacman/pkg</em> ，内部包含扩展名为
 <p>新建hook配置文件 <em>/etc/pacman.d/hooks/clean_package_cache.hook</em> ，添加以下内容：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -129,7 +130,7 @@ pacman缓存目录是 <em>/var/cache/pacman/pkg</em> ，内部包含扩展名为
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">[Trigger]
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">[Trigger]
 Operation = Install
 Operation = Upgrade
 Operation = Remove
@@ -145,7 +146,7 @@ Exec = /usr/bin/paccache -rk 0
 </div><hr>
 <p>参考文档</p>
 <ul>
-<li><a href="http://www.ostechnix.com/recommended-way-clean-package-cache-arch-linux/">www.ostechnix.com/recommended-way-clean-package-cache-arch-linux/</a></li>
+<li><a href="http://www.ostechnix.com/recommended-way-clean-package-cache-arch-linux/" target="_blank" rel="noopener noreffer">www.ostechnix.com/recommended-way-clean-package-cache-arch-linux/</a></li>
 </ul>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
@@ -175,8 +176,8 @@ Exec = /usr/bin/paccache -rk 0
 </div>
 <div id="comments"></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.86.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

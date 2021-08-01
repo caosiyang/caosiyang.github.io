@@ -5,17 +5,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-        <title>MongoDB分片配置的实时同步 - Caosiyang&#39;s Blog</title><meta name="Description" content="Caosiyang&#39;s Blog"><meta property="og:title" content="MongoDB分片配置的实时同步" />
+        <title>MongoDB分片配置的实时同步 - 一个单板滑雪爱好者的编程笔记</title><meta name="Description" content="一个单板滑雪爱好者的编程笔记"><meta property="og:title" content="MongoDB分片配置的实时同步" />
 <meta property="og:description" content="本文内容适用于MongoDB v3.2及以上版本 数据库分片 集合分片 实时同步原理 分片集群在config server存储集群的各种配置信息，比如节" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://caosiyang.github.io/posts/2019/06/14/sharding-config-sync/" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2019/06/14/sharding-config-sync/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2019-06-14T00:00:00+08:00" />
 <meta property="article:modified_time" content="2020-08-27T17:51:51+08:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="MongoDB分片配置的实时同步"/>
 <meta name="twitter:description" content="本文内容适用于MongoDB v3.2及以上版本 数据库分片 集合分片 实时同步原理 分片集群在config server存储集群的各种配置信息，比如节"/>
-<meta name="application-name" content="Caosiyang&#39;s Blog">
-<meta name="apple-mobile-web-app-title" content="Caosiyang&#39;s Blog"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2019/06/14/sharding-config-sync/" /><link rel="prev" href="http://caosiyang.github.io/posts/2019/04/29/thunderbird/" /><link rel="next" href="http://caosiyang.github.io/posts/2019/10/30/how-to-install-deb-package-in-manjaro/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+<meta name="application-name" content="一个单板滑雪爱好者的编程笔记">
+<meta name="apple-mobile-web-app-title" content="一个单板滑雪爱好者的编程笔记"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2019/06/14/sharding-config-sync/" /><link rel="prev" href="http://caosiyang.github.io/posts/2019/04/29/thunderbird/" /><link rel="next" href="http://caosiyang.github.io/posts/2019/10/30/how-to-install-deb-package-in-manjaro/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -38,7 +39,7 @@
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
-            <a href="/" title="Caosiyang&#39;s Blog">Caosiyang&#39;s Blog</a>
+            <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
         </div>
         <div class="menu">
             <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
@@ -51,7 +52,7 @@
     <div class="header-container">
         <div class="header-wrapper">
             <div class="header-title">
-                <a href="/" title="Caosiyang&#39;s Blog">Caosiyang&#39;s Blog</a>
+                <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
             </div>
             <div class="menu-toggle" id="menu-toggle-mobile">
                 <span></span><span></span><span></span>
@@ -103,7 +104,7 @@
 <p><code>config.database</code>集合存储全部数据库的meta信息，例如：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -112,7 +113,7 @@
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">mongos&gt; use config
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">mongos&gt; use config
 switched to db config
 mongos&gt; db.databases.find<span class="o">()</span>
 <span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;test&#34;</span>, <span class="s2">&#34;primary&#34;</span> : <span class="s2">&#34;s1&#34;</span>, <span class="s2">&#34;partitioned&#34;</span> : <span class="nb">true</span> <span class="o">}</span>
@@ -154,7 +155,7 @@ mongos&gt; db.databases.find<span class="o">()</span>
 <p><code>config.collections</code>仅存储分片集合的meta信息，例如：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -162,7 +163,7 @@ mongos&gt; db.databases.find<span class="o">()</span>
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">mongos&gt; use config
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">mongos&gt; use config
 switched to db config
 mongos&gt; db.collections.find<span class="o">()</span>
 <span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;test.coll&#34;</span>, <span class="s2">&#34;lastmodEpoch&#34;</span> : ObjectId<span class="o">(</span><span class="s2">&#34;5d03228754bfbe35e837a246&#34;</span><span class="o">)</span>, <span class="s2">&#34;lastmod&#34;</span> : ISODate<span class="o">(</span><span class="s2">&#34;1970-02-19T17:02:47.301Z&#34;</span><span class="o">)</span>, <span class="s2">&#34;dropped&#34;</span> : false, <span class="s2">&#34;key&#34;</span> : <span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;hashed&#34;</span> <span class="o">}</span>, <span class="s2">&#34;unique&#34;</span> : <span class="nb">false</span> <span class="o">}</span>
@@ -271,8 +272,8 @@ mongos&gt; db.collections.find<span class="o">()</span>
 </div>
 <div id="comments"></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.86.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

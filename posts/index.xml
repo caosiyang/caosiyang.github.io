@@ -4,7 +4,14 @@
         <link>http://caosiyang.github.io/posts/</link>
         <description>所有文章 | 一个单板滑雪爱好者的编程笔记</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
-            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Sun, 01 Aug 2021 02:44:45 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Sun, 24 Oct 2021 23:08:59 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>GitHub网站访问Tips</title>
+    <link>http://caosiyang.github.io/posts/2021/10/24/github-tips/</link>
+    <pubDate>Sun, 24 Oct 2021 23:08:59 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2021/10/24/github-tips/</guid>
+    <description><![CDATA[如果GitHub网站访问速度不稳定、经常打不开、github.com域名ping不通，可以试试这个方法。 首先，查询可用的DNS服务器，点击传]]></description>
+</item><item>
     <title>Linux系统目录之/proc</title>
     <link>http://caosiyang.github.io/posts/2021/08/01/linux-filesystem-proc/</link>
     <pubDate>Sun, 01 Aug 2021 02:44:45 &#43;0800</pubDate>
@@ -67,12 +74,5 @@
     <author>作者</author>
     <guid>http://caosiyang.github.io/posts/2020/06/02/linux-clock/</guid>
     <description><![CDATA[操作系统的时间（时钟）由以下4个部分决定： 时间数值 时间标准（本地时间/UTC/其他） 时区 夏令时（DST，Daylight Saving Time，部分适用]]></description>
-</item><item>
-    <title>Seastar和DPDK的开发总结</title>
-    <link>http://caosiyang.github.io/posts/2020/04/07/seastar-dpdk/</link>
-    <pubDate>Tue, 07 Apr 2020 00:00:00 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>http://caosiyang.github.io/posts/2020/04/07/seastar-dpdk/</guid>
-    <description><![CDATA[<strong><ruby>DPDK<rt>Data Plane Development Kit</rt></ruby></strong>是Intel提供的数据平面开发套件，为用户空间高效的数据包处理提供驱动和函数库支持。 使用DPDK开发的应用程序，需要自行实现网]]></description>
 </item></channel>
 </rss>

@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>github - 标签 - 一个单板滑雪爱好者的编程笔记</title>
+        <link>http://caosiyang.github.io/tags/github/</link>
+        <description>github - 标签 - 一个单板滑雪爱好者的编程笔记</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Sun, 24 Oct 2021 23:08:59 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/github/" rel="self" type="application/rss+xml" /><item>
+    <title>GitHub网站访问Tips</title>
+    <link>http://caosiyang.github.io/posts/2021/10/24/github-tips/</link>
+    <pubDate>Sun, 24 Oct 2021 23:08:59 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2021/10/24/github-tips/</guid>
+    <description><![CDATA[如果GitHub网站访问速度不稳定、经常打不开、github.com域名ping不通，可以试试这个方法。 首先，查询可用的DNS服务器，点击传]]></description>
+</item></channel>
+</rss>

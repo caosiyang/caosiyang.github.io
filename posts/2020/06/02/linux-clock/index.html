@@ -8,10 +8,9 @@
         <title>Linux硬件时钟与系统时钟 - 一个单板滑雪爱好者的编程笔记</title><meta name="Description" content="一个单板滑雪爱好者的编程笔记"><meta property="og:title" content="Linux硬件时钟与系统时钟" />
 <meta property="og:description" content="操作系统的时间（时钟）由以下4个部分决定： 时间数值 时间标准（本地时间/UTC/其他） 时区 夏令时（DST，Daylight Saving Time，部分适用" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://caosiyang.github.io/posts/2020/06/02/linux-clock/" /><meta property="article:section" content="posts" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2020/06/02/linux-clock/" />
 <meta property="article:published_time" content="2020-06-02T00:00:00+08:00" />
 <meta property="article:modified_time" content="2020-08-27T17:51:51+08:00" />
-
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Linux硬件时钟与系统时钟"/>
 <meta name="twitter:description" content="操作系统的时间（时钟）由以下4个部分决定： 时间数值 时间标准（本地时间/UTC/其他） 时区 夏令时（DST，Daylight Saving Time，部分适用"/>
@@ -33,16 +32,7 @@
                 "name": "caosiyang"
             },"description": ""
     }
-    </script><script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?1de8dfd17060e85012f3ebc2bac75582";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-</head>
+    </script><script> var _hmt = _hmt || []; (function() { var hm = document.createElement("script"); hm.src = "https://hm.baidu.com/hm.js?1de8dfd17060e85012f3ebc2bac75582"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s); })(); </script></head>
     <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
 
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
@@ -118,19 +108,19 @@ var _hmt = _hmt || [];
 <p>读取硬件时钟：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"># hwclock --show
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># hwclock --show
 </code></pre></td></tr></table>
 </div>
 </div><p>使用系统时钟设置硬件时钟：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"># hwclock --systohc
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># hwclock --systohc
 </code></pre></td></tr></table>
 </div>
 </div><p>更新硬件时钟后，<code>/etc/adjtime</code>随之更新。</p>
@@ -142,7 +132,7 @@ var _hmt = _hmt || [];
 <p>查询时钟，其中包括本地时间、UTC时间、RTC时间、时区、系统时钟同步状态、NTP服务状态、RTC是否使用本地时间：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -152,7 +142,7 @@ var _hmt = _hmt || [];
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"># timedatectl
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># timedatectl
                Local time: Tue 2020-06-02 18:08:06 CST
            Universal time: Tue 2020-06-02 10:08:06 UTC
                  RTC time: Tue 2020-06-02 10:08:06    
@@ -165,7 +155,7 @@ System clock synchronized: yes
 </div><p>设置时钟，时间格式是<code>yyyy-MM-dd hh:mm:ss</code>：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -176,7 +166,7 @@ System clock synchronized: yes
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"># timedatectl set-time &#34;2020-06-02 17:30:00&#34;
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># timedatectl set-time &#34;2020-06-02 17:30:00&#34;
 # timedatectl
                Local time: Tue 2020-06-02 17:30:05 CST
            Universal time: Tue 2020-06-02 09:30:05 UTC
@@ -193,10 +183,10 @@ System clock synchronized: no
 <p>开启时间同步：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"># timedatectl set-ntp 1
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># timedatectl set-ntp 1
 </code></pre></td></tr></table>
 </div>
 </div><h2 id="时间同步">时间同步</h2>
@@ -246,8 +236,8 @@ System clock synchronized: no
 </div>
 <div id="comments"></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.88.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&cl=ffffff&w=a"></script></span></div>
         </div>
     </footer></div>
 

@@ -8,10 +8,9 @@
         <title>logrotate问题及分析 - 一个单板滑雪爱好者的编程笔记</title><meta name="Description" content="一个单板滑雪爱好者的编程笔记"><meta property="og:title" content="logrotate问题及分析" />
 <meta property="og:description" content="在这之前对logrotate理解存在误区，以为只要对目标文件配置logrotate，就可以搞定日志轮转。 生产环境下，偶有发生mongod日志" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://caosiyang.github.io/posts/2016/10/24/logrotate/" /><meta property="article:section" content="posts" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2016/10/24/logrotate/" />
 <meta property="article:published_time" content="2016-10-24T00:00:00+08:00" />
 <meta property="article:modified_time" content="2020-08-27T17:51:51+08:00" />
-
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="logrotate问题及分析"/>
 <meta name="twitter:description" content="在这之前对logrotate理解存在误区，以为只要对目标文件配置logrotate，就可以搞定日志轮转。 生产环境下，偶有发生mongod日志"/>
@@ -33,16 +32,7 @@
                 "name": "caosiyang"
             },"description": ""
     }
-    </script><script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?1de8dfd17060e85012f3ebc2bac75582";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-</head>
+    </script><script> var _hmt = _hmt || []; (function() { var hm = document.createElement("script"); hm.src = "https://hm.baidu.com/hm.js?1de8dfd17060e85012f3ebc2bac75582"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s); })(); </script></head>
     <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
 
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
@@ -98,7 +88,7 @@ var _hmt = _hmt || [];
 <p>由于我的logrotate配置包含copytruncate选项，即先拷贝再清空，直接看关键代码，函数调用关系是<em>rotateLogSet()</em> =&gt; <em>rotateSingLog()</em> =&gt; <em>copyTruncate()</em> 。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -126,7 +116,7 @@ var _hmt = _hmt || [];
 </span><span class="lnt">26
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="c1">// 拷贝日志文件副本
+<pre class="chroma"><code class="language-C" data-lang="C"><span class="c1">// 拷贝日志文件副本
 </span><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="n">sparse_copy</span><span class="p">(</span><span class="n">fdcurr</span><span class="p">,</span> <span class="n">fdsave</span><span class="p">,</span> <span class="n">sb</span><span class="p">,</span> <span class="n">saveLog</span><span class="p">,</span> <span class="n">currLog</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span> 
     <span class="n">close</span><span class="p">(</span><span class="n">fdcurr</span><span class="p">);</span>
     <span class="n">close</span><span class="p">(</span><span class="n">fdsave</span><span class="p">);</span>
@@ -193,8 +183,8 @@ var _hmt = _hmt || [];
 </div>
 <div id="comments"></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.88.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&cl=ffffff&w=a"></script></span></div>
         </div>
     </footer></div>
 

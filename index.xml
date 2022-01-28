@@ -4,9 +4,16 @@
         <link>http://caosiyang.github.io/</link>
         <description>一个单板滑雪爱好者的编程笔记</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
-            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Sun, 24 Oct 2021 23:08:59 &#43;0800</lastBuildDate>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Sun, 23 Jan 2022 11:52:03 &#43;0800</lastBuildDate>
             <atom:link href="http://caosiyang.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Linux命令之lsof</title>
+    <link>http://caosiyang.github.io/posts/2022/01/23/linux-command-losf/</link>
+    <pubDate>Sun, 23 Jan 2022 11:52:03 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2022/01/23/linux-command-losf/</guid>
+    <description><![CDATA[<strong><ruby>lsof<rt>list open files</rt></ruby></strong>命令能够列出所有进程打开的文件，Linux下一切皆文件，此命令在分析文件描述符（包括网络套接字）的使用情况时格外有用。 lso]]></description>
+</item><item>
     <title>GitHub网站访问Tips</title>
     <link>http://caosiyang.github.io/posts/2021/10/24/github-tips/</link>
     <pubDate>Sun, 24 Oct 2021 23:08:59 &#43;0800</pubDate>
@@ -69,12 +76,5 @@
     <author>作者</author>
     <guid>http://caosiyang.github.io/posts/2020/07/22/using-keychron-k6-on-manjaro/</guid>
     <description><![CDATA[近期入手京东京造K6键盘，其实是Keychron K6，这款键盘的亮点是Windows和MacOS双系统兼容，然而我在Manjaro系统下遇到]]></description>
-</item><item>
-    <title>Linux硬件时钟与系统时钟</title>
-    <link>http://caosiyang.github.io/posts/2020/06/02/linux-clock/</link>
-    <pubDate>Tue, 02 Jun 2020 00:00:00 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>http://caosiyang.github.io/posts/2020/06/02/linux-clock/</guid>
-    <description><![CDATA[操作系统的时间（时钟）由以下4个部分决定： 时间数值 时间标准（本地时间/UTC/其他） 时区 夏令时（DST，Daylight Saving Time，部分适用]]></description>
 </item></channel>
 </rss>

@@ -8,9 +8,10 @@
         <title>MongoDB并发复制 - 一个单板滑雪爱好者的编程笔记</title><meta name="Description" content="一个单板滑雪爱好者的编程笔记"><meta property="og:title" content="MongoDB并发复制" />
 <meta property="og:description" content="如果没记错的话，支持WiredTiger存储引擎后，MongoDB实现了oplog并发回放。 之前凭借经验写过一个基于oplog并发回放的实时" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://caosiyang.github.io/posts/2017/04/21/mongodb-replication/" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2017/04/21/mongodb-replication/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2017-04-21T00:00:00+08:00" />
 <meta property="article:modified_time" content="2020-08-27T17:51:51+08:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="MongoDB并发复制"/>
 <meta name="twitter:description" content="如果没记错的话，支持WiredTiger存储引擎后，MongoDB实现了oplog并发回放。 之前凭借经验写过一个基于oplog并发回放的实时"/>
@@ -96,7 +97,7 @@
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -175,7 +176,7 @@
 </span><span class="lnt">77
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="cm">/* tail an oplog.  ok to return, will be re-called. */</span>
+<pre tabindex="0" class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="cm">/* tail an oplog.  ok to return, will be re-called. */</span>
 <span class="kt">void</span> <span class="n">SyncTail</span><span class="o">::</span><span class="n">oplogApplication</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">ReplicationCoordinator</span><span class="o">*</span> <span class="n">replCoord</span> <span class="o">=</span> <span class="n">getGlobalReplicationCoordinator</span><span class="p">();</span>
 
@@ -259,7 +260,7 @@
 <p>核心函数是SyncTail::tryPopAndWaitForMore()，从oplog缓冲队列预读一条oplog，判断其类型，如果是文档操作，返回false，继续取下一条；如果是command或索引操作，返回true，终止do&hellip;while循环，就是说文档操作可以批量回放，而命令及索引操作必须单条阻塞回放，因为此类操作的锁粒度较大（数据库锁，非文档锁）。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -275,7 +276,7 @@
 </span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-Cpp" data-lang="Cpp">    <span class="c1">// check for commands
+<pre tabindex="0" class="chroma"><code class="language-Cpp" data-lang="Cpp">    <span class="c1">// check for commands
 </span><span class="c1"></span>    <span class="k">if</span> <span class="p">((</span><span class="n">op</span><span class="p">[</span><span class="s">&#34;op&#34;</span><span class="p">].</span><span class="n">valuestrsafe</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;c&#39;</span><span class="p">)</span> <span class="o">||</span>
         <span class="c1">// Index builds are acheived through the use of an insert op, not a command op.
 </span><span class="c1"></span>        <span class="c1">// The following line is the same as what the insert code uses to detect an index build.
@@ -298,7 +299,7 @@
 <p>ps：所采用的散列算法是<a href="https://en.wikipedia.org/wiki/MurmurHash" target="_blank" rel="noopener noreffer">murmurhash3</a>，特点是对于规律性较强的key，随机分布特性表现良好。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -342,7 +343,7 @@
 </span><span class="lnt">42
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="kt">void</span> <span class="n">SyncTail</span><span class="o">::</span><span class="n">fillWriterVectors</span><span class="p">(</span><span class="n">OperationContext</span><span class="o">*</span> <span class="n">txn</span><span class="p">,</span>
+<pre tabindex="0" class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="kt">void</span> <span class="n">SyncTail</span><span class="o">::</span><span class="n">fillWriterVectors</span><span class="p">(</span><span class="n">OperationContext</span><span class="o">*</span> <span class="n">txn</span><span class="p">,</span>
                                  <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">deque</span><span class="o">&lt;</span><span class="n">BSONObj</span><span class="o">&gt;&amp;</span> <span class="n">ops</span><span class="p">,</span>
                                  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BSONObj</span><span class="o">&gt;&gt;*</span> <span class="n">writerVectors</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">const</span> <span class="kt">bool</span> <span class="n">supportsDocLocking</span> <span class="o">=</span>
@@ -414,8 +415,8 @@
 </div>
 <div id="comments"></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&cl=ffffff&w=a"></script></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=300&t=n&d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&co=2d78ad&cmo=3acc3a&cmn=ff5353&ct=ffffff"></script></span></div>
         </div>
     </footer></div>
 

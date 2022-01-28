@@ -8,9 +8,10 @@
         <title>如何在Manjaro安装deb包 - 一个单板滑雪爱好者的编程笔记</title><meta name="Description" content="一个单板滑雪爱好者的编程笔记"><meta property="og:title" content="如何在Manjaro安装deb包" />
 <meta property="og:description" content="安装debtap，这里用的是yay，使用其他AUR helper也一样。 1 yay -S debtap 使用debtap将deb包转换为arch包，假设deb包文件是" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://caosiyang.github.io/posts/2019/10/30/how-to-install-deb-package-in-manjaro/" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2019/10/30/how-to-install-deb-package-in-manjaro/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2019-10-30T00:00:00+08:00" />
 <meta property="article:modified_time" content="2020-08-27T17:51:51+08:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="如何在Manjaro安装deb包"/>
 <meta name="twitter:description" content="安装debtap，这里用的是yay，使用其他AUR helper也一样。 1 yay -S debtap 使用debtap将deb包转换为arch包，假设deb包文件是"/>
@@ -85,20 +86,20 @@
             </div><div class="content" id="content"><p>安装debtap，这里用的是yay，使用其他AUR helper也一样。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">yay -S debtap
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">yay -S debtap
 </code></pre></td></tr></table>
 </div>
 </div><p>使用debtap将deb包转换为arch包，假设deb包文件是<code>demo.deb</code>，转换生成一个名为<code>demo-1-x86_64.pkg.tar.xz</code>的arch包，最后使用pacman以离线方式进行安装。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">debtap -q demo.deb
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">debtap -q demo.deb
 sudo pacman -U demo-1-x86_64.pkg.tar.xz
 </code></pre></td></tr></table>
 </div>
@@ -137,8 +138,8 @@ sudo pacman -U demo-1-x86_64.pkg.tar.xz
 </div>
 <div id="comments"></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&cl=ffffff&w=a"></script></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=300&t=n&d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&co=2d78ad&cmo=3acc3a&cmn=ff5353&ct=ffffff"></script></span></div>
         </div>
     </footer></div>
 

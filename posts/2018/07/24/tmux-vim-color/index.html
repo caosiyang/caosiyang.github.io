@@ -8,9 +8,10 @@
         <title>Vim在tmux下的配色方案不兼容问题 - 一个单板滑雪爱好者的编程笔记</title><meta name="Description" content="一个单板滑雪爱好者的编程笔记"><meta property="og:title" content="Vim在tmux下的配色方案不兼容问题" />
 <meta property="og:description" content="平时使用SecureCRT远程连接到CentOS开发机，Vim用了jellybeans配色方案，配置如下： 1 2 set t_Co=256 colorscheme jellybeans bash下一切正常，但" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://caosiyang.github.io/posts/2018/07/24/tmux-vim-color/" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2018/07/24/tmux-vim-color/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-07-24T00:00:00+08:00" />
 <meta property="article:modified_time" content="2020-08-27T17:51:51+08:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Vim在tmux下的配色方案不兼容问题"/>
 <meta name="twitter:description" content="平时使用SecureCRT远程连接到CentOS开发机，Vim用了jellybeans配色方案，配置如下： 1 2 set t_Co=256 colorscheme jellybeans bash下一切正常，但"/>
@@ -85,11 +86,11 @@
             </div><div class="content" id="content"><p>平时使用SecureCRT远程连接到CentOS开发机，Vim用了<a href="https://www.vim.org/scripts/script.php?script_id=2555" target="_blank" rel="noopener noreffer">jellybeans</a>配色方案，配置如下：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">set t_Co=256
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">set t_Co=256
 colorscheme jellybeans
 </code></pre></td></tr></table>
 </div>
@@ -97,19 +98,19 @@ colorscheme jellybeans
 <p>看了下tmux的man手册，<code>-2</code>选项让tmux假设终端支持256种颜色，而jellybeans配色方案也是基于256色，二者一致，所以不存在兼容问题。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">-2            Force tmux to assume the terminal supports 256 colours.
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">-2            Force tmux to assume the terminal supports 256 colours.
 </code></pre></td></tr></table>
 </div>
 </div><p>可以在*~/.bashrc*下添加一行：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nb">alias</span> <span class="nv">tmux</span><span class="o">=</span><span class="s1">&#39;tmux -2&#39;</span>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nb">alias</span> <span class="nv">tmux</span><span class="o">=</span><span class="s1">&#39;tmux -2&#39;</span>
 </code></pre></td></tr></table>
 </div>
 </div></div><div class="post-footer" id="post-footer">
@@ -140,8 +141,8 @@ colorscheme jellybeans
 </div>
 <div id="comments"></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&cl=ffffff&w=a"></script></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=300&t=n&d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&co=2d78ad&cmo=3acc3a&cmn=ff5353&ct=ffffff"></script></span></div>
         </div>
     </footer></div>
 

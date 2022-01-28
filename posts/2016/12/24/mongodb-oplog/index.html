@@ -8,9 +8,10 @@
         <title>MongoDB oplog 分析 - 一个单板滑雪爱好者的编程笔记</title><meta name="Description" content="一个单板滑雪爱好者的编程笔记"><meta property="og:title" content="MongoDB oplog 分析" />
 <meta property="og:description" content="MongoDB数据复制的基础是oplog，复制集的任何数据变更都会在primary节点local.oplog.rs集合下记录oplog，se" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://caosiyang.github.io/posts/2016/12/24/mongodb-oplog/" />
+<meta property="og:url" content="http://caosiyang.github.io/posts/2016/12/24/mongodb-oplog/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2016-12-24T00:00:00+08:00" />
 <meta property="article:modified_time" content="2020-08-27T17:51:51+08:00" />
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="MongoDB oplog 分析"/>
 <meta name="twitter:description" content="MongoDB数据复制的基础是oplog，复制集的任何数据变更都会在primary节点local.oplog.rs集合下记录oplog，se"/>
@@ -24,7 +25,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/caosiyang.github.io\/posts\/2016\/12\/24\/mongodb-oplog\/"
-        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "MongoDB, oplog","wordcount":  1607 ,
+        },"image": ["http:\/\/caosiyang.github.io\/images\/avatar.png"],"genre": "posts","keywords": "MongoDB, oplog","wordcount":  1605 ,
         "url": "http:\/\/caosiyang.github.io\/posts\/2016\/12\/24\/mongodb-oplog\/","datePublished": "2016-12-24T00:00:00+08:00","dateModified": "2020-08-27T17:51:51+08:00","publisher": {
             "@type": "Organization",
             "name": "caosiyang","logo": "http:\/\/caosiyang.github.io\/images\/avatar.png"},"author": {
@@ -74,7 +75,7 @@
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">MongoDB oplog 分析</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/about/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>caosiyang</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><i class="far fa-folder fa-fw"></i>数据库</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2016-12-24">2016-12-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1607 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2016-12-24">2016-12-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1605 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -114,7 +115,7 @@
 <li>
 <p>o</p>
 <p>具体操作内容，对于i，表示要写入的文档；对于u，表示要执行的变更；对于d，表示要删除的文档，即_id；对于c，表示要执行的命令
-udpate操作如果只更新部分field，o键的内容是*{ $set: { &hellip; } }*；如果是replace整个文档，o键的内容是*{ _id: &hellip;, field0: &hellip; filed1: &hellip; }*</p>
+udpate操作如果只更新部分field，o键的内容是*{ $set: { &hellip; } }<em>；如果是replace整个文档，o键的内容是</em>{ _id: &hellip;, field0: &hellip; filed1: &hellip; }*</p>
 </li>
 <li>
 <p>o2</p>
@@ -124,7 +125,7 @@ udpate操作如果只更新部分field，o键的内容是*{ $set: { &hellip; } }
 <p>举个栗子，依次执行下列操作：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -133,7 +134,7 @@ udpate操作如果只更新部分field，o键的内容是*{ $set: { &hellip; } }
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">demo-rs:PRIMARY&gt; use test
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">demo-rs:PRIMARY&gt; use test
 demo-rs:PRIMARY&gt; test.coll.insert({a: 1})
 demo-rs:PRIMARY&gt; test.coll.createIndex({b: 1})
 demo-rs:PRIMARY&gt; test.coll.createIndex({c: 1}, {background: true})
@@ -145,7 +146,7 @@ demo-rs:PRIMARY&gt; test.coll.drop()
 </div><p>然后观察对应的oplog，</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -157,7 +158,7 @@ demo-rs:PRIMARY&gt; test.coll.drop()
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">demo-rs:PRIMARY&gt; use local
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">demo-rs:PRIMARY&gt; use local
 switched to db local
 demo-rs:PRIMARY&gt; db.oplog.rs.find().sort({$natural: -1})
 { &#34;ts&#34; : Timestamp(1482318735, 1), &#34;h&#34; : NumberLong(&#34;6964527823728342008&#34;), &#34;v&#34; : 2, &#34;op&#34; : &#34;c&#34;, &#34;ns&#34; : &#34;test.$cmd&#34;, &#34;o&#34; : { &#34;dropDatabase&#34; : 1 } }
@@ -173,7 +174,7 @@ demo-rs:PRIMARY&gt; db.oplog.rs.find().sort({$natural: -1})
 <p>有一点需要注意，对于类型是c的oplog，o键的值是有序的，比如</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -183,7 +184,7 @@ demo-rs:PRIMARY&gt; db.oplog.rs.find().sort({$natural: -1})
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">{
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">{
     &#34;ts&#34; : Timestamp(1482318662, 1),
     &#34;h&#34; : NumberLong(&#34;7320721234104966244&#34;),
     &#34;v&#34; : 2,
@@ -277,8 +278,8 @@ demo-rs:PRIMARY&gt; db.oplog.rs.find().sort({$natural: -1})
 </div>
 <div id="comments"></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&cl=ffffff&w=a"></script></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=300&t=n&d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&co=2d78ad&cmo=3acc3a&cmn=ff5353&ct=ffffff"></script></span></div>
         </div>
     </footer></div>
 

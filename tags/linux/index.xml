@@ -4,7 +4,14 @@
         <link>http://caosiyang.github.io/tags/linux/</link>
         <description>Linux - 标签 - 一个单板滑雪爱好者的编程笔记</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
-            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Sun, 01 Aug 2021 02:44:45 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/linux/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Sun, 23 Jan 2022 11:52:03 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/linux/" rel="self" type="application/rss+xml" /><item>
+    <title>Linux命令之lsof</title>
+    <link>http://caosiyang.github.io/posts/2022/01/23/linux-command-losf/</link>
+    <pubDate>Sun, 23 Jan 2022 11:52:03 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>http://caosiyang.github.io/posts/2022/01/23/linux-command-losf/</guid>
+    <description><![CDATA[<strong><ruby>lsof<rt>list open files</rt></ruby></strong>命令能够列出所有进程打开的文件，Linux下一切皆文件，此命令在分析文件描述符（包括网络套接字）的使用情况时格外有用。 lso]]></description>
+</item><item>
     <title>Linux系统目录之/proc</title>
     <link>http://caosiyang.github.io/posts/2021/08/01/linux-filesystem-proc/</link>
     <pubDate>Sun, 01 Aug 2021 02:44:45 &#43;0800</pubDate>
@@ -67,12 +74,5 @@
     <author>作者</author>
     <guid>http://caosiyang.github.io/posts/2017/12/24/python-vim/</guid>
     <description><![CDATA[Linux下使用Vim配置Python开发环境，我能想到的，首先要有语法高亮，然后代码自动补全，提高编码效率，再就是语法错误检查，便于纠错，]]></description>
-</item><item>
-    <title>一些不起眼却很实用的Linux命令（不定期更新）</title>
-    <link>http://caosiyang.github.io/posts/2017/07/27/linux-magic-commands/</link>
-    <pubDate>Thu, 27 Jul 2017 00:00:00 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>http://caosiyang.github.io/posts/2017/07/27/linux-magic-commands/</guid>
-    <description><![CDATA[是否经历过这样的场景？ 比如，需要按某种方式去处理一个文本，然后去查有没有现成的Linux命令。果然有！好吧，我把你记录下来。 当然，“不起眼”]]></description>
 </item></channel>
 </rss>

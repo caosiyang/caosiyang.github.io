@@ -6,10 +6,10 @@
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
             <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Sun, 23 Jan 2022 11:52:03 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/lsof/" rel="self" type="application/rss+xml" /><item>
     <title>Linux命令之lsof</title>
-    <link>http://caosiyang.github.io/posts/2022/01/23/linux-command-losf/</link>
+    <link>http://caosiyang.github.io/posts/2022/01/23/linux-command-lsof/</link>
     <pubDate>Sun, 23 Jan 2022 11:52:03 &#43;0800</pubDate>
     <author>作者</author>
-    <guid>http://caosiyang.github.io/posts/2022/01/23/linux-command-losf/</guid>
+    <guid>http://caosiyang.github.io/posts/2022/01/23/linux-command-lsof/</guid>
     <description><![CDATA[<strong><ruby>lsof<rt>list open files</rt></ruby></strong>命令能够列出所有进程打开的文件，Linux下一切皆文件，此命令在分析文件描述符（包括网络套接字）的使用情况时格外有用。 lso]]></description>
 </item></channel>
 </rss>

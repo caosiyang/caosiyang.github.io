@@ -39,7 +39,7 @@
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
-            <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
+            <a href="/" title="一个单板滑雪爱好者的编程笔记">雪板说</a>
         </div>
         <div class="menu">
             <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
@@ -52,7 +52,7 @@
     <div class="header-container">
         <div class="header-wrapper">
             <div class="header-title">
-                <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
+                <a href="/" title="一个单板滑雪爱好者的编程笔记">雪板说</a>
             </div>
             <div class="menu-toggle" id="menu-toggle-mobile">
                 <span></span><span></span><span></span>
@@ -112,8 +112,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"># hwclock --show
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># hwclock --show
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>使用系统时钟设置硬件时钟：</p>
 <div class="highlight"><div class="chroma">
@@ -121,8 +121,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"># hwclock --systohc
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># hwclock --systohc
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>更新硬件时钟后，<code>/etc/adjtime</code>随之更新。</p>
 <h2 id="系统时钟">系统时钟</h2>
@@ -143,15 +143,15 @@
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"># timedatectl
-               Local time: Tue 2020-06-02 18:08:06 CST
-           Universal time: Tue 2020-06-02 10:08:06 UTC
-                 RTC time: Tue 2020-06-02 10:08:06    
-                Time zone: Asia/Shanghai (CST, +0800) 
-System clock synchronized: yes                        
-              NTP service: active                     
-          RTC in local TZ: no 
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># timedatectl
+</span></span><span class="line"><span class="cl">               Local time: Tue 2020-06-02 18:08:06 CST
+</span></span><span class="line"><span class="cl">           Universal time: Tue 2020-06-02 10:08:06 UTC
+</span></span><span class="line"><span class="cl">                 RTC time: Tue 2020-06-02 10:08:06    
+</span></span><span class="line"><span class="cl">                Time zone: Asia/Shanghai (CST, +0800) 
+</span></span><span class="line"><span class="cl">System clock synchronized: yes                        
+</span></span><span class="line"><span class="cl">              NTP service: active                     
+</span></span><span class="line"><span class="cl">          RTC in local TZ: no 
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>设置时钟，时间格式是<code>yyyy-MM-dd hh:mm:ss</code>：</p>
 <div class="highlight"><div class="chroma">
@@ -167,16 +167,16 @@ System clock synchronized: yes
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"># timedatectl set-time &#34;2020-06-02 17:30:00&#34;
-# timedatectl
-               Local time: Tue 2020-06-02 17:30:05 CST
-           Universal time: Tue 2020-06-02 09:30:05 UTC
-                 RTC time: Tue 2020-06-02 09:30:05    
-                Time zone: Asia/Shanghai (CST, +0800) 
-System clock synchronized: no                         
-              NTP service: inactive                   
-          RTC in local TZ: no  
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># timedatectl set-time &#34;2020-06-02 17:30:00&#34;
+</span></span><span class="line"><span class="cl"># timedatectl
+</span></span><span class="line"><span class="cl">               Local time: Tue 2020-06-02 17:30:05 CST
+</span></span><span class="line"><span class="cl">           Universal time: Tue 2020-06-02 09:30:05 UTC
+</span></span><span class="line"><span class="cl">                 RTC time: Tue 2020-06-02 09:30:05    
+</span></span><span class="line"><span class="cl">                Time zone: Asia/Shanghai (CST, +0800) 
+</span></span><span class="line"><span class="cl">System clock synchronized: no                         
+</span></span><span class="line"><span class="cl">              NTP service: inactive                   
+</span></span><span class="line"><span class="cl">          RTC in local TZ: no  
+</span></span></code></pre></td></tr></table>
 </div>
 </div><blockquote>
 <p>时间字符串为本地时间，执行命令后，本地时间、UTC时间、RTC时间会同时更新。</p>
@@ -187,8 +187,8 @@ System clock synchronized: no
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"># timedatectl set-ntp 1
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># timedatectl set-ntp 1
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="时间同步">时间同步</h2>
 <p>可以使用<code>ntpd -qg</code>命令同步时间。</p>
@@ -237,8 +237,8 @@ System clock synchronized: no
 </div>
 <div id="comments"></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=300&t=n&d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&co=2d78ad&cmo=3acc3a&cmn=ff5353&ct=ffffff"></script></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.107.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&cl=ffffff&w=a"></script></span></div>
         </div>
     </footer></div>
 

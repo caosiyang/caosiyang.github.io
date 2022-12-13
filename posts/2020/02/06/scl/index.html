@@ -39,7 +39,7 @@
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
-            <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
+            <a href="/" title="一个单板滑雪爱好者的编程笔记">雪板说</a>
         </div>
         <div class="menu">
             <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
@@ -52,7 +52,7 @@
     <div class="header-container">
         <div class="header-wrapper">
             <div class="header-title">
-                <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
+                <a href="/" title="一个单板滑雪爱好者的编程笔记">雪板说</a>
             </div>
             <div class="menu-toggle" id="menu-toggle-mobile">
                 <span></span><span></span><span></span>
@@ -95,9 +95,9 @@
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">yum install scl-utils
-yum install centos-release-scl
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">yum install scl-utils
+</span></span><span class="line"><span class="cl">yum install centos-release-scl
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>然后安装devtoolset-4：</p>
 <div class="highlight"><div class="chroma">
@@ -105,8 +105,8 @@ yum install centos-release-scl
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">yum install devtoolset-4
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">yum install devtoolset-4
+</span></span></code></pre></td></tr></table>
 </div>
 </div><blockquote>
 <p>SCL一般包含多个RPM包，devtoolset-4集合下软件包数量众多，有C相关的，有Java相关的，可以选择安装指定RPM包，如<code>yum install devtoolset-4-gcc</code></p>
@@ -129,16 +129,16 @@ yum install centos-release-scl
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># which gcc</span>
-/usr/bin/gcc
-<span class="c1"># gcc --version</span>
-gcc <span class="o">(</span>GCC<span class="o">)</span> 4.8.5 <span class="m">20150623</span> <span class="o">(</span>Red Hat 4.8.5-36<span class="o">)</span>
-
-<span class="c1"># scl enable devtoolset-4 -- which gcc</span>
-/opt/rh/devtoolset-4/root/usr/bin/gcc
-<span class="c1"># scl enable devtoolset-4 -- gcc --version</span>
-gcc <span class="o">(</span>GCC<span class="o">)</span> 5.3.1 <span class="m">20160406</span> <span class="o">(</span>Red Hat 5.3.1-6<span class="o">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># which gcc</span>
+</span></span><span class="line"><span class="cl">/usr/bin/gcc
+</span></span><span class="line"><span class="cl"><span class="c1"># gcc --version</span>
+</span></span><span class="line"><span class="cl">gcc <span class="o">(</span>GCC<span class="o">)</span> 4.8.5 <span class="m">20150623</span> <span class="o">(</span>Red Hat 4.8.5-36<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># scl enable devtoolset-4 -- which gcc</span>
+</span></span><span class="line"><span class="cl">/opt/rh/devtoolset-4/root/usr/bin/gcc
+</span></span><span class="line"><span class="cl"><span class="c1"># scl enable devtoolset-4 -- gcc --version</span>
+</span></span><span class="line"><span class="cl">gcc <span class="o">(</span>GCC<span class="o">)</span> 5.3.1 <span class="m">20160406</span> <span class="o">(</span>Red Hat 5.3.1-6<span class="o">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>scl命令用于激活SCL版本和在该环境下执行其他操作，可以同时激活多个SCL，执行其他命令的方式有：</p>
 <ul>
@@ -150,8 +150,8 @@ gcc <span class="o">(</span>GCC<span class="o">)</span> 5.3.1 <span class="m">20
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">scl <span class="nb">enable</span> SCL_NAME_1 SCL_NAME_2 <span class="nb">command</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">scl <span class="nb">enable</span> SCL_NAME_1 SCL_NAME_2 <span class="nb">command</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>对于带参数的命令，有两种写法：引号和命令分隔符。</p>
 <div class="highlight"><div class="chroma">
@@ -161,10 +161,10 @@ gcc <span class="o">(</span>GCC<span class="o">)</span> 5.3.1 <span class="m">20
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">scl <span class="nb">enable</span> SCL_NAME_1 SCL_NAME_2 <span class="s1">&#39;command --argument&#39;</span>
-scl <span class="nb">enable</span> SCL_NAME_1 SCL_NAME_2 <span class="s2">&#34;command --argument&#34;</span>
-scl <span class="nb">enable</span> SCL_NAME_1 SCL_NAME_2 -- <span class="nb">command</span> --argument
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">scl <span class="nb">enable</span> SCL_NAME_1 SCL_NAME_2 <span class="s1">&#39;command --argument&#39;</span>
+</span></span><span class="line"><span class="cl">scl <span class="nb">enable</span> SCL_NAME_1 SCL_NAME_2 <span class="s2">&#34;command --argument&#34;</span>
+</span></span><span class="line"><span class="cl">scl <span class="nb">enable</span> SCL_NAME_1 SCL_NAME_2 -- <span class="nb">command</span> --argument
+</span></span></code></pre></td></tr></table>
 </div>
 </div></li>
 <li>
@@ -175,8 +175,8 @@ scl <span class="nb">enable</span> SCL_NAME_1 SCL_NAME_2 -- <span class="nb">com
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">scl <span class="nb">enable</span> SCL_NAME_1 SCL_NAME_2 bash
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">scl <span class="nb">enable</span> SCL_NAME_1 SCL_NAME_2 bash
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>在新的shell环境下，执行命令<code>echo $X_SCLS</code>，查看已激活的SCL；
 退出环境，执行命令<code>exit</code>。</p>
@@ -189,8 +189,8 @@ scl <span class="nb">enable</span> SCL_NAME_1 SCL_NAME_2 -- <span class="nb">com
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">cat cmd_file <span class="p">|</span> scl <span class="nb">enable</span> SCL_NAME_1 SCL_NAME_2 -
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">cat cmd_file <span class="p">|</span> scl <span class="nb">enable</span> SCL_NAME_1 SCL_NAME_2 -
+</span></span></code></pre></td></tr></table>
 </div>
 </div></li>
 </ul>
@@ -200,8 +200,8 @@ scl <span class="nb">enable</span> SCL_NAME_1 SCL_NAME_2 -- <span class="nb">com
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">scl --list
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">scl --list
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>查看指定SCL下已安装的RPM包</p>
 <div class="highlight"><div class="chroma">
@@ -209,8 +209,8 @@ scl <span class="nb">enable</span> SCL_NAME_1 SCL_NAME_2 -- <span class="nb">com
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">scl --list SCL_NAME
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">scl --list SCL_NAME
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>卸载整个SCL</p>
 <div class="highlight"><div class="chroma">
@@ -218,8 +218,8 @@ scl <span class="nb">enable</span> SCL_NAME_1 SCL_NAME_2 -- <span class="nb">com
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">yum remove SCL_NAME<span class="se">\*</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">yum remove SCL_NAME<span class="se">\*</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><hr>
 <p>参考</p>
@@ -255,8 +255,8 @@ scl <span class="nb">enable</span> SCL_NAME_1 SCL_NAME_2 -- <span class="nb">com
 </div>
 <div id="comments"></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=300&t=n&d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&co=2d78ad&cmo=3acc3a&cmn=ff5353&ct=ffffff"></script></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.107.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&cl=ffffff&w=a"></script></span></div>
         </div>
     </footer></div>
 

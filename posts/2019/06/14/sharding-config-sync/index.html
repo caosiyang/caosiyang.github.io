@@ -39,7 +39,7 @@
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
-            <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
+            <a href="/" title="一个单板滑雪爱好者的编程笔记">雪板说</a>
         </div>
         <div class="menu">
             <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
@@ -52,7 +52,7 @@
     <div class="header-container">
         <div class="header-wrapper">
             <div class="header-title">
-                <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
+                <a href="/" title="一个单板滑雪爱好者的编程笔记">雪板说</a>
             </div>
             <div class="menu-toggle" id="menu-toggle-mobile">
                 <span></span><span></span><span></span>
@@ -113,14 +113,14 @@
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">mongos&gt; use config
-switched to db config
-mongos&gt; db.databases.find<span class="o">()</span>
-<span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;test&#34;</span>, <span class="s2">&#34;primary&#34;</span> : <span class="s2">&#34;s1&#34;</span>, <span class="s2">&#34;partitioned&#34;</span> : <span class="nb">true</span> <span class="o">}</span>
-<span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;test1&#34;</span>, <span class="s2">&#34;primary&#34;</span> : <span class="s2">&#34;s2&#34;</span>, <span class="s2">&#34;partitioned&#34;</span> : <span class="nb">false</span> <span class="o">}</span>
-<span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;test2&#34;</span>, <span class="s2">&#34;primary&#34;</span> : <span class="s2">&#34;s4&#34;</span>, <span class="s2">&#34;partitioned&#34;</span> : <span class="nb">true</span> <span class="o">}</span>
-<span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;test3&#34;</span>, <span class="s2">&#34;primary&#34;</span> : <span class="s2">&#34;s6&#34;</span>, <span class="s2">&#34;partitioned&#34;</span> : <span class="nb">true</span> <span class="o">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mongos&gt; use config
+</span></span><span class="line"><span class="cl">switched to db config
+</span></span><span class="line"><span class="cl">mongos&gt; db.databases.find<span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;test&#34;</span>, <span class="s2">&#34;primary&#34;</span> : <span class="s2">&#34;s1&#34;</span>, <span class="s2">&#34;partitioned&#34;</span> : <span class="nb">true</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;test1&#34;</span>, <span class="s2">&#34;primary&#34;</span> : <span class="s2">&#34;s2&#34;</span>, <span class="s2">&#34;partitioned&#34;</span> : <span class="nb">false</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;test2&#34;</span>, <span class="s2">&#34;primary&#34;</span> : <span class="s2">&#34;s4&#34;</span>, <span class="s2">&#34;partitioned&#34;</span> : <span class="nb">true</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;test3&#34;</span>, <span class="s2">&#34;primary&#34;</span> : <span class="s2">&#34;s6&#34;</span>, <span class="s2">&#34;partitioned&#34;</span> : <span class="nb">true</span> <span class="o">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><table>
 <thead>
@@ -163,13 +163,13 @@ mongos&gt; db.databases.find<span class="o">()</span>
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">mongos&gt; use config
-switched to db config
-mongos&gt; db.collections.find<span class="o">()</span>
-<span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;test.coll&#34;</span>, <span class="s2">&#34;lastmodEpoch&#34;</span> : ObjectId<span class="o">(</span><span class="s2">&#34;5d03228754bfbe35e837a246&#34;</span><span class="o">)</span>, <span class="s2">&#34;lastmod&#34;</span> : ISODate<span class="o">(</span><span class="s2">&#34;1970-02-19T17:02:47.301Z&#34;</span><span class="o">)</span>, <span class="s2">&#34;dropped&#34;</span> : false, <span class="s2">&#34;key&#34;</span> : <span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;hashed&#34;</span> <span class="o">}</span>, <span class="s2">&#34;unique&#34;</span> : <span class="nb">false</span> <span class="o">}</span>
-<span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;test2.coll&#34;</span>, <span class="s2">&#34;lastmodEpoch&#34;</span> : ObjectId<span class="o">(</span><span class="s2">&#34;5d03229c54bfbe35e837a24c&#34;</span><span class="o">)</span>, <span class="s2">&#34;lastmod&#34;</span> : ISODate<span class="o">(</span><span class="s2">&#34;1970-02-19T17:02:47.296Z&#34;</span><span class="o">)</span>, <span class="s2">&#34;dropped&#34;</span> : false, <span class="s2">&#34;key&#34;</span> : <span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="m">1</span> <span class="o">}</span>, <span class="s2">&#34;unique&#34;</span> : <span class="nb">true</span> <span class="o">}</span>
-<span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;test3.coll&#34;</span>, <span class="s2">&#34;lastmodEpoch&#34;</span> : ObjectId<span class="o">(</span><span class="s2">&#34;000000000000000000000000&#34;</span><span class="o">)</span>, <span class="s2">&#34;lastmod&#34;</span> : ISODate<span class="o">(</span><span class="s2">&#34;2019-06-14T04:31:49.622Z&#34;</span><span class="o">)</span>, <span class="s2">&#34;dropped&#34;</span> : <span class="nb">true</span> <span class="o">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mongos&gt; use config
+</span></span><span class="line"><span class="cl">switched to db config
+</span></span><span class="line"><span class="cl">mongos&gt; db.collections.find<span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;test.coll&#34;</span>, <span class="s2">&#34;lastmodEpoch&#34;</span> : ObjectId<span class="o">(</span><span class="s2">&#34;5d03228754bfbe35e837a246&#34;</span><span class="o">)</span>, <span class="s2">&#34;lastmod&#34;</span> : ISODate<span class="o">(</span><span class="s2">&#34;1970-02-19T17:02:47.301Z&#34;</span><span class="o">)</span>, <span class="s2">&#34;dropped&#34;</span> : false, <span class="s2">&#34;key&#34;</span> : <span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;hashed&#34;</span> <span class="o">}</span>, <span class="s2">&#34;unique&#34;</span> : <span class="nb">false</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;test2.coll&#34;</span>, <span class="s2">&#34;lastmodEpoch&#34;</span> : ObjectId<span class="o">(</span><span class="s2">&#34;5d03229c54bfbe35e837a24c&#34;</span><span class="o">)</span>, <span class="s2">&#34;lastmod&#34;</span> : ISODate<span class="o">(</span><span class="s2">&#34;1970-02-19T17:02:47.296Z&#34;</span><span class="o">)</span>, <span class="s2">&#34;dropped&#34;</span> : false, <span class="s2">&#34;key&#34;</span> : <span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="m">1</span> <span class="o">}</span>, <span class="s2">&#34;unique&#34;</span> : <span class="nb">true</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span> <span class="s2">&#34;_id&#34;</span> : <span class="s2">&#34;test3.coll&#34;</span>, <span class="s2">&#34;lastmodEpoch&#34;</span> : ObjectId<span class="o">(</span><span class="s2">&#34;000000000000000000000000&#34;</span><span class="o">)</span>, <span class="s2">&#34;lastmod&#34;</span> : ISODate<span class="o">(</span><span class="s2">&#34;2019-06-14T04:31:49.622Z&#34;</span><span class="o">)</span>, <span class="s2">&#34;dropped&#34;</span> : <span class="nb">true</span> <span class="o">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><table>
 <thead>
@@ -272,8 +272,8 @@ mongos&gt; db.collections.find<span class="o">()</span>
 </div>
 <div id="comments"></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=300&t=n&d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&co=2d78ad&cmo=3acc3a&cmn=ff5353&ct=ffffff"></script></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.107.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&cl=ffffff&w=a"></script></span></div>
         </div>
     </footer></div>
 

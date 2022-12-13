@@ -39,7 +39,7 @@
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
-            <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
+            <a href="/" title="一个单板滑雪爱好者的编程笔记">雪板说</a>
         </div>
         <div class="menu">
             <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
@@ -52,7 +52,7 @@
     <div class="header-container">
         <div class="header-wrapper">
             <div class="header-title">
-                <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
+                <a href="/" title="一个单板滑雪爱好者的编程笔记">雪板说</a>
             </div>
             <div class="menu-toggle" id="menu-toggle-mobile">
                 <span></span><span></span><span></span>
@@ -123,21 +123,21 @@
 </span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="n">content</span> <span class="o">=</span> <span class="s2">&#34;&#34;&#34;
-</span><span class="s2">title: 这是一个标题
-</span><span class="s2">categories:
-</span><span class="s2">- 分类1
-</span><span class="s2">tags:
-</span><span class="s2">- 标签1
-</span><span class="s2">- 标签2
-</span><span class="s2">&#34;&#34;&#34;</span>
-
-<span class="n">node</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-<span class="n">stream</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="n">content</span> <span class="o">=</span> <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">title: 这是一个标题
+</span></span></span><span class="line"><span class="cl"><span class="s2">categories:
+</span></span></span><span class="line"><span class="cl"><span class="s2">- 分类1
+</span></span></span><span class="line"><span class="cl"><span class="s2">tags:
+</span></span></span><span class="line"><span class="cl"><span class="s2">- 标签1
+</span></span></span><span class="line"><span class="cl"><span class="s2">- 标签2
+</span></span></span><span class="line"><span class="cl"><span class="s2">&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">node</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">stream</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>输出：</p>
 <div class="highlight"><div class="chroma">
@@ -152,15 +152,15 @@
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">MappingNode(tag=&#39;tag:yaml.org,2002:map&#39;, value=[(ScalarNode(tag=&#39;tag:yaml.org,2002:str&#39;, value=&#39;title&#39;), ScalarNode(tag=&#39;tag:yaml.org,2002:str&#39;, value=&#39;这是一个标题&#39;)), (ScalarNode(tag=&#39;tag:yaml.org,2002:str&#39;, value=&#39;categories&#39;), SequenceNode(tag=&#39;tag:yaml.org,2002:seq&#39;, value=[ScalarNode(tag=&#39;tag:yaml.org,2002:str&#39;, value=&#39;分类1&#39;)])), (ScalarNode(tag=&#39;tag:yaml.org,2002:str&#39;, value=&#39;tags&#39;), SequenceNode(tag=&#39;tag:yaml.org,2002:seq&#39;, value=[ScalarNode(tag=&#39;tag:yaml.org,2002:str&#39;, value=&#39;标签1&#39;), ScalarNode(tag=&#39;tag:yaml.org,2002:str&#39;, value=&#39;标签2&#39;)]))])
-
-title: &#34;\u8FD9\u662F\u4E00\u4E2A\u6807\u9898&#34;
-categories:
-- &#34;\u5206\u7C7B1&#34;
-tags:
-- &#34;\u6807\u7B7E1&#34;
-- &#34;\u6807\u7B7E2&#34;
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MappingNode(tag=&#39;tag:yaml.org,2002:map&#39;, value=[(ScalarNode(tag=&#39;tag:yaml.org,2002:str&#39;, value=&#39;title&#39;), ScalarNode(tag=&#39;tag:yaml.org,2002:str&#39;, value=&#39;这是一个标题&#39;)), (ScalarNode(tag=&#39;tag:yaml.org,2002:str&#39;, value=&#39;categories&#39;), SequenceNode(tag=&#39;tag:yaml.org,2002:seq&#39;, value=[ScalarNode(tag=&#39;tag:yaml.org,2002:str&#39;, value=&#39;分类1&#39;)])), (ScalarNode(tag=&#39;tag:yaml.org,2002:str&#39;, value=&#39;tags&#39;), SequenceNode(tag=&#39;tag:yaml.org,2002:seq&#39;, value=[ScalarNode(tag=&#39;tag:yaml.org,2002:str&#39;, value=&#39;标签1&#39;), ScalarNode(tag=&#39;tag:yaml.org,2002:str&#39;, value=&#39;标签2&#39;)]))])
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">title: &#34;\u8FD9\u662F\u4E00\u4E2A\u6807\u9898&#34;
+</span></span><span class="line"><span class="cl">categories:
+</span></span><span class="line"><span class="cl">- &#34;\u5206\u7C7B1&#34;
+</span></span><span class="line"><span class="cl">tags:
+</span></span><span class="line"><span class="cl">- &#34;\u6807\u7B7E1&#34;
+</span></span><span class="line"><span class="cl">- &#34;\u6807\u7B7E2&#34;
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="关于constructor和representer">关于constructor和representer</h2>
 <p>constructor之于Loading，representer之于Dumping，二者功能相反。</p>
@@ -212,32 +212,32 @@ tags:
 </span><span class="lnt">25
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="k">class</span> <span class="nc">Post</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">categories</span><span class="p">,</span> <span class="n">tags</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">categories</span> <span class="o">=</span> <span class="n">categories</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tags</span> <span class="o">=</span> <span class="n">tags</span>
-
-<span class="k">def</span> <span class="nf">post_constructor</span><span class="p">(</span><span class="n">loader</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
-    <span class="n">mapping_value</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">construct_mapping</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">Post</span><span class="p">(</span><span class="n">mapping_value</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">],</span> <span class="n">mapping_value</span><span class="p">[</span><span class="s1">&#39;categories&#39;</span><span class="p">],</span> <span class="n">mapping_value</span><span class="p">[</span><span class="s1">&#39;tags&#39;</span><span class="p">])</span>
-
-
-<span class="n">yaml</span><span class="o">.</span><span class="n">add_constructor</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;!Post&#39;</span><span class="p">,</span> <span class="n">post_constructor</span><span class="p">)</span>	
-<span class="n">res</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&#34;&#34;&#34;
-</span><span class="s2">!Post
-</span><span class="s2">title: 这是一个标题
-</span><span class="s2">categories:
-</span><span class="s2">- 分类1
-</span><span class="s2">tags:
-</span><span class="s2">- 标签1
-</span><span class="s2">- 标签2
-</span><span class="s2">&#34;&#34;&#34;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">res</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">categories</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Post</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">categories</span><span class="p">,</span> <span class="n">tags</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">categories</span> <span class="o">=</span> <span class="n">categories</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">tags</span> <span class="o">=</span> <span class="n">tags</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">post_constructor</span><span class="p">(</span><span class="n">loader</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mapping_value</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">construct_mapping</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Post</span><span class="p">(</span><span class="n">mapping_value</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">],</span> <span class="n">mapping_value</span><span class="p">[</span><span class="s1">&#39;categories&#39;</span><span class="p">],</span> <span class="n">mapping_value</span><span class="p">[</span><span class="s1">&#39;tags&#39;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">yaml</span><span class="o">.</span><span class="n">add_constructor</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;!Post&#39;</span><span class="p">,</span> <span class="n">post_constructor</span><span class="p">)</span>	
+</span></span><span class="line"><span class="cl"><span class="n">res</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">!Post
+</span></span></span><span class="line"><span class="cl"><span class="s2">title: 这是一个标题
+</span></span></span><span class="line"><span class="cl"><span class="s2">categories:
+</span></span></span><span class="line"><span class="cl"><span class="s2">- 分类1
+</span></span></span><span class="line"><span class="cl"><span class="s2">tags:
+</span></span></span><span class="line"><span class="cl"><span class="s2">- 标签1
+</span></span></span><span class="line"><span class="cl"><span class="s2">- 标签2
+</span></span></span><span class="line"><span class="cl"><span class="s2">&#34;&#34;&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">res</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">categories</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>输出：</p>
 <div class="highlight"><div class="chroma">
@@ -248,11 +248,11 @@ tags:
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">&lt;class &#39;__main__.Post&#39;&gt;
-这是一个标题
-[&#39;分类1&#39;]
-[&#39;标签1&#39;, &#39;标签2&#39;]
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;class &#39;__main__.Post&#39;&gt;
+</span></span><span class="line"><span class="cl">这是一个标题
+</span></span><span class="line"><span class="cl">[&#39;分类1&#39;]
+</span></span><span class="line"><span class="cl">[&#39;标签1&#39;, &#39;标签2&#39;]
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="representer">representer</h3>
 <p>用于将一个Python对象转换为YAML节点。</p>
@@ -294,24 +294,24 @@ tags:
 </span><span class="lnt">17
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="k">class</span> <span class="nc">Post</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">categories</span><span class="p">,</span> <span class="n">tags</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">categories</span> <span class="o">=</span> <span class="n">categories</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tags</span> <span class="o">=</span> <span class="n">tags</span>
-
-<span class="k">def</span> <span class="nf">post_representer</span><span class="p">(</span><span class="n">dumper</span><span class="p">,</span> <span class="n">post</span><span class="p">):</span>
-    <span class="n">attrs</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">attrs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="n">post</span><span class="o">.</span><span class="n">title</span><span class="p">))</span>
-    <span class="n">attrs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;categories&#39;</span><span class="p">,</span> <span class="n">post</span><span class="o">.</span><span class="n">categories</span><span class="p">))</span>
-    <span class="n">attrs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;tags&#39;</span><span class="p">,</span> <span class="n">post</span><span class="o">.</span><span class="n">tags</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">dumper</span><span class="o">.</span><span class="n">represent_mapping</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;!Post&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="p">)</span>
-
-<span class="n">post</span> <span class="o">=</span> <span class="n">Post</span><span class="p">(</span><span class="s1">&#39;这是一个标题&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;分类1&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;标签1&#39;</span><span class="p">,</span> <span class="s1">&#39;标签2&#39;</span><span class="p">])</span>
-<span class="n">yaml</span><span class="o">.</span><span class="n">add_representer</span><span class="p">(</span><span class="n">Post</span><span class="p">,</span> <span class="n">post_representer</span><span class="p">)</span>
-<span class="n">res</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">post</span><span class="p">,</span> <span class="n">allow_unicode</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Post</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">categories</span><span class="p">,</span> <span class="n">tags</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">categories</span> <span class="o">=</span> <span class="n">categories</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">tags</span> <span class="o">=</span> <span class="n">tags</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">post_representer</span><span class="p">(</span><span class="n">dumper</span><span class="p">,</span> <span class="n">post</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">attrs</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">attrs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="n">post</span><span class="o">.</span><span class="n">title</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">attrs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;categories&#39;</span><span class="p">,</span> <span class="n">post</span><span class="o">.</span><span class="n">categories</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">attrs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;tags&#39;</span><span class="p">,</span> <span class="n">post</span><span class="o">.</span><span class="n">tags</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">dumper</span><span class="o">.</span><span class="n">represent_mapping</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;!Post&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">post</span> <span class="o">=</span> <span class="n">Post</span><span class="p">(</span><span class="s1">&#39;这是一个标题&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;分类1&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;标签1&#39;</span><span class="p">,</span> <span class="s1">&#39;标签2&#39;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">yaml</span><span class="o">.</span><span class="n">add_representer</span><span class="p">(</span><span class="n">Post</span><span class="p">,</span> <span class="n">post_representer</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">res</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">post</span><span class="p">,</span> <span class="n">allow_unicode</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>输出：</p>
 <div class="highlight"><div class="chroma">
@@ -325,14 +325,14 @@ tags:
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">!Post
-title: 这是一个标题
-categories:
-- 分类1
-tags:
-- 标签1
-- 标签2
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">!Post
+</span></span><span class="line"><span class="cl">title: 这是一个标题
+</span></span><span class="line"><span class="cl">categories:
+</span></span><span class="line"><span class="cl">- 分类1
+</span></span><span class="line"><span class="cl">tags:
+</span></span><span class="line"><span class="cl">- 标签1
+</span></span><span class="line"><span class="cl">- 标签2
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>可以看到输出内容带有类型tag，如果希望不附带tag，需使用YAML标准类型，在本例中<code>dumper.represent_mapping(u'tag:yaml.org,2002:map', attrs)</code>。</p>
 <p>YAML标准类型tag可以参考 <a href="https://yaml.org/type/index.html" target="_blank" rel="noopener noreffer">https://yaml.org/type/index.html</a> 。</p>
@@ -354,20 +354,20 @@ tags:
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Dumper</span><span class="o">=</span><span class="n">Dumper</span><span class="p">,</span>
-    <span class="n">default_style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">default_flow_style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="c1"># encoding=None (Python 3)</span>
-    <span class="n">explicit_start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">explicit_end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">tags</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">canonical</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">indent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">allow_unicode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">line_break</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Dumper</span><span class="o">=</span><span class="n">Dumper</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">default_style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">default_flow_style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="c1"># encoding=None (Python 3)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">explicit_start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">explicit_end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tags</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">canonical</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">indent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">allow_unicode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">line_break</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>已知参数用法：</p>
 <ul>
@@ -395,14 +395,14 @@ tags:
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">Tag property: # Usually unspecified.
-    none    : Unspecified tag (automatically resolved by application).
-    &#39;!&#39;     : Non-specific tag (by default, &#34;!!map&#34;/&#34;!!seq&#34;/&#34;!!str&#34;).
-    &#39;!foo&#39;  : Primary (by convention, means a local &#34;!foo&#34; tag).
-    &#39;!!foo&#39; : Secondary (by convention, means &#34;tag:yaml.org,2002:foo&#34;).
-    &#39;!h!foo&#39;: Requires &#34;%TAG !h! &lt;prefix&gt;&#34; (and then means &#34;&lt;prefix&gt;foo&#34;).
-    &#39;!&lt;foo&gt;&#39;: Verbatim tag (always means &#34;foo&#34;)
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Tag property: # Usually unspecified.
+</span></span><span class="line"><span class="cl">    none    : Unspecified tag (automatically resolved by application).
+</span></span><span class="line"><span class="cl">    &#39;!&#39;     : Non-specific tag (by default, &#34;!!map&#34;/&#34;!!seq&#34;/&#34;!!str&#34;).
+</span></span><span class="line"><span class="cl">    &#39;!foo&#39;  : Primary (by convention, means a local &#34;!foo&#34; tag).
+</span></span><span class="line"><span class="cl">    &#39;!!foo&#39; : Secondary (by convention, means &#34;tag:yaml.org,2002:foo&#34;).
+</span></span><span class="line"><span class="cl">    &#39;!h!foo&#39;: Requires &#34;%TAG !h! &lt;prefix&gt;&#34; (and then means &#34;&lt;prefix&gt;foo&#34;).
+</span></span><span class="line"><span class="cl">    &#39;!&lt;foo&gt;&#39;: Verbatim tag (always means &#34;foo&#34;)
+</span></span></code></pre></td></tr></table>
 </div>
 </div></blockquote>
 <p>其中，<code>!!</code>是<code>tag:yaml.org,2002:</code>的缩写，dump内容所包含的tag采用缩写格式。</p>
@@ -441,8 +441,8 @@ tags:
 </div>
 <div id="comments"></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=300&t=n&d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&co=2d78ad&cmo=3acc3a&cmn=ff5353&ct=ffffff"></script></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.107.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&cl=ffffff&w=a"></script></span></div>
         </div>
     </footer></div>
 

@@ -39,7 +39,7 @@
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
-            <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
+            <a href="/" title="一个单板滑雪爱好者的编程笔记">雪板说</a>
         </div>
         <div class="menu">
             <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
@@ -52,7 +52,7 @@
     <div class="header-container">
         <div class="header-wrapper">
             <div class="header-title">
-                <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
+                <a href="/" title="一个单板滑雪爱好者的编程笔记">雪板说</a>
             </div>
             <div class="menu-toggle" id="menu-toggle-mobile">
                 <span></span><span></span><span></span>
@@ -117,33 +117,33 @@
 </span><span class="lnt">26
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="c1">// 拷贝日志文件副本
-</span><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="n">sparse_copy</span><span class="p">(</span><span class="n">fdcurr</span><span class="p">,</span> <span class="n">fdsave</span><span class="p">,</span> <span class="n">sb</span><span class="p">,</span> <span class="n">saveLog</span><span class="p">,</span> <span class="n">currLog</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span> 
-    <span class="n">close</span><span class="p">(</span><span class="n">fdcurr</span><span class="p">);</span>
-    <span class="n">close</span><span class="p">(</span><span class="n">fdsave</span><span class="p">);</span>
-    <span class="n">message</span><span class="p">(</span><span class="n">MESS_ERROR</span><span class="p">,</span> <span class="s">&#34;error copying %s to %s: %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">currLog</span><span class="p">,</span>
-            <span class="n">saveLog</span><span class="p">,</span> <span class="n">strerror</span><span class="p">(</span><span class="n">errno</span><span class="p">));</span>
-    <span class="n">unlink</span><span class="p">(</span><span class="n">saveLog</span><span class="p">);</span>
-    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="c1">// 清空原始日志文件
-</span><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">LOG_FLAG_COPYTRUNCATE</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">message</span><span class="p">(</span><span class="n">MESS_DEBUG</span><span class="p">,</span> <span class="s">&#34;truncating %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">currLog</span><span class="p">);</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">debug</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">fsync</span><span class="p">(</span><span class="n">fdsave</span><span class="p">);</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">ftruncate</span><span class="p">(</span><span class="n">fdcurr</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
-        <span class="n">message</span><span class="p">(</span><span class="n">MESS_ERROR</span><span class="p">,</span> <span class="s">&#34;error truncating %s: %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">currLog</span><span class="p">,</span>
-            <span class="n">strerror</span><span class="p">(</span><span class="n">errno</span><span class="p">));</span>
-        <span class="n">close</span><span class="p">(</span><span class="n">fdcurr</span><span class="p">);</span>
-        <span class="n">close</span><span class="p">(</span><span class="n">fdsave</span><span class="p">);</span>
-        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span> <span class="k">else</span>
-    <span class="n">message</span><span class="p">(</span><span class="n">MESS_DEBUG</span><span class="p">,</span> <span class="s">&#34;Not truncating %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">currLog</span><span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="c1">// 拷贝日志文件副本
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="nf">sparse_copy</span><span class="p">(</span><span class="n">fdcurr</span><span class="p">,</span> <span class="n">fdsave</span><span class="p">,</span> <span class="n">sb</span><span class="p">,</span> <span class="n">saveLog</span><span class="p">,</span> <span class="n">currLog</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span> 
+</span></span><span class="line"><span class="cl">    <span class="nf">close</span><span class="p">(</span><span class="n">fdcurr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">close</span><span class="p">(</span><span class="n">fdsave</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">message</span><span class="p">(</span><span class="n">MESS_ERROR</span><span class="p">,</span> <span class="s">&#34;error copying %s to %s: %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">currLog</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">saveLog</span><span class="p">,</span> <span class="nf">strerror</span><span class="p">(</span><span class="n">errno</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">unlink</span><span class="p">(</span><span class="n">saveLog</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 清空原始日志文件
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">if</span> <span class="p">(</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">LOG_FLAG_COPYTRUNCATE</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">message</span><span class="p">(</span><span class="n">MESS_DEBUG</span><span class="p">,</span> <span class="s">&#34;truncating %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">currLog</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">debug</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">fsync</span><span class="p">(</span><span class="n">fdsave</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nf">ftruncate</span><span class="p">(</span><span class="n">fdcurr</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">message</span><span class="p">(</span><span class="n">MESS_ERROR</span><span class="p">,</span> <span class="s">&#34;error truncating %s: %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">currLog</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nf">strerror</span><span class="p">(</span><span class="n">errno</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">close</span><span class="p">(</span><span class="n">fdcurr</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">close</span><span class="p">(</span><span class="n">fdsave</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">message</span><span class="p">(</span><span class="n">MESS_DEBUG</span><span class="p">,</span> <span class="s">&#34;Not truncating %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">currLog</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>这里逻辑很简单，直接调用 <em>ftruncate()</em> 清空文件，回到文章开头的问题，mongod进程在写日志，logrotate进程执行 <em>ftruncate()</em>，至少logrotate没有对文件加锁，我觉得是两个进程同时写日志导致问题发生。</p>
 <p>所以，mongodb日志轮转正确的方法是先执行mongodb自带的<code>logRotate</code>命令，然后利用Linux logrotate工具处理转储日志文件。</p>
@@ -184,8 +184,8 @@
 </div>
 <div id="comments"></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=300&t=n&d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&co=2d78ad&cmo=3acc3a&cmn=ff5353&ct=ffffff"></script></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.107.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&cl=ffffff&w=a"></script></span></div>
         </div>
     </footer></div>
 

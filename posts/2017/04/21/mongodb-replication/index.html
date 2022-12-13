@@ -39,7 +39,7 @@
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
-            <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
+            <a href="/" title="一个单板滑雪爱好者的编程笔记">雪板说</a>
         </div>
         <div class="menu">
             <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
@@ -52,7 +52,7 @@
     <div class="header-container">
         <div class="header-wrapper">
             <div class="header-title">
-                <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
+                <a href="/" title="一个单板滑雪爱好者的编程笔记">雪板说</a>
             </div>
             <div class="menu-toggle" id="menu-toggle-mobile">
                 <span></span><span></span><span></span>
@@ -176,84 +176,84 @@
 </span><span class="lnt">77
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="cm">/* tail an oplog.  ok to return, will be re-called. */</span>
-<span class="kt">void</span> <span class="n">SyncTail</span><span class="o">::</span><span class="n">oplogApplication</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">ReplicationCoordinator</span><span class="o">*</span> <span class="n">replCoord</span> <span class="o">=</span> <span class="n">getGlobalReplicationCoordinator</span><span class="p">();</span>
-
-    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">inShutdown</span><span class="p">())</span> <span class="p">{</span>
-        <span class="n">OpQueue</span> <span class="n">ops</span><span class="p">;</span>
-        <span class="n">OperationContextImpl</span> <span class="n">txn</span><span class="p">;</span>
-
-        <span class="n">Timer</span> <span class="n">batchTimer</span><span class="p">;</span>
-        <span class="kt">int</span> <span class="n">lastTimeChecked</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-
-        <span class="k">do</span> <span class="p">{</span>
-            <span class="kt">int</span> <span class="n">now</span> <span class="o">=</span> <span class="n">batchTimer</span><span class="p">.</span><span class="n">seconds</span><span class="p">();</span>
-
-            <span class="c1">// apply replication batch limits
-</span><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ops</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">now</span> <span class="o">&gt;</span> <span class="n">replBatchLimitSeconds</span><span class="p">)</span>
-                    <span class="k">break</span><span class="p">;</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">ops</span><span class="p">.</span><span class="n">getDeque</span><span class="p">().</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">replBatchLimitOperations</span><span class="p">)</span>
-                    <span class="k">break</span><span class="p">;</span>
-            <span class="p">}</span>   
-            <span class="c1">// occasionally check some things
-</span><span class="c1"></span>            <span class="c1">// (always checked in the first iteration of this do-while loop, because
-</span><span class="c1"></span>            <span class="c1">// ops is empty)
-</span><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="n">ops</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">||</span> <span class="n">now</span> <span class="o">&gt;</span> <span class="n">lastTimeChecked</span><span class="p">)</span> <span class="p">{</span>
-                <span class="n">BackgroundSync</span><span class="o">*</span> <span class="n">bgsync</span> <span class="o">=</span> <span class="n">BackgroundSync</span><span class="o">::</span><span class="n">get</span><span class="p">();</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">bgsync</span><span class="o">-&gt;</span><span class="n">getInitialSyncRequestedFlag</span><span class="p">())</span> <span class="p">{</span>
-                    <span class="c1">// got a resync command
-</span><span class="c1"></span>                    <span class="k">return</span><span class="p">;</span>
-                <span class="p">}</span>   
-                <span class="n">lastTimeChecked</span> <span class="o">=</span> <span class="n">now</span><span class="p">;</span>
-                <span class="c1">// can we become secondary?
-</span><span class="c1"></span>                <span class="c1">// we have to check this before calling mgr, as we must be a secondary to
-</span><span class="c1"></span>                <span class="c1">// become primary
-</span><span class="c1"></span>                <span class="n">tryToGoLiveAsASecondary</span><span class="p">(</span><span class="o">&amp;</span><span class="n">txn</span><span class="p">,</span> <span class="n">replCoord</span><span class="p">);</span>
-            <span class="p">}</span>   
-
-            <span class="k">const</span> <span class="kt">int</span> <span class="n">slaveDelaySecs</span> <span class="o">=</span> <span class="n">replCoord</span><span class="o">-&gt;</span><span class="n">getSlaveDelaySecs</span><span class="p">().</span><span class="n">total_seconds</span><span class="p">();</span>
-            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ops</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">slaveDelaySecs</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-                <span class="k">const</span> <span class="n">BSONObj</span><span class="o">&amp;</span> <span class="n">lastOp</span> <span class="o">=</span> <span class="n">ops</span><span class="p">.</span><span class="n">getDeque</span><span class="p">().</span><span class="n">back</span><span class="p">();</span>
-                <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">opTimestampSecs</span> <span class="o">=</span> <span class="n">lastOp</span><span class="p">[</span><span class="s">&#34;ts&#34;</span><span class="p">].</span><span class="n">_opTime</span><span class="p">().</span><span class="n">getSecs</span><span class="p">();</span>
-
-                <span class="c1">// Stop the batch as the lastOp is too new to be applied. If we continue
-</span><span class="c1"></span>                <span class="c1">// on, we can get ops that are way ahead of the delay and this will
-</span><span class="c1"></span>                <span class="c1">// make this thread sleep longer when handleSlaveDelay is called
-</span><span class="c1"></span>                <span class="c1">// and apply ops much sooner than we like.
-</span><span class="c1"></span>                <span class="k">if</span> <span class="p">(</span><span class="n">opTimestampSecs</span> <span class="o">&gt;</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">unsigned</span> <span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">slaveDelaySecs</span><span class="p">))</span> <span class="p">{</span>
-                    <span class="k">break</span><span class="p">;</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
-            <span class="c1">// keep fetching more ops as long as we haven&#39;t filled up a full batch yet
-</span><span class="c1"></span>        <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">tryPopAndWaitForMore</span><span class="p">(</span><span class="o">&amp;</span><span class="n">txn</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ops</span><span class="p">,</span> <span class="n">replCoord</span><span class="p">)</span> <span class="o">&amp;&amp;</span>  <span class="c1">// tryPopAndWaitForMore returns
-</span><span class="c1"></span>                                                                  <span class="c1">// true when we need to end a
-</span><span class="c1"></span>                                                                  <span class="c1">// batch early
-</span><span class="c1"></span>                 <span class="p">(</span><span class="n">ops</span><span class="p">.</span><span class="n">getSize</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">replBatchLimitBytes</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
-                 <span class="o">!</span><span class="n">inShutdown</span><span class="p">());</span>
-
-        <span class="c1">// For pausing replication in tests
-</span><span class="c1"></span>        <span class="k">while</span> <span class="p">(</span><span class="n">MONGO_FAIL_POINT</span><span class="p">(</span><span class="n">rsSyncApplyStop</span><span class="p">))</span> <span class="p">{</span>
-            <span class="n">sleepmillis</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-        <span class="p">}</span>
-
-        <span class="k">if</span> <span class="p">(</span><span class="n">ops</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
-            <span class="k">continue</span><span class="p">;</span>
-        <span class="p">}</span>
-
-        <span class="k">const</span> <span class="n">BSONObj</span><span class="o">&amp;</span> <span class="n">lastOp</span> <span class="o">=</span> <span class="n">ops</span><span class="p">.</span><span class="n">getDeque</span><span class="p">().</span><span class="n">back</span><span class="p">();</span>
-        <span class="n">handleSlaveDelay</span><span class="p">(</span><span class="n">lastOp</span><span class="p">);</span>
-
-        <span class="c1">// Set minValid to the last op to be applied in this next batch.
-</span><span class="c1"></span>        <span class="c1">// This will cause this node to go into RECOVERING state
-</span><span class="c1"></span>        <span class="c1">// if we should crash and restart before updating the oplog
-</span><span class="c1"></span>        <span class="n">OpTime</span> <span class="n">minValid</span> <span class="o">=</span> <span class="n">lastOp</span><span class="p">[</span><span class="s">&#34;ts&#34;</span><span class="p">].</span><span class="n">_opTime</span><span class="p">();</span>
-        <span class="n">setMinValid</span><span class="p">(</span><span class="o">&amp;</span><span class="n">txn</span><span class="p">,</span> <span class="n">minValid</span><span class="p">);</span>
-        <span class="n">multiApply</span><span class="p">(</span><span class="o">&amp;</span><span class="n">txn</span><span class="p">,</span> <span class="n">ops</span><span class="p">.</span><span class="n">getDeque</span><span class="p">());</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="line"><span class="cl"><span class="cm">/* tail an oplog.  ok to return, will be re-called. */</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">SyncTail</span><span class="o">::</span><span class="n">oplogApplication</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ReplicationCoordinator</span><span class="o">*</span> <span class="n">replCoord</span> <span class="o">=</span> <span class="n">getGlobalReplicationCoordinator</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">inShutdown</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">OpQueue</span> <span class="n">ops</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">OperationContextImpl</span> <span class="n">txn</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">Timer</span> <span class="n">batchTimer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">lastTimeChecked</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">do</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">int</span> <span class="n">now</span> <span class="o">=</span> <span class="n">batchTimer</span><span class="p">.</span><span class="n">seconds</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1">// apply replication batch limits
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ops</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span><span class="n">now</span> <span class="o">&gt;</span> <span class="n">replBatchLimitSeconds</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span><span class="n">ops</span><span class="p">.</span><span class="n">getDeque</span><span class="p">().</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">replBatchLimitOperations</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>   
+</span></span><span class="line"><span class="cl">            <span class="c1">// occasionally check some things
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">// (always checked in the first iteration of this do-while loop, because
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">// ops is empty)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="n">ops</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">||</span> <span class="n">now</span> <span class="o">&gt;</span> <span class="n">lastTimeChecked</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">BackgroundSync</span><span class="o">*</span> <span class="n">bgsync</span> <span class="o">=</span> <span class="n">BackgroundSync</span><span class="o">::</span><span class="n">get</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span><span class="n">bgsync</span><span class="o">-&gt;</span><span class="n">getInitialSyncRequestedFlag</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// got a resync command
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>   
+</span></span><span class="line"><span class="cl">                <span class="n">lastTimeChecked</span> <span class="o">=</span> <span class="n">now</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// can we become secondary?
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="c1">// we have to check this before calling mgr, as we must be a secondary to
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="c1">// become primary
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="n">tryToGoLiveAsASecondary</span><span class="p">(</span><span class="o">&amp;</span><span class="n">txn</span><span class="p">,</span> <span class="n">replCoord</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>   
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">const</span> <span class="kt">int</span> <span class="n">slaveDelaySecs</span> <span class="o">=</span> <span class="n">replCoord</span><span class="o">-&gt;</span><span class="n">getSlaveDelaySecs</span><span class="p">().</span><span class="n">total_seconds</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ops</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">slaveDelaySecs</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">const</span> <span class="n">BSONObj</span><span class="o">&amp;</span> <span class="n">lastOp</span> <span class="o">=</span> <span class="n">ops</span><span class="p">.</span><span class="n">getDeque</span><span class="p">().</span><span class="n">back</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">                <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">opTimestampSecs</span> <span class="o">=</span> <span class="n">lastOp</span><span class="p">[</span><span class="s">&#34;ts&#34;</span><span class="p">].</span><span class="n">_opTime</span><span class="p">().</span><span class="n">getSecs</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="c1">// Stop the batch as the lastOp is too new to be applied. If we continue
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="c1">// on, we can get ops that are way ahead of the delay and this will
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="c1">// make this thread sleep longer when handleSlaveDelay is called
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="c1">// and apply ops much sooner than we like.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="k">if</span> <span class="p">(</span><span class="n">opTimestampSecs</span> <span class="o">&gt;</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">unsigned</span> <span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">slaveDelaySecs</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// keep fetching more ops as long as we haven&#39;t filled up a full batch yet
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">tryPopAndWaitForMore</span><span class="p">(</span><span class="o">&amp;</span><span class="n">txn</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ops</span><span class="p">,</span> <span class="n">replCoord</span><span class="p">)</span> <span class="o">&amp;&amp;</span>  <span class="c1">// tryPopAndWaitForMore returns
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                                                                  <span class="c1">// true when we need to end a
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                                                                  <span class="c1">// batch early
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                 <span class="p">(</span><span class="n">ops</span><span class="p">.</span><span class="n">getSize</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">replBatchLimitBytes</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">                 <span class="o">!</span><span class="n">inShutdown</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// For pausing replication in tests
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">while</span> <span class="p">(</span><span class="n">MONGO_FAIL_POINT</span><span class="p">(</span><span class="n">rsSyncApplyStop</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">sleepmillis</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">ops</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">const</span> <span class="n">BSONObj</span><span class="o">&amp;</span> <span class="n">lastOp</span> <span class="o">=</span> <span class="n">ops</span><span class="p">.</span><span class="n">getDeque</span><span class="p">().</span><span class="n">back</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">handleSlaveDelay</span><span class="p">(</span><span class="n">lastOp</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// Set minValid to the last op to be applied in this next batch.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// This will cause this node to go into RECOVERING state
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// if we should crash and restart before updating the oplog
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">OpTime</span> <span class="n">minValid</span> <span class="o">=</span> <span class="n">lastOp</span><span class="p">[</span><span class="s">&#34;ts&#34;</span><span class="p">].</span><span class="n">_opTime</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">setMinValid</span><span class="p">(</span><span class="o">&amp;</span><span class="n">txn</span><span class="p">,</span> <span class="n">minValid</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">multiApply</span><span class="p">(</span><span class="o">&amp;</span><span class="n">txn</span><span class="p">,</span> <span class="n">ops</span><span class="p">.</span><span class="n">getDeque</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="批量读取oplog">批量读取oplog</h2>
 <p>这里用了一个do&hellip;while循环，do附加一些硬性限制以终止读取，比如读取时间超过1s、oplog数量超过5000条；while是核心逻辑，除了oplog在体积上的硬性限制（32位系统是50MB，64位系统是100MB），还有对文档操作和命令/索引操作的区分。</p>
@@ -276,21 +276,21 @@
 </span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-Cpp" data-lang="Cpp">    <span class="c1">// check for commands
-</span><span class="c1"></span>    <span class="k">if</span> <span class="p">((</span><span class="n">op</span><span class="p">[</span><span class="s">&#34;op&#34;</span><span class="p">].</span><span class="n">valuestrsafe</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;c&#39;</span><span class="p">)</span> <span class="o">||</span>
-        <span class="c1">// Index builds are acheived through the use of an insert op, not a command op.
-</span><span class="c1"></span>        <span class="c1">// The following line is the same as what the insert code uses to detect an index build.
-</span><span class="c1"></span>        <span class="p">(</span><span class="o">*</span><span class="n">ns</span> <span class="o">!=</span> <span class="sc">&#39;\0&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">nsToCollectionSubstring</span><span class="p">(</span><span class="n">ns</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#34;system.indexes&#34;</span><span class="p">))</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">ops</span><span class="o">-&gt;</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
-            <span class="c1">// apply commands one-at-a-time
-</span><span class="c1"></span>            <span class="n">ops</span><span class="o">-&gt;</span><span class="n">push_back</span><span class="p">(</span><span class="n">op</span><span class="p">);</span>
-            <span class="n">_networkQueue</span><span class="o">-&gt;</span><span class="n">consume</span><span class="p">();</span>
-        <span class="p">}</span>                     
-        
-        <span class="c1">// otherwise, apply what we have so far and come back for the command
-</span><span class="c1"></span>        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
-    <span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="line"><span class="cl">    <span class="c1">// check for commands
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">((</span><span class="n">op</span><span class="p">[</span><span class="s">&#34;op&#34;</span><span class="p">].</span><span class="n">valuestrsafe</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;c&#39;</span><span class="p">)</span> <span class="o">||</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// Index builds are acheived through the use of an insert op, not a command op.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// The following line is the same as what the insert code uses to detect an index build.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">(</span><span class="o">*</span><span class="n">ns</span> <span class="o">!=</span> <span class="sc">&#39;\0&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">nsToCollectionSubstring</span><span class="p">(</span><span class="n">ns</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#34;system.indexes&#34;</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">ops</span><span class="o">-&gt;</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// apply commands one-at-a-time
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">ops</span><span class="o">-&gt;</span><span class="n">push_back</span><span class="p">(</span><span class="n">op</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_networkQueue</span><span class="o">-&gt;</span><span class="n">consume</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>                     
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1">// otherwise, apply what we have so far and come back for the command
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="并发回放">并发回放</h2>
 <p>SyncTail::multiApply()实现对文档操作的并发回放。</p>
@@ -343,49 +343,49 @@
 </span><span class="lnt">42
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="kt">void</span> <span class="n">SyncTail</span><span class="o">::</span><span class="n">fillWriterVectors</span><span class="p">(</span><span class="n">OperationContext</span><span class="o">*</span> <span class="n">txn</span><span class="p">,</span>
-                                 <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">deque</span><span class="o">&lt;</span><span class="n">BSONObj</span><span class="o">&gt;&amp;</span> <span class="n">ops</span><span class="p">,</span>
-                                 <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BSONObj</span><span class="o">&gt;&gt;*</span> <span class="n">writerVectors</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">const</span> <span class="kt">bool</span> <span class="n">supportsDocLocking</span> <span class="o">=</span>
-        <span class="n">getGlobalEnvironment</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">getGlobalStorageEngine</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">supportsDocLocking</span><span class="p">();</span>
-
-    <span class="n">Lock</span><span class="o">::</span><span class="n">GlobalRead</span> <span class="n">globalReadLock</span><span class="p">(</span><span class="n">txn</span><span class="o">-&gt;</span><span class="n">lockState</span><span class="p">());</span>
-    <span class="n">CachingCappedChecker</span> <span class="n">isCapped</span><span class="p">;</span>
-
-    <span class="k">for</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">deque</span><span class="o">&lt;</span><span class="n">BSONObj</span><span class="o">&gt;::</span><span class="n">const_iterator</span> <span class="n">it</span> <span class="o">=</span> <span class="n">ops</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">it</span> <span class="o">!=</span> <span class="n">ops</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">it</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">const</span> <span class="n">BSONElement</span> <span class="n">e</span> <span class="o">=</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">getField</span><span class="p">(</span><span class="s">&#34;ns&#34;</span><span class="p">);</span>
-        <span class="n">verify</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">type</span><span class="p">()</span> <span class="o">==</span> <span class="n">String</span><span class="p">);</span>
-        <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">ns</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">valuestr</span><span class="p">();</span>
-        <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">valuestrsize</span><span class="p">();</span>
-        <span class="kt">uint32_t</span> <span class="n">hash</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-        <span class="n">MurmurHash3_x86_32</span><span class="p">(</span><span class="n">ns</span><span class="p">,</span> <span class="n">len</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hash</span><span class="p">);</span>
-
-        <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">opType</span> <span class="o">=</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">getField</span><span class="p">(</span><span class="s">&#34;op&#34;</span><span class="p">).</span><span class="n">valuestrsafe</span><span class="p">();</span>
-
-        <span class="c1">// For doc locking engines, include the _id of the document in the hash so we get
-</span><span class="c1"></span>        <span class="c1">// parallelism even if all writes are to a single collection. We can&#39;t do this for capped
-</span><span class="c1"></span>        <span class="c1">// collections because the order of inserts is a guaranteed property, unlike for normal
-</span><span class="c1"></span>        <span class="c1">// collections.
-</span><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="n">supportsDocLocking</span> <span class="o">&amp;&amp;</span> <span class="n">isCrudOpType</span><span class="p">(</span><span class="n">opType</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isCapped</span><span class="p">(</span><span class="n">txn</span><span class="p">,</span> <span class="n">ns</span><span class="p">))</span> <span class="p">{</span>
-            <span class="n">BSONElement</span> <span class="n">id</span><span class="p">;</span>
-            <span class="k">switch</span> <span class="p">(</span><span class="n">opType</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="p">{</span>
-                <span class="k">case</span> <span class="sc">&#39;u&#39;</span><span class="o">:</span>
-                    <span class="n">id</span> <span class="o">=</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">getField</span><span class="p">(</span><span class="s">&#34;o2&#34;</span><span class="p">).</span><span class="n">Obj</span><span class="p">()[</span><span class="s">&#34;_id&#34;</span><span class="p">];</span>
-                    <span class="k">break</span><span class="p">;</span>
-                <span class="k">case</span> <span class="sc">&#39;d&#39;</span><span class="o">:</span>
-                <span class="k">case</span> <span class="sc">&#39;i&#39;</span><span class="o">:</span>
-                    <span class="n">id</span> <span class="o">=</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">getField</span><span class="p">(</span><span class="s">&#34;o&#34;</span><span class="p">).</span><span class="n">Obj</span><span class="p">()[</span><span class="s">&#34;_id&#34;</span><span class="p">];</span>
-                    <span class="k">break</span><span class="p">;</span>
-            <span class="p">}</span>
-
-            <span class="k">const</span> <span class="n">size_t</span> <span class="n">idHash</span> <span class="o">=</span> <span class="n">BSONElement</span><span class="o">::</span><span class="n">Hasher</span><span class="p">()(</span><span class="n">id</span><span class="p">);</span>
-            <span class="n">MurmurHash3_x86_32</span><span class="p">(</span><span class="o">&amp;</span><span class="n">idHash</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">idHash</span><span class="p">),</span> <span class="n">hash</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hash</span><span class="p">);</span>
-        <span class="p">}</span>
-
-        <span class="p">(</span><span class="o">*</span><span class="n">writerVectors</span><span class="p">)[</span><span class="n">hash</span> <span class="o">%</span> <span class="n">writerVectors</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">()].</span><span class="n">push_back</span><span class="p">(</span><span class="o">*</span><span class="n">it</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">SyncTail</span><span class="o">::</span><span class="n">fillWriterVectors</span><span class="p">(</span><span class="n">OperationContext</span><span class="o">*</span> <span class="n">txn</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                 <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">deque</span><span class="o">&lt;</span><span class="n">BSONObj</span><span class="o">&gt;&amp;</span> <span class="n">ops</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                 <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BSONObj</span><span class="o">&gt;&gt;*</span> <span class="n">writerVectors</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">const</span> <span class="kt">bool</span> <span class="n">supportsDocLocking</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">        <span class="n">getGlobalEnvironment</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">getGlobalStorageEngine</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">supportsDocLocking</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Lock</span><span class="o">::</span><span class="n">GlobalRead</span> <span class="n">globalReadLock</span><span class="p">(</span><span class="n">txn</span><span class="o">-&gt;</span><span class="n">lockState</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">CachingCappedChecker</span> <span class="n">isCapped</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">deque</span><span class="o">&lt;</span><span class="n">BSONObj</span><span class="o">&gt;::</span><span class="n">const_iterator</span> <span class="n">it</span> <span class="o">=</span> <span class="n">ops</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">it</span> <span class="o">!=</span> <span class="n">ops</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">it</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">const</span> <span class="n">BSONElement</span> <span class="n">e</span> <span class="o">=</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">getField</span><span class="p">(</span><span class="s">&#34;ns&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">verify</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">type</span><span class="p">()</span> <span class="o">==</span> <span class="n">String</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">ns</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">valuestr</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">valuestrsize</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">uint32_t</span> <span class="n">hash</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">MurmurHash3_x86_32</span><span class="p">(</span><span class="n">ns</span><span class="p">,</span> <span class="n">len</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hash</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">opType</span> <span class="o">=</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">getField</span><span class="p">(</span><span class="s">&#34;op&#34;</span><span class="p">).</span><span class="n">valuestrsafe</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// For doc locking engines, include the _id of the document in the hash so we get
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// parallelism even if all writes are to a single collection. We can&#39;t do this for capped
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// collections because the order of inserts is a guaranteed property, unlike for normal
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// collections.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="n">supportsDocLocking</span> <span class="o">&amp;&amp;</span> <span class="n">isCrudOpType</span><span class="p">(</span><span class="n">opType</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isCapped</span><span class="p">(</span><span class="n">txn</span><span class="p">,</span> <span class="n">ns</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">BSONElement</span> <span class="n">id</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">switch</span> <span class="p">(</span><span class="n">opType</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">case</span> <span class="sc">&#39;u&#39;</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">id</span> <span class="o">=</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">getField</span><span class="p">(</span><span class="s">&#34;o2&#34;</span><span class="p">).</span><span class="n">Obj</span><span class="p">()[</span><span class="s">&#34;_id&#34;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">case</span> <span class="sc">&#39;d&#39;</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">case</span> <span class="sc">&#39;i&#39;</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">id</span> <span class="o">=</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">getField</span><span class="p">(</span><span class="s">&#34;o&#34;</span><span class="p">).</span><span class="n">Obj</span><span class="p">()[</span><span class="s">&#34;_id&#34;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">const</span> <span class="n">size_t</span> <span class="n">idHash</span> <span class="o">=</span> <span class="n">BSONElement</span><span class="o">::</span><span class="n">Hasher</span><span class="p">()(</span><span class="n">id</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">MurmurHash3_x86_32</span><span class="p">(</span><span class="o">&amp;</span><span class="n">idHash</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">idHash</span><span class="p">),</span> <span class="n">hash</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hash</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="o">*</span><span class="n">writerVectors</span><span class="p">)[</span><span class="n">hash</span> <span class="o">%</span> <span class="n">writerVectors</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">()].</span><span class="n">push_back</span><span class="p">(</span><span class="o">*</span><span class="n">it</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div></div><div class="post-footer" id="post-footer">
     <div class="post-info">
@@ -415,8 +415,8 @@
 </div>
 <div id="comments"></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=300&t=n&d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&co=2d78ad&cmo=3acc3a&cmn=ff5353&ct=ffffff"></script></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.107.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&cl=ffffff&w=a"></script></span></div>
         </div>
     </footer></div>
 

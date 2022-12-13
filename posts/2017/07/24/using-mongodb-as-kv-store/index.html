@@ -39,7 +39,7 @@
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
-            <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
+            <a href="/" title="一个单板滑雪爱好者的编程笔记">雪板说</a>
         </div>
         <div class="menu">
             <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
@@ -52,7 +52,7 @@
     <div class="header-container">
         <div class="header-wrapper">
             <div class="header-title">
-                <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
+                <a href="/" title="一个单板滑雪爱好者的编程笔记">雪板说</a>
             </div>
             <div class="menu-toggle" id="menu-toggle-mobile">
                 <span></span><span></span><span></span>
@@ -129,33 +129,33 @@
 </span><span class="lnt">26
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">workload=com.yahoo.ycsb.workloads.CoreWorkload
-
-readallfields=true
-
-readproportion=0.5
-updateproportion=0.5
-scanproportion=0
-insertproportion=0
-
-requestdistribution=uniform
-
-# total 100GB
-fieldlength=102400
-fieldcount=1
-recordcount=1000000
-
-operationcount=120000
-threadcount=10
-target=200
-
-mongodb.url=mongodb://127.0.0.1:27017/ycsb?w=1
-mongodb.batchsize=10
-mongodb.writeConcern=acknowledged
-mongodb.readPreference=primary
-mongodb.maxconnections=100
-mongodb.threadsAllowedToBlockForConnectionMultiplier=5
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">workload=com.yahoo.ycsb.workloads.CoreWorkload
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">readallfields=true
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">readproportion=0.5
+</span></span><span class="line"><span class="cl">updateproportion=0.5
+</span></span><span class="line"><span class="cl">scanproportion=0
+</span></span><span class="line"><span class="cl">insertproportion=0
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">requestdistribution=uniform
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># total 100GB
+</span></span><span class="line"><span class="cl">fieldlength=102400
+</span></span><span class="line"><span class="cl">fieldcount=1
+</span></span><span class="line"><span class="cl">recordcount=1000000
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">operationcount=120000
+</span></span><span class="line"><span class="cl">threadcount=10
+</span></span><span class="line"><span class="cl">target=200
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">mongodb.url=mongodb://127.0.0.1:27017/ycsb?w=1
+</span></span><span class="line"><span class="cl">mongodb.batchsize=10
+</span></span><span class="line"><span class="cl">mongodb.writeConcern=acknowledged
+</span></span><span class="line"><span class="cl">mongodb.readPreference=primary
+</span></span><span class="line"><span class="cl">mongodb.maxconnections=100
+</span></span><span class="line"><span class="cl">mongodb.threadsAllowedToBlockForConnectionMultiplier=5
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>MongoDB cacheSize是30GB，80%以上触发eviction，正常有24GB数据加载到内存，缓存命中率理论值是24%，经测试，实际cache命中率是22%左右，基本吻合。</p>
 <blockquote>
@@ -175,15 +175,15 @@ mongodb.threadsAllowedToBlockForConnectionMultiplier=5
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#! /bin/bash
-</span><span class="cp"></span>
-<span class="k">while</span> <span class="nb">true</span>
-<span class="k">do</span>
-    <span class="nb">echo</span> <span class="s2">&#34;drop caches&#34;</span>
-    free -m <span class="o">&amp;&amp;</span> sync <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="m">1</span> &gt; /proc/sys/vm/drop_caches <span class="o">&amp;&amp;</span> free -m
-    sleep <span class="m">30</span>
-<span class="k">done</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#! /bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="nb">true</span>
+</span></span><span class="line"><span class="cl"><span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;drop caches&#34;</span>
+</span></span><span class="line"><span class="cl">    free -m <span class="o">&amp;&amp;</span> sync <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="m">1</span> &gt; /proc/sys/vm/drop_caches <span class="o">&amp;&amp;</span> free -m
+</span></span><span class="line"><span class="cl">    sleep <span class="m">30</span>
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>针对此场景的配置优化</p>
 <ul>
@@ -303,8 +303,8 @@ For a standard block device, you can run sudo blockdev &ndash;report to get the 
 </div>
 <div id="comments"></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=300&t=n&d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&co=2d78ad&cmo=3acc3a&cmn=ff5353&ct=ffffff"></script></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.107.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&cl=ffffff&w=a"></script></span></div>
         </div>
     </footer></div>
 

@@ -39,7 +39,7 @@
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
-            <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
+            <a href="/" title="一个单板滑雪爱好者的编程笔记">雪板说</a>
         </div>
         <div class="menu">
             <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
@@ -52,7 +52,7 @@
     <div class="header-container">
         <div class="header-wrapper">
             <div class="header-title">
-                <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
+                <a href="/" title="一个单板滑雪爱好者的编程笔记">雪板说</a>
             </div>
             <div class="menu-toggle" id="menu-toggle-mobile">
                 <span></span><span></span><span></span>
@@ -105,18 +105,18 @@
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="k">struct</span> <span class="nc">OP_QUERY</span> <span class="p">{</span>
-    <span class="n">MsgHeader</span> <span class="n">header</span><span class="p">;</span>                   <span class="c1">// standard message header
-</span><span class="c1"></span>    <span class="n">int32</span>     <span class="n">flags</span><span class="p">;</span>                    <span class="c1">// bit vector of query options.  See below for details.
-</span><span class="c1"></span>    <span class="n">cstring</span>   <span class="n">fullCollectionName</span><span class="p">;</span>       <span class="c1">// &#34;dbname.collectionname&#34;
-</span><span class="c1"></span>    <span class="n">int32</span>     <span class="n">numberToSkip</span><span class="p">;</span>             <span class="c1">// number of documents to skip
-</span><span class="c1"></span>    <span class="n">int32</span>     <span class="n">numberToReturn</span><span class="p">;</span>           <span class="c1">// number of documents to return
-</span><span class="c1"></span>                                        <span class="c1">//  in the first OP_REPLY batch
-</span><span class="c1"></span>    <span class="n">document</span>  <span class="n">query</span><span class="p">;</span>                    <span class="c1">// query object.  See below for details.
-</span><span class="c1"></span>    <span class="p">[</span> <span class="n">document</span>  <span class="n">returnFieldsSelector</span><span class="p">;</span> <span class="p">]</span> <span class="c1">// Optional. Selector indicating the fields
-</span><span class="c1"></span>                                        <span class="c1">//  to return.  See below for details.
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">OP_QUERY</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">MsgHeader</span> <span class="n">header</span><span class="p">;</span>                   <span class="c1">// standard message header
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">int32</span>     <span class="n">flags</span><span class="p">;</span>                    <span class="c1">// bit vector of query options.  See below for details.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">cstring</span>   <span class="n">fullCollectionName</span><span class="p">;</span>       <span class="c1">// &#34;dbname.collectionname&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">int32</span>     <span class="n">numberToSkip</span><span class="p">;</span>             <span class="c1">// number of documents to skip
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">int32</span>     <span class="n">numberToReturn</span><span class="p">;</span>           <span class="c1">// number of documents to return
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                                        <span class="c1">//  in the first OP_REPLY batch
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">document</span>  <span class="n">query</span><span class="p">;</span>                    <span class="c1">// query object.  See below for details.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">[</span> <span class="n">document</span>  <span class="n">returnFieldsSelector</span><span class="p">;</span> <span class="p">]</span> <span class="c1">// Optional. Selector indicating the fields
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                                        <span class="c1">//  to return.  See below for details.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>官方文档对于numberToReturn的说明如下：</p>
 <blockquote>
@@ -190,52 +190,52 @@
 </span><span class="lnt">45
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="c1">// Run the query.
-</span><span class="c1">// bb is used to hold query results
-</span><span class="c1">// this buffer should contain either requested documents per query or
-</span><span class="c1">// explain information, but not both
-</span><span class="c1"></span><span class="n">BufBuilder</span> <span class="nf">bb</span><span class="p">(</span><span class="n">FindCommon</span><span class="o">::</span><span class="n">kInitReplyBufferSize</span><span class="p">);</span>
-<span class="n">bb</span><span class="p">.</span><span class="n">skip</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">QueryResult</span><span class="o">::</span><span class="n">Value</span><span class="p">));</span>
-
-<span class="c1">// How many results have we obtained from the executor?
-</span><span class="c1"></span><span class="kt">int</span> <span class="n">numResults</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-
-<span class="c1">// If we&#39;re replaying the oplog, we save the last time that we read.
-</span><span class="c1"></span><span class="n">Timestamp</span> <span class="n">slaveReadTill</span><span class="p">;</span>
-
-<span class="n">BSONObj</span> <span class="n">obj</span><span class="p">;</span>
-<span class="n">PlanExecutor</span><span class="o">::</span><span class="n">ExecState</span> <span class="n">state</span><span class="p">;</span>
-<span class="c1">// uint64_t numMisplacedDocs = 0;
-</span><span class="c1"></span>
-<span class="c1">// Get summary info about which plan the executor is using.
-</span><span class="c1"></span><span class="p">{</span>
-    <span class="n">stdx</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">Client</span><span class="o">&gt;</span> <span class="n">lk</span><span class="p">(</span><span class="o">*</span><span class="n">txn</span><span class="o">-&gt;</span><span class="n">getClient</span><span class="p">());</span>
-    <span class="n">curop</span><span class="p">.</span><span class="n">setPlanSummary_inlock</span><span class="p">(</span><span class="n">Explain</span><span class="o">::</span><span class="n">getPlanSummary</span><span class="p">(</span><span class="n">exec</span><span class="p">.</span><span class="n">get</span><span class="p">()));</span>
-<span class="p">}</span>
-
-<span class="k">while</span> <span class="p">(</span><span class="n">PlanExecutor</span><span class="o">::</span><span class="n">ADVANCED</span> <span class="o">==</span> <span class="p">(</span><span class="n">state</span> <span class="o">=</span> <span class="n">exec</span><span class="o">-&gt;</span><span class="n">getNext</span><span class="p">(</span><span class="o">&amp;</span><span class="n">obj</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">)))</span> <span class="p">{</span>
-    <span class="c1">// Add result to output buffer.
-</span><span class="c1"></span>    <span class="n">bb</span><span class="p">.</span><span class="n">appendBuf</span><span class="p">((</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">obj</span><span class="p">.</span><span class="n">objdata</span><span class="p">(),</span> <span class="n">obj</span><span class="p">.</span><span class="n">objsize</span><span class="p">());</span>
-
-    <span class="c1">// Count the result.
-</span><span class="c1"></span>    <span class="o">++</span><span class="n">numResults</span><span class="p">;</span>
-
-    <span class="c1">// Possibly note slave&#39;s position in the oplog.
-</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">pq</span><span class="p">.</span><span class="n">isOplogReplay</span><span class="p">())</span> <span class="p">{</span>
-        <span class="n">BSONElement</span> <span class="n">e</span> <span class="o">=</span> <span class="n">obj</span><span class="p">[</span><span class="s">&#34;ts&#34;</span><span class="p">];</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">Date</span> <span class="o">==</span> <span class="n">e</span><span class="p">.</span><span class="n">type</span><span class="p">()</span> <span class="o">||</span> <span class="n">bsonTimestamp</span> <span class="o">==</span> <span class="n">e</span><span class="p">.</span><span class="n">type</span><span class="p">())</span> <span class="p">{</span>
-            <span class="n">slaveReadTill</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">timestamp</span><span class="p">();</span> 
-        <span class="p">}</span>
-    <span class="p">}</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="n">FindCommon</span><span class="o">::</span><span class="n">enoughForFirstBatch</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span> <span class="n">numResults</span><span class="p">,</span> <span class="n">bb</span><span class="p">.</span><span class="n">len</span><span class="p">()))</span> <span class="p">{</span>
-        <span class="n">LOG</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Enough for first batch, wantMore=&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">pq</span><span class="p">.</span><span class="n">wantMore</span><span class="p">()</span>
-               <span class="o">&lt;&lt;</span> <span class="s">&#34; ntoreturn=&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">pq</span><span class="p">.</span><span class="n">getNToReturn</span><span class="p">().</span><span class="n">value_or</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; numResults=&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">numResults</span>
-               <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
-        <span class="k">break</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="line"><span class="cl"><span class="c1">// Run the query.
+</span></span></span><span class="line"><span class="cl"><span class="c1">// bb is used to hold query results
+</span></span></span><span class="line"><span class="cl"><span class="c1">// this buffer should contain either requested documents per query or
+</span></span></span><span class="line"><span class="cl"><span class="c1">// explain information, but not both
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">BufBuilder</span> <span class="nf">bb</span><span class="p">(</span><span class="n">FindCommon</span><span class="o">::</span><span class="n">kInitReplyBufferSize</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">bb</span><span class="p">.</span><span class="n">skip</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">QueryResult</span><span class="o">::</span><span class="n">Value</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// How many results have we obtained from the executor?
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="n">numResults</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// If we&#39;re replaying the oplog, we save the last time that we read.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">Timestamp</span> <span class="n">slaveReadTill</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">BSONObj</span> <span class="n">obj</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">PlanExecutor</span><span class="o">::</span><span class="n">ExecState</span> <span class="n">state</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// uint64_t numMisplacedDocs = 0;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Get summary info about which plan the executor is using.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">stdx</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">Client</span><span class="o">&gt;</span> <span class="n">lk</span><span class="p">(</span><span class="o">*</span><span class="n">txn</span><span class="o">-&gt;</span><span class="n">getClient</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">curop</span><span class="p">.</span><span class="n">setPlanSummary_inlock</span><span class="p">(</span><span class="n">Explain</span><span class="o">::</span><span class="n">getPlanSummary</span><span class="p">(</span><span class="n">exec</span><span class="p">.</span><span class="n">get</span><span class="p">()));</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="p">(</span><span class="n">PlanExecutor</span><span class="o">::</span><span class="n">ADVANCED</span> <span class="o">==</span> <span class="p">(</span><span class="n">state</span> <span class="o">=</span> <span class="n">exec</span><span class="o">-&gt;</span><span class="n">getNext</span><span class="p">(</span><span class="o">&amp;</span><span class="n">obj</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">)))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Add result to output buffer.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">bb</span><span class="p">.</span><span class="n">appendBuf</span><span class="p">((</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">obj</span><span class="p">.</span><span class="n">objdata</span><span class="p">(),</span> <span class="n">obj</span><span class="p">.</span><span class="n">objsize</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Count the result.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">++</span><span class="n">numResults</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Possibly note slave&#39;s position in the oplog.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">pq</span><span class="p">.</span><span class="n">isOplogReplay</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">BSONElement</span> <span class="n">e</span> <span class="o">=</span> <span class="n">obj</span><span class="p">[</span><span class="s">&#34;ts&#34;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">Date</span> <span class="o">==</span> <span class="n">e</span><span class="p">.</span><span class="n">type</span><span class="p">()</span> <span class="o">||</span> <span class="n">bsonTimestamp</span> <span class="o">==</span> <span class="n">e</span><span class="p">.</span><span class="n">type</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">slaveReadTill</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">timestamp</span><span class="p">();</span> 
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">FindCommon</span><span class="o">::</span><span class="n">enoughForFirstBatch</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span> <span class="n">numResults</span><span class="p">,</span> <span class="n">bb</span><span class="p">.</span><span class="n">len</span><span class="p">()))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">LOG</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Enough for first batch, wantMore=&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">pq</span><span class="p">.</span><span class="n">wantMore</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">               <span class="o">&lt;&lt;</span> <span class="s">&#34; ntoreturn=&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">pq</span><span class="p">.</span><span class="n">getNToReturn</span><span class="p">().</span><span class="n">value_or</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; numResults=&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">numResults</span>
+</span></span><span class="line"><span class="cl">               <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>上面这段代码的功能是组装第一批返回的结果集，每填充一个文档，检查一次是否满足返回条件（L39），如果满足，则跳出循环。</p>
 <p>看一下FindCommon::enoughForFirstBatch()</p>
@@ -258,21 +258,21 @@
 </span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="kt">bool</span> <span class="n">FindCommon</span><span class="o">::</span><span class="n">enoughForFirstBatch</span><span class="p">(</span><span class="k">const</span> <span class="n">LiteParsedQuery</span><span class="o">&amp;</span> <span class="n">pq</span><span class="p">,</span>
-                                     <span class="kt">long</span> <span class="kt">long</span> <span class="n">numDocs</span><span class="p">,</span>
-                                     <span class="kt">int</span> <span class="n">bytesBuffered</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">pq</span><span class="p">.</span><span class="n">getEffectiveBatchSize</span><span class="p">())</span> <span class="p">{</span>
-        <span class="c1">// If there is no batch size, we stop generating additional results as soon as we have
-</span><span class="c1"></span>        <span class="c1">// either 101 documents or at least 1MB of data.
-</span><span class="c1"></span>        <span class="k">return</span> <span class="p">(</span><span class="n">bytesBuffered</span> <span class="o">&gt;</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">)</span> <span class="o">||</span> <span class="n">numDocs</span> <span class="o">&gt;=</span> <span class="n">LiteParsedQuery</span><span class="o">::</span><span class="n">kDefaultBatchSize</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="c1">// If there is a batch size, we add results until either satisfying this batch size or exceeding
-</span><span class="c1"></span>    <span class="c1">// the 4MB size threshold.
-</span><span class="c1"></span>    <span class="k">return</span> <span class="n">numDocs</span> <span class="o">&gt;=</span> <span class="n">pq</span><span class="p">.</span><span class="n">getEffectiveBatchSize</span><span class="p">().</span><span class="n">value</span><span class="p">()</span> <span class="o">||</span>
-        <span class="n">bytesBuffered</span> <span class="o">&gt;</span> <span class="n">kMaxBytesToReturnToClientAtOnce</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="line"><span class="cl"><span class="kt">bool</span> <span class="n">FindCommon</span><span class="o">::</span><span class="n">enoughForFirstBatch</span><span class="p">(</span><span class="k">const</span> <span class="n">LiteParsedQuery</span><span class="o">&amp;</span> <span class="n">pq</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                     <span class="kt">long</span> <span class="kt">long</span> <span class="n">numDocs</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                     <span class="kt">int</span> <span class="n">bytesBuffered</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">pq</span><span class="p">.</span><span class="n">getEffectiveBatchSize</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// If there is no batch size, we stop generating additional results as soon as we have
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// either 101 documents or at least 1MB of data.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="p">(</span><span class="n">bytesBuffered</span> <span class="o">&gt;</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">)</span> <span class="o">||</span> <span class="n">numDocs</span> <span class="o">&gt;=</span> <span class="n">LiteParsedQuery</span><span class="o">::</span><span class="n">kDefaultBatchSize</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// If there is a batch size, we add results until either satisfying this batch size or exceeding
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// the 4MB size threshold.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="n">numDocs</span> <span class="o">&gt;=</span> <span class="n">pq</span><span class="p">.</span><span class="n">getEffectiveBatchSize</span><span class="p">().</span><span class="n">value</span><span class="p">()</span> <span class="o">||</span>
+</span></span><span class="line"><span class="cl">        <span class="n">bytesBuffered</span> <span class="o">&gt;</span> <span class="n">kMaxBytesToReturnToClientAtOnce</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p><em>src/mongo/db/query/lite_parsed_query.cpp</em></p>
 <div class="highlight"><div class="chroma">
@@ -280,8 +280,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="k">const</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">LiteParsedQuery</span><span class="o">::</span><span class="n">kDefaultBatchSize</span> <span class="o">=</span> <span class="mi">101</span><span class="p">;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="line"><span class="cl"><span class="k">const</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">LiteParsedQuery</span><span class="o">::</span><span class="n">kDefaultBatchSize</span> <span class="o">=</span> <span class="mi">101</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p><em>src/mongo/db/query/find_common.h</em></p>
 <div class="highlight"><div class="chroma">
@@ -289,8 +289,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="k">static</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">kMaxBytesToReturnToClientAtOnce</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="line"><span class="cl"><span class="k">static</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">kMaxBytesToReturnToClientAtOnce</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>如果未设置batchSize，那么文档数量达到101条文档或数据量达到1MB时，返回true；
 如果已设置batchSize，那么文档数量达到指定batchSize或数据量达到4MB时，返回true。
@@ -303,10 +303,10 @@
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="n">boost</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">LiteParsedQuery</span><span class="o">::</span><span class="n">getEffectiveBatchSize</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">_batchSize</span> <span class="o">?</span> <span class="nl">_batchSize</span> <span class="p">:</span> <span class="n">_ntoreturn</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="line"><span class="cl"><span class="n">boost</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">LiteParsedQuery</span><span class="o">::</span><span class="n">getEffectiveBatchSize</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">_batchSize</span> <span class="o">?</span> <span class="nl">_batchSize</span> <span class="p">:</span> <span class="n">_ntoreturn</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>对于一个query，batchSize默认是0，如果未指定，则由ntoreturn确定第一批结果集的文档数量，即batchSize优先级高于ntoreturn。</p>
 <p>后来看到这几个变量的注释，ntoreturn一般是由driver或shell根据用户指定batchSize和limit计算出来的，其实作为db用户，并不用关注，毕竟ntoreturn是很底层的实现。</p>
@@ -327,19 +327,19 @@
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="c1">// Must be either unset or positive. Negative limit is illegal and a limit value of zero
-</span><span class="c1">// received from the client is interpreted as the absence of a limit value.
-</span><span class="c1"></span><span class="n">boost</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">_limit</span><span class="p">;</span>
-
-<span class="c1">// Must be either unset or non-negative. Negative batchSize is illegal but batchSize of 0 is
-</span><span class="c1">// allowed.
-</span><span class="c1"></span><span class="n">boost</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">_batchSize</span><span class="p">;</span>   
-
-<span class="c1">// Set only when parsed from an OP_QUERY find message. The value is computed by driver or shell
-</span><span class="c1">// and is set to be a min of batchSize and limit provided by user. LPQ can have set either
-</span><span class="c1">// ntoreturn or batchSize / limit.
-</span><span class="c1"></span><span class="n">boost</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">_ntoreturn</span><span class="p">;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-Cpp" data-lang="Cpp"><span class="line"><span class="cl"><span class="c1">// Must be either unset or positive. Negative limit is illegal and a limit value of zero
+</span></span></span><span class="line"><span class="cl"><span class="c1">// received from the client is interpreted as the absence of a limit value.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">boost</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">_limit</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Must be either unset or non-negative. Negative batchSize is illegal but batchSize of 0 is
+</span></span></span><span class="line"><span class="cl"><span class="c1">// allowed.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">boost</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">_batchSize</span><span class="p">;</span>   
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Set only when parsed from an OP_QUERY find message. The value is computed by driver or shell
+</span></span></span><span class="line"><span class="cl"><span class="c1">// and is set to be a min of batchSize and limit provided by user. LPQ can have set either
+</span></span></span><span class="line"><span class="cl"><span class="c1">// ntoreturn or batchSize / limit.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">boost</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">_ntoreturn</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><hr>
 <p>参考资料</p>
@@ -375,8 +375,8 @@
 </div>
 <div id="comments"></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=300&t=n&d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&co=2d78ad&cmo=3acc3a&cmn=ff5353&ct=ffffff"></script></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.107.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&cl=ffffff&w=a"></script></span></div>
         </div>
     </footer></div>
 

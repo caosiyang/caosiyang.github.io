@@ -39,7 +39,7 @@
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
-            <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
+            <a href="/" title="一个单板滑雪爱好者的编程笔记">雪板说</a>
         </div>
         <div class="menu">
             <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
@@ -52,7 +52,7 @@
     <div class="header-container">
         <div class="header-wrapper">
             <div class="header-title">
-                <a href="/" title="一个单板滑雪爱好者的编程笔记">一个单板滑雪爱好者的编程笔记</a>
+                <a href="/" title="一个单板滑雪爱好者的编程笔记">雪板说</a>
             </div>
             <div class="menu-toggle" id="menu-toggle-mobile">
                 <span></span><span></span><span></span>
@@ -98,8 +98,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"> 29760:20170302:172754.346 failed to accept an incoming connection: connection from &#34;my.dev.host&#34; rejected, allowed hosts: &#34;actual.zabbix.server&#34;
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"> 29760:20170302:172754.346 failed to accept an incoming connection: connection from &#34;my.dev.host&#34; rejected, allowed hosts: &#34;actual.zabbix.server&#34;
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>然而我没有zabbix server的登录权限，于是尝试让开发机充当zabbix server。</p>
 <pre><code>yum install zabbix-server
@@ -129,14 +129,14 @@ cat: /etc/mongo-proxy/test_27001.conf: Permission denied
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"># Specifies debug level:
-# 0 - no debug
-# 1 - critical information
-# 2 - error information
-# 3 - warnings (default)
-# 4 - for debugging (produces lots of information)
-DebugLevel=4
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># Specifies debug level:
+</span></span><span class="line"><span class="cl"># 0 - no debug
+</span></span><span class="line"><span class="cl"># 1 - critical information
+</span></span><span class="line"><span class="cl"># 2 - error information
+</span></span><span class="line"><span class="cl"># 3 - warnings (default)
+</span></span><span class="line"><span class="cl"># 4 - for debugging (produces lots of information)
+</span></span><span class="line"><span class="cl">DebugLevel=4
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
 <li>错误日志</li>
@@ -147,9 +147,9 @@ DebugLevel=4
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"> 15476:20170302:175926.726 for key [mongo_proxy_discovery] received value [cat: /etc/mongo-proxy/show_test_27001.conf: Permission denied
-{ &#34;data&#34;: [  ] }]
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"> 15476:20170302:175926.726 for key [mongo_proxy_discovery] received value [cat: /etc/mongo-proxy/show_test_27001.conf: Permission denied
+</span></span><span class="line"><span class="cl">{ &#34;data&#34;: [  ] }]
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>继续排查问题，检查配置文件权限，可读，没问题。</p>
 <pre><code># ll /etc/mongo-proxy/test_27001.conf        
@@ -172,12 +172,12 @@ su - zabbix -c &quot;cat /etc/mongo-proxy/test_27001.conf&quot;
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">  - name: create directory /var/log/mongo-proxy
-    file:
-      path: /var/log/mongo-proxy
-      state: directory
-      mode: 0644
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  - name: create directory /var/log/mongo-proxy
+</span></span><span class="line"><span class="cl">    file:
+</span></span><span class="line"><span class="cl">      path: /var/log/mongo-proxy
+</span></span><span class="line"><span class="cl">      state: directory
+</span></span><span class="line"><span class="cl">      mode: 0644
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>那么问题来了，目录没有x权限，为什么不能读取目录下文件的内容？</p>
 <p>从《鸟哥的Linux私房菜》找到了答案：</p>
@@ -226,8 +226,8 @@ vbird对此目录仅具有r的权限，因此vbird可以查询此目录下的文
 </div>
 <div id="comments"></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.92.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=300&t=n&d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&co=2d78ad&cmo=3acc3a&cmn=ff5353&ct=ffffff"></script></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.107.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2015 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/about/" target="_blank">caosiyang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="clustrmaps"><script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=HyJXmgsUOIZ_rteX9Pbwf-PHk-hj18CyPSrw0gF3Zn4&cl=ffffff&w=a"></script></span></div>
         </div>
     </footer></div>
 

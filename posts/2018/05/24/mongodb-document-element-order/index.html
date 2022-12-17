@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-        <title>MongoDB文档数据顺序 - 一个单板滑雪爱好者的编程笔记</title><meta name="Description" content="一个单板滑雪爱好者的编程笔记"><meta property="og:title" content="MongoDB文档数据顺序" />
+        <title>MongoDB文档数据顺序 - 雪板说</title><meta name="Description" content="一个单板滑雪爱好者的编程笔记"><meta property="og:title" content="MongoDB文档数据顺序" />
 <meta property="og:description" content="直接从问题出发，数据备份与恢复相关的。 备份，从源数据库导出全量数据（mongodump），备份oplog； 恢复，向目标数据库导入全量数据（m" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://caosiyang.github.io/posts/2018/05/24/mongodb-document-element-order/" /><meta property="article:section" content="posts" />
@@ -15,8 +15,8 @@
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="MongoDB文档数据顺序"/>
 <meta name="twitter:description" content="直接从问题出发，数据备份与恢复相关的。 备份，从源数据库导出全量数据（mongodump），备份oplog； 恢复，向目标数据库导入全量数据（m"/>
-<meta name="application-name" content="一个单板滑雪爱好者的编程笔记">
-<meta name="apple-mobile-web-app-title" content="一个单板滑雪爱好者的编程笔记"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2018/05/24/mongodb-document-element-order/" /><link rel="prev" href="http://caosiyang.github.io/posts/2018/02/20/install-manjaro/" /><link rel="next" href="http://caosiyang.github.io/posts/2018/07/24/tmux-vim-color/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+<meta name="application-name" content="雪板说">
+<meta name="apple-mobile-web-app-title" content="雪板说"><link rel="icon" href="/images/avatar.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://caosiyang.github.io/posts/2018/05/24/mongodb-document-element-order/" /><link rel="prev" href="http://caosiyang.github.io/posts/2018/02/20/install-manjaro/" /><link rel="next" href="http://caosiyang.github.io/posts/2018/07/24/tmux-vim-color/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -39,7 +39,7 @@
         <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
     <div class="header-wrapper">
         <div class="header-title">
-            <a href="/" title="一个单板滑雪爱好者的编程笔记">雪板说</a>
+            <a href="/" title="雪板说">雪板说</a>
         </div>
         <div class="menu">
             <div class="menu-inner"><a class="menu-item" href="/"> 首页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
@@ -52,7 +52,7 @@
     <div class="header-container">
         <div class="header-wrapper">
             <div class="header-title">
-                <a href="/" title="一个单板滑雪爱好者的编程笔记">雪板说</a>
+                <a href="/" title="雪板说">雪板说</a>
             </div>
             <div class="menu-toggle" id="menu-toggle-mobile">
                 <span></span><span></span><span></span>

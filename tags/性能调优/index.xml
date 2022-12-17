@@ -1,8 +1,8 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>性能调优 - 标签 - 一个单板滑雪爱好者的编程笔记</title>
+        <title>性能调优 - 标签 - 雪板说</title>
         <link>http://caosiyang.github.io/tags/%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/</link>
-        <description>性能调优 - 标签 - 一个单板滑雪爱好者的编程笔记</description>
+        <description>性能调优 - 标签 - 雪板说</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
             <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Tue, 23 Aug 2016 00:00:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" rel="self" type="application/rss+xml" /><item>
     <title>WiredTiger运行时参数优化</title>

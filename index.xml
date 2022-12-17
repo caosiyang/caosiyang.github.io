@@ -1,6 +1,6 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>一个单板滑雪爱好者的编程笔记</title>
+        <title>雪板说</title>
         <link>http://caosiyang.github.io/</link>
         <description>一个单板滑雪爱好者的编程笔记</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>

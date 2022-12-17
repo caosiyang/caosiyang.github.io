@@ -1,8 +1,8 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>CentOS - 标签 - 一个单板滑雪爱好者的编程笔记</title>
+        <title>CentOS - 标签 - 雪板说</title>
         <link>http://caosiyang.github.io/tags/centos/</link>
-        <description>CentOS - 标签 - 一个单板滑雪爱好者的编程笔记</description>
+        <description>CentOS - 标签 - 雪板说</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
             <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Thu, 06 Feb 2020 00:00:00 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/tags/centos/" rel="self" type="application/rss+xml" /><item>
     <title>SCL基本用法</title>

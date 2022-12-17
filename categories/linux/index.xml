@@ -1,8 +1,8 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>Linux - 分类 - 一个单板滑雪爱好者的编程笔记</title>
+        <title>Linux - 分类 - 雪板说</title>
         <link>http://caosiyang.github.io/categories/linux/</link>
-        <description>Linux - 分类 - 一个单板滑雪爱好者的编程笔记</description>
+        <description>Linux - 分类 - 雪板说</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>csy3228@qq.com (caosiyang)</managingEditor>
             <webMaster>csy3228@qq.com (caosiyang)</webMaster><lastBuildDate>Sun, 23 Jan 2022 11:52:03 &#43;0800</lastBuildDate><atom:link href="http://caosiyang.github.io/categories/linux/" rel="self" type="application/rss+xml" /><item>
     <title>Linux命令之lsof</title>

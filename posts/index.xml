@@ -17,7 +17,7 @@
     <pubDate>Sun, 24 Oct 2021 23:08:59 &#43;0800</pubDate>
     <author>作者</author>
     <guid>http://caosiyang.github.io/posts/2021/10/24/github-tips/</guid>
-    <description><![CDATA[如果GitHub网站访问速度不稳定、经常打不开、github.com域名ping不通，可以试试这个方法。 首先，查询可用的DNS服务器，点击传]]></description>
+    <description><![CDATA[如果GitHub网站访问速度慢、经常打不开、github.com域名ping不通，可以试试这个方法。 点击传送门解析IP 选择一个解析时间和连接]]></description>
 </item><item>
     <title>Linux系统目录之/proc</title>
     <link>http://caosiyang.github.io/posts/2021/08/01/linux-filesystem-proc/</link>
